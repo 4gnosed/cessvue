@@ -5,11 +5,11 @@
       <h3 class="login_title">系统登录</h3>
       <el-form-item>
         <el-input type="text" v-model="loginForm.username"
-                  auto-complete="off" placeholder="账号"></el-input>
+                  auto-complete="off" placeholder="账号" spellcheck="false"></el-input>
       </el-form-item>
       <el-form-item>
         <el-input type="password" v-model="loginForm.password"
-                  auto-complete="off" placeholder="密码"></el-input>
+                  auto-complete="off" placeholder="密码" show-password="true"></el-input>
       </el-form-item>
       <el-form-item style="width: 100%">
         <el-button type="primary" style="width: 100%;background: #505458;border: none" v-on:click="login">登录</el-button>
@@ -37,22 +37,24 @@ export default {
   methods: {
     login () {
       // add
-      var _this = this
-      console.log(this.$store.state)
       this.$axios
         .post('/login', {
           username: this.loginForm.username,
           password: this.loginForm.password
         })
-        .then(successResponse => {
-          if (successResponse.data.code === 200) {
+        .then(resp => {
+          if (resp.data.code === 200) {
             // 返回成功代码直接跳转首页
             // this.$router.replace({path: '/index'})
             // 触发 store 中的 login() 方法，把 loginForm 对象传递给 store 中的 user 对象
-            _this.$store.commit('login', _this.loginForm)
+            this.$store.commit('login', this.loginForm)
             // 获取登录前页面的路径并跳转，如果该路径不存在，则跳转到首页
             var path = this.$route.query.redirect
             this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+          } else {
+            this.$alert(resp.data.message, '提示', {
+              confirmButtonText: '确定'
+            })
           }
         })
         .catch(failResponse => {

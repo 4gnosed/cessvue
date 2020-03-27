@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item label="功能配置" label-width="120px" prop="perms">
           <el-checkbox-group v-model="selectedPermsIds">
-            <el-checkbox v-for="(perm,i) in perms" :key="i" :label="perm.id">{{perm.desc_}}</el-checkbox>
+            <el-checkbox v-for="(perm,i) in perms" :key="i" :label="perm.id">{{perm.desc}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="菜单配置" label-width="120px" prop="menus">
@@ -33,7 +33,7 @@
     </el-dialog>
     <el-row style="margin: 18px 0px 0px 18px ">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">管理中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">后台管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>角色配置</el-breadcrumb-item>
       </el-breadcrumb>
@@ -135,26 +135,23 @@ export default {
   },
   methods: {
     listRoles () {
-      var _this = this
       this.$axios.get('/admin/role').then(resp => {
-        if (resp && resp.status === 200) {
-          _this.roles = resp.data.result
+        if (resp && resp.data.code === 200) {
+          this.roles = resp.data.data
         }
       })
     },
     listPerms () {
-      var _this = this
       this.$axios.get('/admin/role/perm').then(resp => {
         if (resp && resp.data.code === 200) {
-          _this.perms = resp.data.result
+          this.perms = resp.data.data
         }
       })
     },
     listMenus () {
-      var _this = this
       this.$axios.get('/admin/role/menu').then(resp => {
         if (resp && resp.data.code === 200) {
-          _this.menus = resp.data.result
+          this.menus = resp.data.data
         }
       })
     },
@@ -211,13 +208,12 @@ export default {
       }
     },
     onSubmit (role) {
-      let _this = this
       // 根据视图绑定的角色 id 向后端传送角色信息
       let perms = []
-      for (let i = 0; i < _this.selectedPermsIds.length; i++) {
-        for (let j = 0; j < _this.perms.length; j++) {
-          if (_this.selectedPermsIds[i] === _this.perms[j].id) {
-            perms.push(_this.perms[j])
+      for (let i = 0; i < this.selectedPermsIds.length; i++) {
+        for (let j = 0; j < this.perms.length; j++) {
+          if (this.selectedPermsIds[i] === this.perms[j].id) {
+            perms.push(this.perms[j])
           }
         }
       }
@@ -238,7 +234,7 @@ export default {
         menusIds: this.$refs.tree.getCheckedKeys()
       }).then(resp => {
         if (resp && resp.data.code === 200) {
-          console.log(resp.data.result)
+          console.log(resp.data.data)
         }
       })
     }

@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import {createRouter} from '../../router'
 
 export default {
   name: 'Header',
@@ -20,8 +19,8 @@ export default {
           _this.$store.commit('logout')
           _this.$router.replace('/index')
           // 清空路由，防止路由重复加载
-          const newRouter = createRouter()
-          _this.$router.matcher = newRouter.matcher
+          // const newRouter = createRouter()
+          // _this.$router.matcher = newRouter.matcher
         }
       }).catch(failResponse => {})
     }

@@ -5,7 +5,7 @@
       :visible.sync="dialogFormVisible">
       <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
         <el-form-item label="用户名" label-width="120px" prop="username">
-          <label>{{selectedUser.username}}</label>
+          <el-input v-model="selectedUser.username" autocomplete="off" disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="真实姓名" label-width="120px" prop="name">
           <el-input v-model="selectedUser.name" autocomplete="off"></el-input>
@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item label="角色分配" label-width="120px" prop="roles">
           <el-checkbox-group v-model="selectedRolesIds">
-              <el-checkbox v-for="(role,i) in roles" :key="i" :label="role.id">{{role.nameZh}}</el-checkbox>
+              <el-checkbox v-for="(role,i) in roles" :key="i" :label="role.id" >{{role.nameZh}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -63,34 +63,34 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="id"
+          prop="user.id"
           label="id"
           sortable
           width="100">
         </el-table-column>
         <el-table-column
-          prop="username"
+          prop="user.username"
           label="用户名"
           fit>
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="user.name"
           label="真实姓名"
           fit>
         </el-table-column>
         <el-table-column
-          prop="phone"
+          prop="user.phone"
           label="手机号"
           fit>
         </el-table-column>
         <el-table-column
-          prop="email"
+          prop="user.email"
           label="邮箱"
           show-overflow-tooltip
           fit>
         </el-table-column>
         <el-table-column
-          prop="lastLogin"
+          prop="user.lastLogin"
           label="上次登录时间"
           show-overflow-tooltip
           fit>
@@ -101,10 +101,10 @@
           width="100">
           <template slot-scope="scope">
             <el-switch
-              v-model="scope.row.enabled"
+              v-model="scope.row.user.enabled"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              @change="(value) => commitStatusChange(value, scope.row)">
+              @change="(value) => commitStatusChange(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
@@ -119,7 +119,7 @@
               编辑
             </el-button>
             <el-button
-              @click="readyDeleteUser(scope.$index,scope.row)"
+              @click="readyDeleteUser(scope.$index,scope.row.user)"
               type="text"
               size="small">
               移除
@@ -164,56 +164,58 @@ export default {
   },
   methods: {
     listUsers () {
-      var _this = this
       this.$axios.get('/admin/user').then(resp => {
         if (resp && resp.data.code === 200) {
-          _this.users = resp.data.data
+          this.users = resp.data.data
         }
       })
     },
     listRoles () {
-      var _this = this
       this.$axios.get('/admin/role').then(resp => {
         if (resp && resp.data.code === 200) {
-          _this.roles = resp.data.data
+          this.roles = resp.data.data
         }
       })
     },
-    commitStatusChange (value, user) {
-      if (user.username !== 'admin') {
+    commitStatusChange (user) {
+      let value = user.user.enabled
+      let isAdmin = 0
+      for (let i = 0; i < user.roles.length; i++) {
+        if (user.roles[i].id === 1) {
+          isAdmin = 1
+          break
+        }
+      }
+      if (isAdmin === 1) {
+        user.user.enabled = true
+        this.$alert('不能禁用管理员账户')
+      } else {
         this.$axios.put('/admin/user/status', {
           enabled: value,
-          username: user.username
+          username: user.user.username
         }).then(resp => {
           if (resp && resp.data.code === 200) {
             if (value) {
-              this.$message('用户 [' + user.username + '] 已启用')
+              this.$message('用户 [' + user.user.username + '] 已启用')
             } else {
-              this.$message('用户 [' + user.username + '] 已禁用')
+              this.$message('用户 [' + user.user.username + '] 已禁用')
             }
           }
         })
-      } else {
-        user.enabled = true
-        this.$alert('不能禁用管理员账户')
       }
     },
     onSubmit (user) {
-      let _this = this
       // 根据视图绑定的角色 id 向后端传送角色信息
       let roles = []
-      for (let i = 0; i < _this.selectedRolesIds.length; i++) {
-        for (let j = 0; j < _this.roles.length; j++) {
-          if (_this.selectedRolesIds[i] === _this.roles[j].id) {
-            roles.push(_this.roles[j])
+      for (let i = 0; i < this.selectedRolesIds.length; i++) {
+        for (let j = 0; j < this.roles.length; j++) {
+          if (this.selectedRolesIds[i] === this.roles[j].id) {
+            roles.push(this.roles[j])
           }
         }
       }
       this.$axios.put('/admin/user', {
-        username: user.username,
-        name: user.name,
-        phone: user.phone,
-        email: user.email,
+        user: user,
         roles: roles
       }).then(resp => {
         if (resp && resp.data.code === 200) {
@@ -225,20 +227,18 @@ export default {
       })
     },
     editUser (user) {
-      this.dialogFormVisible = true
-      this.selectedUser = user
+      this.selectedUser = user.user
       let roleIds = []
       for (let i = 0; i < user.roles.length; i++) {
         roleIds.push(user.roles[i].id)
       }
       this.selectedRolesIds = roleIds
+      this.dialogFormVisible = true
     },
     resetPassword (username) {
-      this.$axios.put('/admin/user/password', {
-        username: username
-      }).then(resp => {
+      this.$axios.put('/admin/user/password?username=' + username).then(resp => {
         if (resp && resp.data.code === 200) {
-          this.$alert('密码已重置为 123')
+          this.$alert('密码已重置为 ' + resp.data.data)
         }
       })
     },
@@ -251,10 +251,10 @@ export default {
       this.$axios.delete('/admin/user/delete?id=' + this.deletedUserId).then(resp => {
         if (resp && resp.data.code === 200) {
           this.$alert('删除成功')
+          this.users.splice(this.deletedIndex, 1)
         }
       })
       this.dialogFormVisible1 = false
-      this.users.splice(this.deletedIndex, 1)
     },
     resetSelected () {
       this.$refs.multipleTable.clearSelection()
@@ -265,19 +265,19 @@ export default {
     deleteUsers () {
       let that = this.selectedUsers
       let userIds = []
-      if (that){
-        that.forEach(user => {
-          userIds.push(user.id)
-          for (let i = 0; i < this.users.length; i++) {
-            if (this.users[i].id === user.id) {
-              this.users.splice(i, 1)
-              break
-            }
-          }
-        })
+      if (that) {
         this.$axios.delete('/admin/user/deletes?ids=' + userIds).then(resp => {
           if (resp && resp.data.code === 200) {
             this.$alert('删除成功')
+            that.forEach(user => {
+              userIds.push(user.id)
+              for (let i = 0; i < this.users.length; i++) {
+                if (this.users[i].id === user.id) {
+                  this.users.splice(i, 1)
+                  break
+                }
+              }
+            })
           }
         })
       }

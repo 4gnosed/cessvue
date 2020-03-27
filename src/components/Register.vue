@@ -1,29 +1,41 @@
 <template>
   <body id="paper">
-  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"  class="login-container">
-    <el-form-item label="姓名" prop="name">
-      <el-input type="text" v-model.number="ruleForm.name"></el-input>
-    </el-form-item>
-    <el-form-item label="电话" prop="phone">
-      <el-input type="text" v-model.number="ruleForm.phone"></el-input>
-    </el-form-item>
-    <el-form-item label="邮箱" prop="email">
-      <el-input type="text" v-model.number="ruleForm.email"></el-input>
-    </el-form-item>
+  <el-scrollbar style="height: 100%;">
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="login-container">
+      <h3>用户注册</h3>
+      <el-form-item label="真实姓名" prop="name">
+        <el-input type="text" v-model="ruleForm.name" spellcheck="false" maxlength="20"></el-input>
+      </el-form-item>
+      <el-form-item label="电话" prop="phone">
+        <el-input type="text" v-model="ruleForm.phone" spellcheck="false"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input type="text" v-model="ruleForm.email" spellcheck="false"></el-input>
+      </el-form-item>
       <el-form-item label="用户名" prop="username">
-      <el-input type="text" v-model.number="ruleForm.username"></el-input>
-    </el-form-item>
-    <el-form-item label="密码" prop="pass">
-      <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="确认密码" prop="checkPass">
-      <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" @keyup.enter.native="register()"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="register()">注册</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
-    </el-form-item>
-  </el-form>
+        <el-input type="text" v-model="ruleForm.username" spellcheck="false" maxlength="20"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="pass">
+        <el-input type="password" v-model="ruleForm.password" show-password="show-password" maxlength="16"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="checkPass">
+        <el-input type="password" v-model="ruleForm.checkPass" @keyup.enter.native="register()"
+                  show-password="show-password" maxlength="16"></el-input>
+      </el-form-item>
+      <el-form-item label="用户类型">
+        <el-radio-group v-model="ruleForm.role" size="medium">
+          <el-radio border label="2">学生</el-radio>
+          <el-radio border label="3">企业</el-radio>
+          <el-radio border label="5">校领导</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="register()">注册</el-button>
+        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="toLogin()">返回登录</el-button>
+      </el-form-item>
+    </el-form>
+  </el-scrollbar>
   </body>
 </template>
 <script>
@@ -31,8 +43,15 @@ export default {
   data () {
     var checkName = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('姓名不能为空'))
+        return callback(new Error('真实姓名不能为空'))
       }
+      callback()
+    }
+    var checkUserName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('用户名不能为空'))
+      }
+      callback()
     }
     var checkPhone = (rule, value, callback) => {
       if (!value) {
@@ -86,23 +105,27 @@ export default {
         phone: '',
         email: '',
         username: '',
-        password: ''
+        password: '',
+        role: ''
       },
       rules: {
-        password: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkPass: [
-          { validator: validatePass2, trigger: 'blur' }
-        ],
         name: [
-          { validator: checkName, trigger: 'blur' }
+          {validator: checkName, trigger: 'blur'}
+        ],
+        username: [
+          {validator: checkUserName, trigger: 'blur'}
         ],
         phone: [
-          { validator: checkPhone, trigger: 'blur' }
+          {validator: checkPhone, trigger: 'blur'}
         ],
         email: [
-          { validator: checkEmail, trigger: 'blur' }
+          {validator: checkEmail, trigger: 'blur'}
+        ],
+        password: [
+          {validator: validatePass, trigger: 'blur'}
+        ],
+        checkPass: [
+          {validator: validatePass2, trigger: 'blur'}
         ]
       }
     }
@@ -116,7 +139,8 @@ export default {
           phone: this.ruleForm.phone,
           email: this.ruleForm.email,
           username: this.ruleForm.username,
-          password: this.ruleForm.password
+          password: this.ruleForm.password,
+          role: this.ruleForm.role
         })
         .then(resp => {
           if (resp.data.code === 200) {
@@ -130,39 +154,40 @@ export default {
             })
           }
         })
-        .catch(failResponse => {})
+        .catch(failResponse => {
+        })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    toLogin () {
+      this.$router.push({path: '/login'})
     }
   }
 }
 </script>
 <style>
   #paper {
-    background:url("../assets/eva.jpg") no-repeat;
+    background: url("../assets/eva.jpg") no-repeat;
     background-position: center;
     height: 100%;
     width: 100%;
     background-size: cover;
     position: fixed;
   }
-  body{
-    margin: -5px 0px;
+
+  body {
+    margin: 0;
   }
+
   .login-container {
     border-radius: 15px;
     background-clip: padding-box;
-    margin: 90px auto;
-    width: 350px;
-    padding: 35px 35px 15px 35px;
+    margin: 30px auto;
+    width: 400px;
+    padding: 35px 35px 35px 35px;
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
-  }
-  .login_title {
-    margin: 0px auto 40px auto;
-    text-align: center;
-    color: #505458;
   }
 </style>
