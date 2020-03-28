@@ -1,45 +1,49 @@
 <template>
-  <body id="paper">
-  <el-scrollbar style="height: 100%;">
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="login-container">
-      <h3>用户注册</h3>
-      <el-form-item label="真实姓名" prop="name">
-        <el-input type="text" v-model="ruleForm.name" spellcheck="false" maxlength="20"></el-input>
-      </el-form-item>
-      <el-form-item label="电话" prop="phone">
-        <el-input type="text" v-model="ruleForm.phone" spellcheck="false"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input type="text" v-model="ruleForm.email" spellcheck="false"></el-input>
-      </el-form-item>
-      <el-form-item label="用户名" prop="username">
-        <el-input type="text" v-model="ruleForm.username" spellcheck="false" maxlength="20"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password" show-password="show-password" maxlength="16"></el-input>
-      </el-form-item>
-      <el-form-item label="确认密码" prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" @keyup.enter.native="register()"
-                  show-password="show-password" maxlength="16"></el-input>
-      </el-form-item>
-      <el-form-item label="用户类型">
-        <el-radio-group v-model="ruleForm.role" size="medium">
-          <el-radio border label="2">学生</el-radio>
-          <el-radio border label="3">企业</el-radio>
-          <el-radio border label="5">校领导</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="register()">注册</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
-        <el-button @click="toLogin()">返回登录</el-button>
-      </el-form-item>
-    </el-form>
-  </el-scrollbar>
-  </body>
+  <div style="text-align: left">
+    <el-button class="add-button" type="success" @click="dialogFormVisible = true">添加用户</el-button>
+    <el-dialog
+      title="添加用户"
+      :visible.sync="dialogFormVisible"
+      width="25%">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+        <el-form-item prop="name">
+          <el-input type="text" v-model="ruleForm.name"  placeholder="真实姓名" spellcheck="false" maxlength="20"></el-input>
+        </el-form-item>
+        <el-form-item prop="phone">
+          <el-input type="text" v-model="ruleForm.phone" placeholder="电话" spellcheck="false"></el-input>
+        </el-form-item>
+        <el-form-item prop="email">
+          <el-input type="text" v-model="ruleForm.email" placeholder="邮箱" spellcheck="false"></el-input>
+        </el-form-item>
+        <el-form-item prop="username">
+          <el-input type="text" v-model="ruleForm.username" placeholder="用户名" spellcheck="false" maxlength="20"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input type="password" v-model="ruleForm.password" placeholder="密码" show-password="show-password" maxlength="16"></el-input>
+        </el-form-item>
+        <el-form-item prop="checkPass">
+          <el-input type="password" v-model="ruleForm.checkPass" @keyup.enter.native="register()"
+                    placeholder="确认密码" show-password="show-password" maxlength="16"></el-input>
+        </el-form-item>
+        <el-form-item style="text-align: center">
+          <el-radio-group v-model="ruleForm.role" size="medium">
+            <el-radio border label="2">学生</el-radio>
+            <el-radio border label="3">企业</el-radio>
+            <el-radio border label="5">校领导</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item style="text-align: center">
+          <el-button type="primary" @click="register()">注册</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+  </div>
 </template>
+
 <script>
 export default {
+  name: 'addUser',
   data () {
     var checkName = (rule, value, callback) => {
       if (!value) {
@@ -100,6 +104,7 @@ export default {
       }
     }
     return {
+      dialogFormVisible: false,
       ruleForm: {
         name: '',
         phone: '',
@@ -132,7 +137,6 @@ export default {
   },
   methods: {
     register () {
-      var _this = this
       this.$axios
         .post('/register', {
           name: this.ruleForm.name,
@@ -144,50 +148,32 @@ export default {
         })
         .then(resp => {
           if (resp.data.code === 200) {
-            this.$alert('注册成功', '提示', {
-              confirmButtonText: '确定'
-            })
-            _this.$router.replace('/login')
+            this.$alert('添加成功')
           } else {
-            this.$alert(resp.data.message, '提示', {
-              confirmButtonText: '确定'
-            })
+            this.$alert(resp.data.message)
           }
-        })
-        .catch(failResponse => {
+          this.dialogFormVisible = false
+          this.clear()
         })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
-    toLogin () {
-      this.$router.push({path: '/login'})
+    clear () {
+      this.ruleForm = {
+        name: '',
+        phone: '',
+        email: '',
+        username: '',
+        password: '',
+        role: ''
+      }
     }
   }
 }
 </script>
 <style>
-  #paper {
-    background: url("../assets/eva.jpg") no-repeat;
-    background-position: center;
-    height: 100%;
-    width: 100%;
-    background-size: cover;
-    position: fixed;
-  }
-
-  body {
-    margin: 0;
-  }
-
-  .login-container {
-    border-radius: 15px;
-    background-clip: padding-box;
-    margin: 30px auto;
-    width: 400px;
-    padding: 35px 35px 35px 35px;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
+  .add-button {
+    margin: 18px 0 0 28px;
   }
 </style>

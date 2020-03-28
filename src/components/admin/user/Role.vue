@@ -10,7 +10,7 @@
         <el-form-item label="角色描述" label-width="120px" prop="name">
           <el-input v-model="selectedRole.nameZh" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="功能配置" label-width="120px" prop="perms">
+        <el-form-item label="权限配置" label-width="120px" prop="perms">
           <el-checkbox-group v-model="selectedPermsIds">
             <el-checkbox v-for="(perm,i) in perms" :key="i" :label="perm.id">{{perm.desc}}</el-checkbox>
           </el-checkbox-group>
@@ -33,7 +33,7 @@
     </el-dialog>
     <el-row style="margin: 18px 0px 0px 18px ">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">后台管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin' }">后台管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>角色配置</el-breadcrumb-item>
       </el-breadcrumb>
@@ -46,17 +46,14 @@
         style="width: 100%"
         :max-height="tableHeight">
         <el-table-column
-          type="selection"
-          width="55">
-        </el-table-column>
-        <el-table-column
-          prop="id"
-          label="id"
+          type="index"
+          label="序号"
           width="100">
         </el-table-column>
         <el-table-column
           prop="name"
           label="角色名"
+          sortable
           fit>
         </el-table-column>
         <el-table-column
@@ -86,18 +83,9 @@
               @click="editRole(scope.row)">
               编辑
             </el-button>
-            <el-button
-              type="text"
-              size="small">
-              移除
-            </el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div style="margin: 20px 0 20px 0;float: left">
-        <el-button>取消选择</el-button>
-        <el-button>批量删除</el-button>
-      </div>
     </el-card>
   </div>
 </template>
@@ -157,29 +145,20 @@ export default {
     },
     commitStatusChange (value, role) {
       if (role.id !== 1) {
-        this.$confirm('是否更改角色状态？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$axios.put('/admin/role/status', {
-            enabled: value,
-            id: role.id
-          }).then(resp => {
-            if (resp && resp.data.code === 200) {
-              if (value) {
-                this.$message('角色 [' + role.nameZh + '] 已启用')
-              } else {
-                this.$message('角色 [' + role.nameZh + '] 已禁用')
-              }
+        this.$axios.put('/admin/role/status', {
+          enabled: value,
+          id: role.id
+        }).then(resp => {
+          if (resp && resp.data.code === 200) {
+            if (value) {
+              this.$message('角色 [' + role.nameZh + '] 已启用')
+            } else {
+              this.$message('角色 [' + role.nameZh + '] 已禁用')
             }
-          })
-        }).catch(() => {
-          role.enabled = !role.enabled
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          })
+          } else {
+            role.enabled = false
+            this.$alert('请完善角色信息')
+          }
         })
       } else {
         role.enabled = true
@@ -187,33 +166,48 @@ export default {
       }
     },
     editRole (role) {
-      this.dialogFormVisible = true
       this.selectedRole = role
       let permIds = []
-      for (let i = 0; i < role.perms.length; i++) {
-        permIds.push(role.perms[i].id)
+      if (role.perms !== null) {
+        for (let i = 0; i < role.perms.length; i++) {
+          permIds.push(role.perms[i].id)
+        }
       }
       this.selectedPermsIds = permIds
       let menuIds = []
-      for (let i = 0; i < role.menus.length; i++) {
-        menuIds.push(role.menus[i].id)
-        for (let j = 0; j < role.menus[i].children.length; j++) {
-          menuIds.push(role.menus[i].children[j].id)
+      if (role.menus !== null) {
+        for (let i = 0; i < role.menus.length; i++) {
+          menuIds.push(role.menus[i].id)
+          if (role.menus[i].children !== null) {
+            for (let j = 0; j < role.menus[i].children.length; j++) {
+              menuIds.push(role.menus[i].children[j].id)
+            }
+          }
         }
       }
       this.selectedMenusIds = menuIds
+      this.dialogFormVisible = true
       // 判断树是否已经加载，第一次打开对话框前树不存在，会报错。所以需要设置 default-checked
       if (this.$refs.tree) {
-        this.$refs.tree.setCheckedKeys(menuIds)
+        this.$refs.tree.setCheckedKeys([])
       }
     },
     onSubmit (role) {
       // 根据视图绑定的角色 id 向后端传送角色信息
       let perms = []
+      let menus = []
       for (let i = 0; i < this.selectedPermsIds.length; i++) {
         for (let j = 0; j < this.perms.length; j++) {
           if (this.selectedPermsIds[i] === this.perms[j].id) {
             perms.push(this.perms[j])
+          }
+        }
+      }
+      let selectedMenusIds = this.$refs.tree.getCheckedKeys()
+      for (let i = 0; i < selectedMenusIds.length; i++) {
+        for (let j = 0; j < this.menus.length; j++) {
+          if (selectedMenusIds[i] === this.menus[j].id) {
+            menus.push(this.menus[j])
           }
         }
       }
@@ -222,21 +216,22 @@ export default {
         name: role.name,
         nameZh: role.nameZh,
         enabled: role.enabled,
-        perms: perms
+        perms: perms,
+        menus: menus
       }).then(resp => {
         if (resp && resp.data.code === 200) {
-          this.$alert(resp.data.result)
+          this.$alert('修改成功')
           this.dialogFormVisible = false
           this.listRoles()
         }
       })
-      this.$axios.put('/admin/role/menu?rid=' + role.id, {
-        menusIds: this.$refs.tree.getCheckedKeys()
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          console.log(resp.data.data)
-        }
-      })
+      // this.$axios.put('/admin/role/menu?rid=' + role.id, {
+      //   menusIds: this.$refs.tree.getCheckedKeys()
+      // }).then(resp => {
+      //   if (resp && resp.data.code === 200) {
+      //     console.log(resp.data.data)
+      //   }
+      // })
     }
   }
 }

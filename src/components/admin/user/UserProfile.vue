@@ -48,12 +48,12 @@
         <el-breadcrumb-item>用户信息</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
-    <bulk-registration @onSubmit="listUsers()"></bulk-registration>
+    <user-registration @onSubmit="listUserDtos()"></user-registration>
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
         @selection-change="readyDeleteUsers"
         ref="multipleTable"
-        :data="users"
+        :data="userDtos"
         stripe
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
@@ -63,29 +63,32 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="user.id"
-          label="id"
-          sortable
+          type="index"
+          label="序号"
           width="100">
         </el-table-column>
         <el-table-column
           prop="user.username"
           label="用户名"
+          sortable
           fit>
         </el-table-column>
         <el-table-column
           prop="user.name"
           label="真实姓名"
+          sortable
           fit>
         </el-table-column>
         <el-table-column
           prop="user.phone"
           label="手机号"
+          sortable
           fit>
         </el-table-column>
         <el-table-column
           prop="user.email"
           label="邮箱"
+          sortable
           show-overflow-tooltip
           fit>
         </el-table-column>
@@ -93,11 +96,11 @@
           prop="user.lastLogin"
           label="上次登录时间"
           show-overflow-tooltip
+          sortable
           fit>
         </el-table-column>
         <el-table-column
           label="状态"
-          sortable
           width="100">
           <template slot-scope="scope">
             <el-switch
@@ -136,13 +139,13 @@
 </template>
 
 <script>
-import BulkRegistration from './BulkRegistration'
+import UserRegistration from './UserRegister'
 export default {
   name: 'UserProfile',
-  components: {BulkRegistration},
+  components: {UserRegistration},
   data () {
     return {
-      users: [],
+      userDtos: [],
       roles: [],
       dialogFormVisible: false,
       dialogFormVisible1: false,
@@ -154,7 +157,7 @@ export default {
     }
   },
   mounted () {
-    this.listUsers()
+    this.listUserDtos()
     this.listRoles()
   },
   computed: {
@@ -163,10 +166,10 @@ export default {
     }
   },
   methods: {
-    listUsers () {
+    listUserDtos () {
       this.$axios.get('/admin/user').then(resp => {
         if (resp && resp.data.code === 200) {
-          this.users = resp.data.data
+          this.userDtos = resp.data.data
         }
       })
     },
@@ -222,7 +225,7 @@ export default {
           this.$alert('用户信息修改成功')
           this.dialogFormVisible = false
           // 修改角色后重新请求用户信息，实现视图更新
-          this.listUsers()
+          this.listUserDtos()
         }
       })
     },
@@ -249,9 +252,9 @@ export default {
     },
     deleteUser () {
       this.$axios.delete('/admin/user/delete?id=' + this.deletedUserId).then(resp => {
+        this.userDtos.splice(this.deletedIndex, 1)
         if (resp && resp.data.code === 200) {
           this.$alert('删除成功')
-          this.users.splice(this.deletedIndex, 1)
         }
       })
       this.dialogFormVisible1 = false
@@ -263,21 +266,21 @@ export default {
       this.selectedUsers = rows
     },
     deleteUsers () {
-      let that = this.selectedUsers
-      let userIds = []
-      if (that) {
-        this.$axios.delete('/admin/user/deletes?ids=' + userIds).then(resp => {
+      let users = []
+      this.selectedUsers.forEach(item => {
+        users.push(item.user)
+        for (let i = 0; i < this.userDtos.length; i++) {
+          if (item.user.id === this.userDtos[i].user.id) {
+            this.userDtos.splice(i, 1)
+          }
+        }
+      })
+      if (users) {
+        this.$axios.delete('/admin/user/deletes', {
+          data: users
+        }).then(resp => {
           if (resp && resp.data.code === 200) {
             this.$alert('删除成功')
-            that.forEach(user => {
-              userIds.push(user.id)
-              for (let i = 0; i < this.users.length; i++) {
-                if (this.users[i].id === user.id) {
-                  this.users.splice(i, 1)
-                  break
-                }
-              }
-            })
           }
         })
       }

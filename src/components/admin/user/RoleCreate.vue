@@ -4,7 +4,6 @@
     <el-dialog
       title="添加角色"
       :visible.sync="dialogFormVisible"
-      @close="clear"
       width="25%">
       <el-form :model="roleForm" :rules="rules" label-position="left"
                label-width="0px" v-loading="loading">
@@ -16,11 +15,8 @@
           <el-input type="text" v-model="roleForm.nameZh"
                     auto-complete="off" placeholder="角色描述"></el-input>
         </el-form-item>
-        <el-form-item style="width: 100%">
+        <el-form-item style="width: 100%;text-align: center">
           <el-button type="primary" style="width: 40%;background: #505458;border: none" v-on:click="createRole">添加</el-button>
-        </el-form-item>
-        <el-form-item prop="username">
-          <el-tag>初始权限：无</el-tag>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -52,26 +48,25 @@ export default {
       }
     },
     createRole () {
-      this.$axios
-        .post('/admin/role', {
-          name: this.roleForm.name,
-          nameZh: this.roleForm.nameZh
-        })
-        .then(resp => {
-          if (resp.data.code === 200) {
-            this.$alert(resp.data.result, '提示', {
-              confirmButtonText: '确定'
-            })
+      let roleName = this.roleForm.name
+      let nameZh = this.roleForm.nameZh
+      if (roleName) {
+        this.$axios
+          .post('/admin/role', {
+            name: roleName,
+            nameZh: nameZh
+          })
+          .then(resp => {
+            if (resp.data.code === 200) {
+              this.$alert('添加成功,请刷新页面完善角色信息')
+            } else {
+              this.$alert(resp.data.message)
+            }
             this.clear()
-            this.$emit('onSubmit')
-          } else {
-            this.$alert(resp.data.message, '提示', {
-              confirmButtonText: '确定'
-            })
-          }
-        })
-        .catch(failResponse => {})
-      this.dialogFormVisible = false
+          })
+          .catch(failResponse => {})
+        this.dialogFormVisible = false
+      }
     }
   }
 }
@@ -79,6 +74,6 @@ export default {
 
 <style scoped>
   .add-button {
-    margin: 18px 0 0 10px;
+    margin: 18px 0 0 28px;
   }
 </style>
