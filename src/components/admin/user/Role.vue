@@ -162,10 +162,14 @@ export default {
         })
       } else {
         role.enabled = true
-        this.$alert('无法禁用系统管理员！')
+        this.$alert('无法禁用超级管理员！')
       }
     },
     editRole (role) {
+      if (role.id === 1) {
+        this.$alert('无法编辑超级管理员！')
+        return
+      }
       this.selectedRole = role
       let permIds = []
       if (role.perms !== null) {
@@ -222,16 +226,11 @@ export default {
         if (resp && resp.data.code === 200) {
           this.$alert('修改成功')
           this.dialogFormVisible = false
+          this.roles = []
+          this.perms = []
           this.listRoles()
         }
       })
-      // this.$axios.put('/admin/role/menu?rid=' + role.id, {
-      //   menusIds: this.$refs.tree.getCheckedKeys()
-      // }).then(resp => {
-      //   if (resp && resp.data.code === 200) {
-      //     console.log(resp.data.data)
-      //   }
-      // })
     }
   }
 }

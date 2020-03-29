@@ -75,7 +75,6 @@ router.beforeEach((to, from, next) => {
       if (route.children) {
         route.children = formatRoutes(route.children)
       }
-
       let fmtRoute = {
         path: route.path,
         component: resolve => {
