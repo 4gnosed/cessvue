@@ -20,4 +20,8 @@ export default {
   color: #2c3e50;
   height: 100%;
 }
+/* 解决element-ui的table表格控件表头与内容列不对齐问题 */
+.el-table th.gutter{
+  display: table-cell!important;
+}
 </style>

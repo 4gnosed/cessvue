@@ -3,12 +3,17 @@
     <div>
       <div style="display: flex;justify-content: space-between">
         <div>
-          <el-input placeholder="请输入学生名进行搜索，可以直接回车搜索..." prefix-icon="el-icon-search"
+          <el-input placeholder="请输入姓名" prefix-icon="el-icon-search"
                     clearable
-                    @clear="initEmps"
-                    style="width: 350px;margin-right: 10px" v-model="keyword"
-                    @keydown.enter.native="initEmps" :disabled="showAdvanceSearchView"></el-input>
-          <el-button icon="el-icon-search" type="primary" @click="initEmps" :disabled="showAdvanceSearchView">
+                    @clear="initStudents"
+                    style="width: 130px;margin-right: 10px" v-model="keywordName"
+                    @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
+          <el-input placeholder="请输入学号，可回车搜索..." prefix-icon="el-icon-search"
+                    clearable
+                    @clear="initStudents"
+                    style="width: 220px;margin-right: 10px" v-model="keywordId"
+                    @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
+          <el-button icon="el-icon-search" type="primary" @click="initStudents" :disabled="showAdvanceSearchView">
             搜索
           </el-button>
           <el-button type="primary" @click="showAdvanceSearchView = !showAdvanceSearchView">
@@ -25,7 +30,7 @@
             :on-error="onError"
             :disabled="importDataDisabled"
             style="display: inline-flex;margin-right: 8px"
-            action="/employee/basic/import">
+            action="/admin/student/import">
             <el-button :disabled="importDataDisabled" type="success" :icon="importDataBtnIcon">
               {{importDataBtnText}}
             </el-button>
@@ -129,7 +134,8 @@
             </el-col>
             <el-col :span="5" :offset="4">
               <el-button size="mini" @click="showAdvanceSearchView=false">取消</el-button>
-              <el-button size="mini" icon="el-icon-search" type="primary" @click="initEmps('advanced')">搜索</el-button>
+              <el-button size="mini" icon="el-icon-search" type="primary" @click="initStudents('advanced')">搜索
+              </el-button>
             </el-col>
           </el-row>
         </div>
@@ -140,6 +146,10 @@
         :data="emps"
         stripe
         border
+        v-loading="loading"
+        element-loading-text="正在加载..."
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="RGB(239,239,239)"
         style="width: 100%">
         <el-table-column
           type="selection"
@@ -150,10 +160,10 @@
           fixed
           align="left"
           label="姓名"
-          width="90">
+          width="120">
         </el-table-column>
         <el-table-column
-          prop="workID"
+          prop="studentId"
           label="学号"
           align="left"
           width="120">
@@ -172,7 +182,7 @@
         </el-table-column>
         <el-table-column
           prop="idCard"
-          width="150"
+          width="170"
           align="left"
           label="身份证号码">
         </el-table-column>
@@ -187,18 +197,18 @@
           label="籍贯">
         </el-table-column>
         <el-table-column
-          prop="politicsstatus.name"
+          prop="politics.name"
           label="政治面貌">
         </el-table-column>
         <el-table-column
           prop="email"
-          width="180"
+          width="150"
           align="left"
           label="电子邮件">
         </el-table-column>
         <el-table-column
           prop="phone"
-          width="100"
+          width="110"
           align="left"
           label="电话号码">
         </el-table-column>
@@ -209,13 +219,7 @@
           label="联系地址">
         </el-table-column>
         <el-table-column
-          prop="room_num"
-          width="100"
-          align="left"
-          label="寝室号">
-        </el-table-column>
-        <el-table-column
-          prop="tiptopDegree"
+          prop="topDegree"
           width="80"
           align="left"
           label="最高学历">
@@ -230,7 +234,7 @@
           prop="department"
           width="150"
           align="left"
-          label="所属学院">
+          label="所属院系">
         </el-table-column>
         <el-table-column
           prop="specialty"
@@ -245,7 +249,7 @@
           label="年级">
         </el-table-column>
         <el-table-column
-          prop="jobLevel"
+          prop="position"
           width="150"
           align="left"
           label="学生职位">
@@ -264,13 +268,13 @@
         </el-table-column>
         <el-table-column
           prop="beginDate"
-          width="95"
+          width="120"
           align="left"
           label="入学日期">
         </el-table-column>
         <el-table-column
           prop="endDate"
-          width="95"
+          width="120"
           align="left"
           label="毕业日期">
         </el-table-column>
@@ -424,17 +428,17 @@
           </el-row>
           <el-row>
             <el-col :span="6">
-              <el-form-item label="学号:" prop="workID">
+              <el-form-item label="学号:" prop="studentId">
                 <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                          v-model="emp.workID" placeholder="学号" disabled></el-input>
+                          v-model="emp.studentId" placeholder="学号" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
-              <el-form-item label="学历:" prop="tiptopDegree">
-                <el-select v-model="emp.tiptopDegree" placeholder="学历" size="mini"
+              <el-form-item label="学历:" prop="topDegree">
+                <el-select v-model="emp.topDegree" placeholder="学历" size="mini"
                            style="width: 150px;">
                   <el-option
-                    v-for="item in tiptopDegrees"
+                    v-for="item in topDegrees"
                     :key="item"
                     :label="item"
                     :value="item">
@@ -567,13 +571,14 @@
         dialogVisible: false,
         total: 0,
         page: 1,
-        keyword: '',
+        keywordName: '',
+        keywordId: '',
         size: 10,
         nations: [],
         joblevels: [],
         politicsstatus: [],
         positions: [],
-        tiptopDegrees: ['本科', '大专', '硕士', '博士', '高中', '初中', '小学', '其他'],
+        topDegrees: ['本科', '大专', '硕士', '博士', '高中', '初中', '小学', '其他'],
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -607,12 +612,12 @@
           jobLevelId: 9,
           posId: 29,
           engageForm: "劳务合同",
-          tiptopDegree: "本科",
+          topDegree: "本科",
           specialty: "信息管理与信息系统",
           school: "深圳大学",
           beginDate: "2017-12-31",
           workState: "在职",
-          workID: "00000057",
+          studentId: "00000057",
           contractTerm: 2,
           conversionTime: "2018-03-31",
           notworkDate: null,
@@ -648,12 +653,12 @@
           jobLevelId: [{required: true, message: '请输入职称', trigger: 'blur'}],
           posId: [{required: true, message: '请输入职位', trigger: 'blur'}],
           engageForm: [{required: true, message: '请输入聘用形式', trigger: 'blur'}],
-          tiptopDegree: [{required: true, message: '请输入学历', trigger: 'blur'}],
+          topDegree: [{required: true, message: '请输入学历', trigger: 'blur'}],
           specialty: [{required: true, message: '请输入专业', trigger: 'blur'}],
           school: [{required: true, message: '请输入毕业院校', trigger: 'blur'}],
           beginDate: [{required: true, message: '请输入入职日期', trigger: 'blur'}],
           workState: [{required: true, message: '请输入工作状态', trigger: 'blur'}],
-          workID: [{required: true, message: '请输入学号', trigger: 'blur'}],
+          studentId: [{required: true, message: '请输入学号', trigger: 'blur'}],
           contractTerm: [{required: true, message: '请输入合同期限', trigger: 'blur'}],
           conversionTime: [{required: true, message: '请输入转正日期', trigger: 'blur'}],
           notworkDate: [{required: true, message: '请输入离职日期', trigger: 'blur'}],
@@ -664,9 +669,9 @@
       }
     },
     mounted() {
-      this.initEmps();
-      this.initData();
-      this.initPositions();
+      this.initStudents();
+      // this.initData();
+      // this.initPositions();
     },
     methods: {
       searvhViewHandleNodeClick(data) {
@@ -683,7 +688,7 @@
         this.importDataBtnText = '导入数据';
         this.importDataBtnIcon = 'el-icon-upload2';
         this.importDataDisabled = false;
-        this.initEmps();
+        this.initStudents();
       },
       beforeUpload() {
         this.importDataBtnText = '正在导入';
@@ -691,7 +696,7 @@
         this.importDataDisabled = true;
       },
       exportData() {
-        window.open('/employee/basic/export', '_parent');
+        window.open('/admin/student/export', '_parent');
       },
       emptyEmp() {
         this.emp = {
@@ -710,11 +715,11 @@
           jobLevelId: 9,
           posId: 29,
           engageForm: "",
-          tiptopDegree: "",
+          topDegree: "",
           specialty: "",
           school: "",
           beginDate: "",
-          workID: "",
+          studentId: "",
           contractTerm: 2,
           conversionTime: "",
           notworkDate: null,
@@ -737,9 +742,9 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.deleteRequest("/employee/basic/" + data.id).then(resp => {
+          this.deleteRequest("/admin/student/" + data.id).then(resp => {
             if (resp) {
-              this.initEmps();
+              this.initStudents();
             }
           })
         }).catch(() => {
@@ -753,10 +758,10 @@
         if (this.emp.id) {
           this.$refs['empForm'].validate(valid => {
             if (valid) {
-              this.putRequest("/employee/basic/", this.emp).then(resp => {
+              this.putRequest("/admin/student/", this.emp).then(resp => {
                 if (resp) {
                   this.dialogVisible = false;
-                  this.initEmps();
+                  this.initStudents();
                 }
               })
             }
@@ -764,10 +769,10 @@
         } else {
           this.$refs['empForm'].validate(valid => {
             if (valid) {
-              this.postRequest("/employee/basic/", this.emp).then(resp => {
+              this.postRequest("/admin/student/", this.emp).then(resp => {
                 if (resp) {
                   this.dialogVisible = false;
-                  this.initEmps();
+                  this.initStudents();
                 }
               })
             }
@@ -786,22 +791,22 @@
         this.popVisible2 = !this.popVisible2
       },
       initPositions() {
-        this.getRequest('/employee/basic/positions').then(resp => {
+        this.getRequest('/admin/student/positions').then(resp => {
           if (resp) {
             this.positions = resp;
           }
         })
       },
       getMaxWordID() {
-        this.getRequest("/employee/basic/maxWorkID").then(resp => {
+        this.getRequest("/admin/student/maxstudentId").then(resp => {
           if (resp) {
-            this.emp.workID = resp.obj;
+            this.emp.studentId = resp.obj;
           }
         })
       },
       initData() {
         if (!window.sessionStorage.getItem("nations")) {
-          this.getRequest('/employee/basic/nations').then(resp => {
+          this.getRequest('/admin/student/nations').then(resp => {
             if (resp) {
               this.nations = resp;
               window.sessionStorage.setItem("nations", JSON.stringify(resp));
@@ -811,7 +816,7 @@
           this.nations = JSON.parse(window.sessionStorage.getItem("nations"));
         }
         if (!window.sessionStorage.getItem("joblevels")) {
-          this.getRequest('/employee/basic/joblevels').then(resp => {
+          this.getRequest('/admin/student/joblevels').then(resp => {
             if (resp) {
               this.joblevels = resp;
               window.sessionStorage.setItem("joblevels", JSON.stringify(resp));
@@ -821,7 +826,7 @@
           this.joblevels = JSON.parse(window.sessionStorage.getItem("joblevels"));
         }
         if (!window.sessionStorage.getItem("politicsstatus")) {
-          this.getRequest('/employee/basic/politicsstatus').then(resp => {
+          this.getRequest('/admin/student/politicsstatus').then(resp => {
             if (resp) {
               this.politicsstatus = resp;
               window.sessionStorage.setItem("politicsstatus", JSON.stringify(resp));
@@ -831,7 +836,7 @@
           this.politicsstatus = JSON.parse(window.sessionStorage.getItem("politicsstatus"));
         }
         if (!window.sessionStorage.getItem("deps")) {
-          this.getRequest('/employee/basic/deps').then(resp => {
+          this.getRequest('/admin/student/deps').then(resp => {
             if (resp) {
               this.allDeps = resp;
               window.sessionStorage.setItem("deps", JSON.stringify(resp));
@@ -843,11 +848,11 @@
       },
       sizeChange(currentSize) {
         this.size = currentSize;
-        this.initEmps();
+        this.initStudents();
       },
       currentChange(currentPage) {
         this.page = currentPage;
-        this.initEmps();
+        this.initStudents();
       },
       showAddEmpView() {
         this.emptyEmp();
@@ -855,9 +860,9 @@
         this.getMaxWordID();
         this.dialogVisible = true;
       },
-      initEmps(type) {
+      initStudents(type) {
         this.loading = true;
-        let url = '/employee/basic/?page=' + this.page + '&size=' + this.size;
+        let url = '/content/student?page=' + this.page + '&size=' + this.size;
         if (type && type == 'advanced') {
           if (this.searchValue.politicId) {
             url += '&politicId=' + this.searchValue.politicId;
@@ -880,16 +885,20 @@
           if (this.searchValue.beginDateScope) {
             url += '&beginDateScope=' + this.searchValue.beginDateScope;
           }
-        } else {
-          url += "&name=" + this.keyword;
         }
-        this.getRequest(url).then(resp => {
-          this.loading = false;
-          if (resp) {
-            this.emps = resp.data;
-            this.total = resp.total;
+        if (this.keywordName) {
+          url += "&name=" + this.keywordName;
+        }
+        if (this.keywordId) {
+          url += "&studentId=" + this.keywordId;
+        }
+        this.$axios.get(url).then(resp => {
+          if (resp.data.code === 200) {
+            this.emps = resp.data.data.data;
+            this.total = resp.data.data.total;
+            this.loading = false
           }
-        });
+        })
       }
     }
   }
