@@ -11,7 +11,7 @@
           <el-input placeholder="请输入学号，可回车搜索..." prefix-icon="el-icon-search"
                     clearable
                     @clear="initStudents"
-                    style="width: 220px;margin-right: 10px" v-model="keywordId"
+                    style="width: 220px;margin-right: 10px" v-model="studentId"
                     @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
           <el-button icon="el-icon-search" type="primary" @click="initStudents" :disabled="showAdvanceSearchView">
             搜索
@@ -39,7 +39,7 @@
             导出数据
           </el-button>
           <el-button type="primary" icon="el-icon-plus" @click="showAddEmpView">
-            添加用户
+            添加学生
           </el-button>
         </div>
       </div>
@@ -88,7 +88,7 @@
               <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable="clearable"
                          style="width: 130px;">
                 <el-option
-                  v-for="item in politicsstatus"
+                  v-for="item in politics"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id">
@@ -274,8 +274,8 @@
           width="200"
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="showEditEmpView(scope.row)" style="padding: 3px" size="mini">编辑</el-button>
-            <el-button @click="deleteEmp(scope.row)" style="padding: 3px" size="mini" type="danger">删除
+            <el-button @click="showEditStudentView(scope.row)" style="padding: 3px" size="mini">编辑</el-button>
+            <el-button @click="deleteStudent(scope.row,scope.$index)" style="padding: 3px" size="mini" type="danger">删除
             </el-button>
           </template>
         </el-table-column>
@@ -295,17 +295,17 @@
       :visible.sync="dialogVisible"
       width="80%">
       <div>
-        <el-form :model="emp" :rules="rules" ref="empForm">
+        <el-form :model="student" :rules="rules" ref="stuForm">
           <el-row>
             <el-col :span="6">
               <el-form-item label="姓名:" prop="name">
-                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="emp.name"
+                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="student.name"
                           placeholder="请输入学生姓名"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="性别:" prop="gender">
-                <el-radio-group v-model="emp.gender">
+                <el-radio-group v-model="student.gender">
                   <el-radio label="男">男</el-radio>
                   <el-radio label="女">女</el-radio>
                 </el-radio-group>
@@ -314,7 +314,7 @@
             <el-col :span="6">
               <el-form-item label="出生日期:" prop="birthday">
                 <el-date-picker
-                  v-model="emp.birthday"
+                  v-model="student.birthday"
                   size="mini"
                   type="date"
                   value-format="yyyy-MM-dd"
@@ -325,9 +325,9 @@
             </el-col>
             <el-col :span="7">
               <el-form-item label="政治面貌:" prop="politicId">
-                <el-select v-model="emp.politicId" placeholder="政治面貌" size="mini" style="width: 200px;">
+                <el-select v-model="student.politicId" placeholder="政治面貌" size="mini" style="width: 200px;">
                   <el-option
-                    v-for="item in politicsstatus"
+                    v-for="item in politics"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id">
@@ -339,7 +339,7 @@
           <el-row>
             <el-col :span="6">
               <el-form-item label="民族:" prop="nationId">
-                <el-select v-model="emp.nationId" placeholder="民族" size="mini" style="width: 150px;">
+                <el-select v-model="student.nationId" placeholder="民族" size="mini" style="width: 150px;">
                   <el-option
                     v-for="item in nations"
                     :key="item.id"
@@ -352,28 +352,33 @@
             <el-col :span="5">
               <el-form-item label="籍贯:" prop="nativePlace">
                 <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                          v-model="emp.nativePlace" placeholder="请输入籍贯"></el-input>
+                          v-model="student.nativePlace" placeholder="请输入籍贯"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="电子邮箱:" prop="email">
                 <el-input size="mini" style="width: 150px" prefix-icon="el-icon-message"
-                          v-model="emp.email" placeholder="请输入电子邮箱"></el-input>
+                          v-model="student.email" placeholder="请输入电子邮箱"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
               <el-form-item label="联系地址:" prop="address">
                 <el-input size="mini" style="width: 200px" prefix-icon="el-icon-edit"
-                          v-model="emp.address" placeholder="请输入联系地址"></el-input>
+                          v-model="student.address" placeholder="请输入联系地址"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <!--            <el-col :span="6">-->
-            <el-col :span="7">
+            <el-col :span="6">
+              <el-form-item label="身份证号码:" prop="idCard">
+                <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+                          v-model="student.idCard" placeholder="请输入身份证号码"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item label="电话号码:" prop="phone">
                 <el-input size="mini" style="width: 200px" prefix-icon="el-icon-phone"
-                          v-model="emp.phone" placeholder="电话号码"></el-input>
+                          v-model="student.phone" placeholder="电话号码"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -381,12 +386,12 @@
             <el-col :span="6">
               <el-form-item label="学号:" prop="studentId">
                 <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                          v-model="emp.studentId" placeholder="学号" disabled></el-input>
+                          v-model="student.studentId" placeholder="学号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="学历:" prop="topDegree">
-                <el-select v-model="emp.topDegree" placeholder="学历" size="mini"
+                <el-select v-model="student.topDegree" placeholder="学历" size="mini"
                            style="width: 150px;">
                   <el-option
                     v-for="item in topDegrees"
@@ -400,13 +405,58 @@
             <el-col :span="6">
               <el-form-item label="毕业院校:" prop="school">
                 <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                          v-model="emp.school" placeholder="毕业院校名称"></el-input>
+                          v-model="student.school" placeholder="毕业院校名称"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="7">
-              <el-form-item label="专业名称:" prop="specialty">
-                <el-input size="mini" style="width: 200px" prefix-icon="el-icon-edit"
-                          v-model="emp.specialty" placeholder="请输入专业名称"></el-input>
+            <el-col :span="6">
+              <el-form-item label="所属院系:" prop="departmentId">
+                <el-select v-model="student.departmentId" placeholder="院系" size="mini"
+                           @change="changeDepartment" style="width: 150px;">
+                  <el-option
+                    v-for="item in department"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="专业:" prop="departmentId">
+                <el-select v-model="student.specialtyId" placeholder="专业" size="mini"
+                           style="width: 150px;">
+                  <el-option
+                    v-for="item in specialtySelected"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="学生职位:" prop="positionId">
+                <el-select v-model="student.positionId" placeholder="学生职位" size="mini"
+                           style="width: 150px;">
+                  <el-option
+                    v-for="item in position"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="外语水平:" prop="languageLevel">
+                <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+                          v-model="student.languageLevel" placeholder="请输入外语水平"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="计算机水平:" prop="computerLevel">
+                <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+                          v-model="student.computerLevel" placeholder="请输入计算机水平"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -414,7 +464,7 @@
             <el-col :span="6">
               <el-form-item label="入学日期:" prop="beginDate">
                 <el-date-picker
-                  v-model="emp.beginDate"
+                  v-model="student.beginDate"
                   size="mini"
                   type="date"
                   value-format="yyyy-MM-dd"
@@ -424,56 +474,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="转正日期:" prop="conversionTime">
+              <el-form-item label="毕业日期:" prop="endDate">
                 <el-date-picker
-                  v-model="emp.conversionTime"
+                  v-model="student.endDate"
                   size="mini"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 130px;"
-                  placeholder="转正日期">
+                  placeholder="毕业日期">
                 </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="合同起始日期:" prop="beginContract">
-                <el-date-picker
-                  v-model="emp.beginContract"
-                  size="mini"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  style="width: 130px;"
-                  placeholder="合同起始日期">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="合同终止日期:" prop="endContract">
-                <el-date-picker
-                  v-model="emp.endContract"
-                  size="mini"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  style="width: 150px;"
-                  placeholder="合同终止日期">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="身份证号码:" prop="idCard">
-                <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
-                          v-model="emp.idCard" placeholder="请输入身份证号码"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="婚姻状况:" prop="wedlock">
-                <el-radio-group v-model="emp.wedlock">
-                  <el-radio label="已婚">已婚</el-radio>
-                  <el-radio label="未婚">未婚</el-radio>
-                  <el-radio label="离异">离异</el-radio>
-                </el-radio-group>
               </el-form-item>
             </el-col>
           </el-row>
@@ -481,7 +490,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="doAddEmp">确 定</el-button>
+    <el-button type="primary" @click="doAddStudent">确 定</el-button>
   </span>
     </el-dialog>
   </div>
@@ -525,6 +534,8 @@
           positionId: null,
           politicId: null,
           nationId: null,
+          languageLevel: null,
+          computerLevel: null,
           beginDateScope: null
         },
         title: '',
@@ -532,70 +543,40 @@
         importDataBtnIcon: 'el-icon-upload2',
         importDataDisabled: false,
         showAdvanceSearchView: false,
-        allDeps: [],
         students: [],
         loading: false,
-        popVisible: false,
-        popVisible2: false,
         dialogVisible: false,
         total: 0,
         page: 1,
         keywordName: '',
-        keywordId: '',
+        studentId: '',
         size: 10,
         nations: [],
         department: [],
         specialty: [],
         specialtySelected: [],
         position: [],
-        politicsstatus: [],
+        politics: [],
         topDegrees: ['本科', '大专', '硕士', '博士', '高中', '初中', '小学', '其他'],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        inputDepName: '所属部门',
-        emp: {
-          name: "javaboy",
-          gender: "男",
-          birthday: "1989-12-31",
-          idCard: "610122199001011256",
-          wedlock: "已婚",
-          nationId: 1,
-          nativePlace: "陕西",
-          politicId: 13,
-          email: "laowang@qq.com",
-          phone: "18565558897",
-          address: "深圳市南山区",
-          departmentId: null,
-          topDegree: "本科",
-          specialty: "信息管理与信息系统",
-          school: "深圳大学",
-          beginDate: "2017-12-31",
-          workState: "在职",
-          studentId: "00000057",
-          contractTerm: 2,
-          conversionTime: "2018-03-31",
-          notworkDate: null,
-          beginContract: "2017-12-31",
-          endContract: "2019-12-31",
-          workAge: null
-        },
-        defaultProps: {
-          children: 'children',
-          label: 'name'
+        student: {
+          name: "",
+          studentId: "",
+          gender: "",
+          birthday: "",
+          idCard: "",
+          nationId: "",
+          nativePlace: "",
+          politicId: "",
+          email: "",
+          phone: "",
+          address: "",
+          school: "",
+          topDegree: "",
+          departmentId: "",
+          specialtyId: "",
+          positionId: "",
+          beginDate: "",
+          endDate: ""
         },
         rules: {
           name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
@@ -606,7 +587,6 @@
             message: '身份证号码格式不正确',
             trigger: 'blur'
           }],
-          wedlock: [{required: true, message: '请输入婚姻状况', trigger: 'blur'}],
           nationId: [{required: true, message: '请输入您组', trigger: 'blur'}],
           nativePlace: [{required: true, message: '请输入籍贯', trigger: 'blur'}],
           politicId: [{required: true, message: '请输入政治面貌', trigger: 'blur'}],
@@ -622,28 +602,15 @@
           specialty: [{required: true, message: '请输入专业', trigger: 'blur'}],
           school: [{required: true, message: '请输入毕业院校', trigger: 'blur'}],
           beginDate: [{required: true, message: '请输入入学日期', trigger: 'blur'}],
-          workState: [{required: true, message: '请输入工作状态', trigger: 'blur'}],
           studentId: [{required: true, message: '请输入学号', trigger: 'blur'}],
-          contractTerm: [{required: true, message: '请输入合同期限', trigger: 'blur'}],
-          conversionTime: [{required: true, message: '请输入转正日期', trigger: 'blur'}],
-          notworkDate: [{required: true, message: '请输入离职日期', trigger: 'blur'}],
-          beginContract: [{required: true, message: '请输入合同起始日期', trigger: 'blur'}],
-          endContract: [{required: true, message: '请输入合同结束日期', trigger: 'blur'}],
-          workAge: [{required: true, message: '请输入工龄', trigger: 'blur'}],
         }
       }
     },
     mounted() {
       this.initStudents();
       this.initData();
-      // this.initPositions();
     },
     methods: {
-      searvhViewHandleNodeClick(data) {
-        this.inputDepName = data.name;
-        this.searchValue.departmentId = data.id;
-        this.popVisible2 = !this.popVisible2
-      },
       onError(err, file, fileList) {
         this.importDataBtnText = '导入数据';
         this.importDataBtnIcon = 'el-icon-upload2';
@@ -664,49 +631,41 @@
         window.open('/admin/student/export', '_parent');
       },
       emptyEmp() {
-        this.emp = {
+        this.student = {
           name: "",
+          studentId: "",
           gender: "",
           birthday: "",
           idCard: "",
-          wedlock: "",
-          nationId: 1,
+          nationId: "",
           nativePlace: "",
-          politicId: 13,
+          politicId: "",
           email: "",
           phone: "",
           address: "",
-          departmentId: null,
-          topDegree: "",
-          specialty: "",
           school: "",
+          topDegree: "",
+          departmentId: "",
+          specialtyId: "",
+          positionId: "",
           beginDate: "",
-          studentId: "",
-          contractTerm: 2,
-          conversionTime: "",
-          notworkDate: null,
-          beginContract: "",
-          endContract: "",
-          workAge: null
+          endDate: ""
         }
-        this.inputDepName = '';
       },
-      showEditEmpView(data) {
-        // this.initPositions();
+      showEditStudentView(data) {
         this.title = '编辑学生信息';
-        this.emp = data;
-        this.inputDepName = data.department.name;
+        this.student = data;
         this.dialogVisible = true;
       },
-      deleteEmp(data) {
+      deleteStudent(data, index) {
         this.$confirm('此操作将永久删除【' + data.name + '】, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.deleteRequest("/admin/student/" + data.id).then(resp => {
-            if (resp) {
-              this.initStudents();
+          this.$axios.delete("/content/student?studentId=" + data.id).then(resp => {
+            if (resp.data.code === 200) {
+              this.students.splice(index, 1)
             }
           })
         }).catch(() => {
@@ -716,12 +675,12 @@
           });
         });
       },
-      doAddEmp() {
-        if (this.emp.id) {
-          this.$refs['empForm'].validate(valid => {
+      doAddStudent() {
+        if (this.student.id) {
+          this.$refs['stuForm'].validate(valid => {
             if (valid) {
-              this.putRequest("/admin/student/", this.emp).then(resp => {
-                if (resp) {
+              this.$axios.put("/content/student", this.student).then(resp => {
+                if (resp.data.code === 200) {
                   this.dialogVisible = false;
                   this.initStudents();
                 }
@@ -729,10 +688,10 @@
             }
           });
         } else {
-          this.$refs['empForm'].validate(valid => {
+          this.$refs['stuForm'].validate(valid => {
             if (valid) {
-              this.postRequest("/admin/student/", this.emp).then(resp => {
-                if (resp) {
+              this.$axios.post("/content/student", this.student).then(resp => {
+                if (resp.data.code === 200) {
                   this.dialogVisible = false;
                   this.initStudents();
                 }
@@ -740,31 +699,6 @@
             }
           });
         }
-      },
-      handleNodeClick(data) {
-        this.inputDepName = data.name;
-        this.emp.departmentId = data.id;
-        this.popVisible = !this.popVisible
-      },
-      showDepView() {
-        this.popVisible = !this.popVisible
-      },
-      showDepView2() {
-        this.popVisible2 = !this.popVisible2
-      },
-      initPositions() {
-        // this.getRequest('/admin/student/positions').then(resp => {
-        //   if (resp) {
-        //     this.positions = resp;
-        //   }
-        // })
-      },
-      getMaxWordID() {
-        this.getRequest("/admin/student/maxstudentId").then(resp => {
-          if (resp) {
-            this.emp.studentId = resp.obj;
-          }
-        })
       },
       changeDepartment(departmentId) {
         let selectedSpecialty = []
@@ -817,25 +751,15 @@
         } else {
           this.nations = JSON.parse(window.sessionStorage.getItem("nations"));
         }
-        if (!window.sessionStorage.getItem("politicsstatus")) {
+        if (!window.sessionStorage.getItem("politics")) {
           this.$axios.get('/content/politics').then(resp => {
             if (resp.data.code === 200) {
-              this.politicsstatus = resp.data.data;
-              window.sessionStorage.setItem("politicsstatus", JSON.stringify(this.politicsstatus));
+              this.politics = resp.data.data;
+              window.sessionStorage.setItem("politics", JSON.stringify(this.politics));
             }
           })
         } else {
-          this.politicsstatus = JSON.parse(window.sessionStorage.getItem("politicsstatus"));
-        }
-        if (!window.sessionStorage.getItem("deps")) {
-          this.getRequest('/admin/student/deps').then(resp => {
-            if (resp) {
-              this.allDeps = resp;
-              window.sessionStorage.setItem("deps", JSON.stringify(resp));
-            }
-          })
-        } else {
-          this.allDeps = JSON.parse(window.sessionStorage.getItem("deps"));
+          this.politics = JSON.parse(window.sessionStorage.getItem("politics"));
         }
       },
       sizeChange(currentSize) {
@@ -849,7 +773,6 @@
       showAddEmpView() {
         this.emptyEmp();
         this.title = '添加学生';
-        this.getMaxWordID();
         this.dialogVisible = true;
       },
       initStudents(type) {
@@ -876,8 +799,8 @@
         if (this.keywordName) {
           url += "&name=" + this.keywordName;
         }
-        if (this.keywordId) {
-          url += "&studentId=" + this.keywordId;
+        if (this.studentId) {
+          url += "&studentId=" + this.studentId;
         }
         this.$axios.get(url).then(resp => {
           if (resp.data.code === 200) {
@@ -895,17 +818,15 @@
   /* 可以设置不同的进入和离开动画 */
   /* 设置持续时间和动画函数 */
   .slide-fade-enter-active {
-    transition: all .8s ease;
+    transition: all .3s ease;
   }
 
   .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
 
-  .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active for below version 2.1.8 */
   {
-    transform: translateX(10px);
+    transform: translateX(10px)
     opacity: 0;
   }
 </style>
