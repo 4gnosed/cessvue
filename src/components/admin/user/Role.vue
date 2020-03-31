@@ -43,6 +43,7 @@
       <el-table
         :data="roles"
         stripe
+        highlight-current-row="highlight-current-row"
         style="width: 100%"
         :max-height="tableHeight">
         <el-table-column

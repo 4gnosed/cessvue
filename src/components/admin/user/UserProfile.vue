@@ -55,6 +55,7 @@
         ref="multipleTable"
         :data="userDtos"
         stripe
+        highlight-current-row="highlight-current-row"
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
         :max-height="tableHeight">

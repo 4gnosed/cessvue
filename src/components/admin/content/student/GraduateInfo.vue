@@ -48,8 +48,44 @@
              style="border: 1px solid #409eff;border-radius: 5px;box-sizing: border-box;padding: 5px;margin: 10px 0px;">
           <el-row>
             <el-col :span="5">
+              所属院系:
+              <el-select v-model="searchValue.departmentId" placeholder="所属院系" size="mini" clearable="clearable"
+                         @change="changeDepartment" style="width: 130px;">
+                <el-option
+                  v-for="item in department"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="5">
+              专业:
+              <el-select v-model="searchValue.specialtyId" placeholder="专业" size="mini" clearable="clearable"
+                         style="width: 130px;">
+                <el-option
+                  v-for="item in specialtySelected"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="5">
+              学生职位:
+              <el-select v-model="searchValue.positionId" placeholder="学生职位" size="mini" clearable="clearable"
+                         style="width: 130px;">
+                <el-option
+                  v-for="item in position"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="5">
               政治面貌:
-              <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini"
+              <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable="clearable"
                          style="width: 130px;">
                 <el-option
                   v-for="item in politicsstatus"
@@ -61,7 +97,7 @@
             </el-col>
             <el-col :span="4">
               民族:
-              <el-select v-model="searchValue.nationId" placeholder="民族" size="mini"
+              <el-select v-model="searchValue.nationId" placeholder="民族" size="mini" clearable="clearable"
                          style="width: 130px;">
                 <el-option
                   v-for="item in nations"
@@ -71,56 +107,10 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="4">
-              职位:
-              <el-select v-model="searchValue.posId" placeholder="职位" size="mini" style="width: 130px;">
-                <el-option
-                  v-for="item in positions"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="4">
-              职称:
-              <el-select v-model="searchValue.jobLevelId" placeholder="职称" size="mini"
-                         style="width: 130px;">
-                <el-option
-                  v-for="item in joblevels"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="7">
-              聘用形式:
-              <el-radio-group v-model="searchValue.engageForm">
-                <el-radio label="劳动合同">劳动合同</el-radio>
-                <el-radio label="劳务合同">劳务合同</el-radio>
-              </el-radio-group>
-            </el-col>
           </el-row>
           <el-row style="margin-top: 10px">
-            <el-col :span="5">
-              所属部门:
-              <el-popover
-                placement="right"
-                title="请选择部门"
-                width="200"
-                trigger="manual"
-                v-model="popVisible2">
-                <el-tree default-expand-all :data="allDeps" :props="defaultProps"
-                         @node-click="searvhViewHandleNodeClick"></el-tree>
-                <div slot="reference"
-                     style="width: 130px;display: inline-flex;font-size: 13px;border: 1px solid #dedede;height: 26px;border-radius: 5px;cursor: pointer;align-items: center;padding-left: 8px;box-sizing: border-box;margin-left: 3px"
-                     @click="showDepView2">{{inputDepName}}
-                </div>
-              </el-popover>
-            </el-col>
             <el-col :span="10">
-              入职日期:
+              入学日期:
               <el-date-picker
                 v-model="searchValue.beginDateScope"
                 type="daterange"
@@ -129,12 +119,13 @@
                 value-format="yyyy-MM-dd"
                 range-separator="至"
                 start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions">
               </el-date-picker>
             </el-col>
             <el-col :span="5" :offset="4">
               <el-button size="mini" @click="showAdvanceSearchView=false">取消</el-button>
-              <el-button size="mini" icon="el-icon-search" type="primary" @click="initStudents('advanced')">搜索
+              <el-button size="mini" icon="el-icon-search" type="primary" @click="initStudents">搜索
               </el-button>
             </el-col>
           </el-row>
@@ -143,9 +134,10 @@
     </div>
     <div style="margin-top: 10px">
       <el-table
-        :data="emps"
+        :data="students"
         stripe
         border
+        highlight-current-row="highlight-current-row"
         v-loading="loading"
         element-loading-text="正在加载..."
         element-loading-spinner="el-icon-loading"
@@ -165,117 +157,116 @@
         <el-table-column
           prop="studentId"
           label="学号"
-          align="left"
+          sortable
           width="120">
         </el-table-column>
         <el-table-column
           prop="gender"
           label="性别"
-          align="left"
+          sortable
           width="85">
         </el-table-column>
         <el-table-column
           prop="birthday"
-          width="95"
-          align="left"
+          width="110"
+          sortable
           label="出生日期">
         </el-table-column>
         <el-table-column
           prop="idCard"
           width="170"
-          align="left"
+          sortable
           label="身份证号码">
         </el-table-column>
         <el-table-column
           prop="nation.name"
-          width="50"
+          width="90"
+          sortable
           label="民族">
         </el-table-column>
         <el-table-column
           prop="nativePlace"
-          width="80"
+          width="90"
+          sortable
           label="籍贯">
         </el-table-column>
         <el-table-column
           prop="politics.name"
+          width="110"
+          sortable
           label="政治面貌">
         </el-table-column>
         <el-table-column
           prop="email"
-          width="150"
+          width="170"
           align="left"
+          sortable
           label="电子邮件">
         </el-table-column>
         <el-table-column
           prop="phone"
           width="110"
-          align="left"
+          sortable
           label="电话号码">
         </el-table-column>
         <el-table-column
           prop="address"
           width="220"
-          align="left"
+          sortable
           label="联系地址">
         </el-table-column>
         <el-table-column
           prop="topDegree"
-          width="80"
-          align="left"
+          width="120"
+          sortable
           label="最高学历">
         </el-table-column>
         <el-table-column
           prop="school"
-          width="150"
-          align="left"
+          width="160"
+          sortable
           label="毕业院校">
         </el-table-column>
         <el-table-column
-          prop="department"
-          width="150"
-          align="left"
+          prop="department.name"
+          width="200"
+          sortable
           label="所属院系">
         </el-table-column>
         <el-table-column
-          prop="specialty"
-          width="150"
-          align="left"
+          prop="specialty.name"
+          width="200"
+          sortable
           label="专业">
         </el-table-column>
         <el-table-column
-          prop="grade"
-          width="100"
-          align="left"
-          label="年级">
-        </el-table-column>
-        <el-table-column
-          prop="position"
-          width="150"
-          align="left"
+          prop="position.name"
+          width="120"
+          sortable
           label="学生职位">
         </el-table-column>
         <el-table-column
           prop="languageLevel"
           width="150"
-          align="left"
+          sortable
           label="外语水平">
         </el-table-column>
         <el-table-column
           prop="computerLevel"
           width="150"
-          align="left"
+          sortable
           label="计算机等级">
         </el-table-column>
         <el-table-column
           prop="beginDate"
           width="120"
-          align="left"
+          sortable
           label="入学日期">
         </el-table-column>
         <el-table-column
           prop="endDate"
           width="120"
-          align="left"
+          sortable
           label="毕业日期">
         </el-table-column>
         <el-table-column
@@ -378,47 +369,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="6">
-              <el-form-item label="职位:" prop="posId">
-                <el-select v-model="emp.posId" placeholder="职位" size="mini" style="width: 150px;">
-                  <el-option
-                    v-for="item in positions"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="职称:" prop="jobLevelId">
-                <el-select v-model="emp.jobLevelId" placeholder="职称" size="mini" style="width: 150px;">
-                  <el-option
-                    v-for="item in joblevels"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="所属部门:" prop="departmentId">
-                <el-popover
-                  placement="right"
-                  title="请选择部门"
-                  width="200"
-                  trigger="manual"
-                  v-model="popVisible">
-                  <el-tree default-expand-all :data="allDeps" :props="defaultProps"
-                           @node-click="handleNodeClick"></el-tree>
-                  <div slot="reference"
-                       style="width: 150px;display: inline-flex;font-size: 13px;border: 1px solid #dedede;height: 26px;border-radius: 5px;cursor: pointer;align-items: center;padding-left: 8px;box-sizing: border-box"
-                       @click="showDepView">{{inputDepName}}
-                  </div>
-                </el-popover>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="6">-->
             <el-col :span="7">
               <el-form-item label="电话号码:" prop="phone">
                 <el-input size="mini" style="width: 200px" prefix-icon="el-icon-phone"
@@ -461,14 +412,14 @@
           </el-row>
           <el-row>
             <el-col :span="6">
-              <el-form-item label="入职日期:" prop="beginDate">
+              <el-form-item label="入学日期:" prop="beginDate">
                 <el-date-picker
                   v-model="emp.beginDate"
                   size="mini"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 130px;"
-                  placeholder="入职日期">
+                  placeholder="入学日期">
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -517,14 +468,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="聘用形式:" prop="engageForm">
-                <el-radio-group v-model="emp.engageForm">
-                  <el-radio label="劳动合同">劳动合同</el-radio>
-                  <el-radio label="劳务合同">劳务合同</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
               <el-form-item label="婚姻状况:" prop="wedlock">
                 <el-radio-group v-model="emp.wedlock">
                   <el-radio label="已婚">已婚</el-radio>
@@ -549,13 +492,39 @@
     name: "GraduateInfo",
     data() {
       return {
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
         searchValue: {
+          departmentId: null,
+          specialtyId: null,
+          positionId: null,
           politicId: null,
           nationId: null,
-          jobLevelId: null,
-          posId: null,
-          engageForm: null,
-          departmentId: null,
           beginDateScope: null
         },
         title: '',
@@ -564,7 +533,7 @@
         importDataDisabled: false,
         showAdvanceSearchView: false,
         allDeps: [],
-        emps: [],
+        students: [],
         loading: false,
         popVisible: false,
         popVisible2: false,
@@ -575,9 +544,11 @@
         keywordId: '',
         size: 10,
         nations: [],
-        joblevels: [],
+        department: [],
+        specialty: [],
+        specialtySelected: [],
+        position: [],
         politicsstatus: [],
-        positions: [],
         topDegrees: ['本科', '大专', '硕士', '博士', '高中', '初中', '小学', '其他'],
         options: [{
           value: '选项1',
@@ -609,9 +580,6 @@
           phone: "18565558897",
           address: "深圳市南山区",
           departmentId: null,
-          jobLevelId: 9,
-          posId: 29,
-          engageForm: "劳务合同",
           topDegree: "本科",
           specialty: "信息管理与信息系统",
           school: "深圳大学",
@@ -649,14 +617,11 @@
           }],
           phone: [{required: true, message: '请输入电话号码', trigger: 'blur'}],
           address: [{required: true, message: '请输入学生地址', trigger: 'blur'}],
-          departmentId: [{required: true, message: '请输入部门名称', trigger: 'blur'}],
-          jobLevelId: [{required: true, message: '请输入职称', trigger: 'blur'}],
-          posId: [{required: true, message: '请输入职位', trigger: 'blur'}],
-          engageForm: [{required: true, message: '请输入聘用形式', trigger: 'blur'}],
+          departmentId: [{required: true, message: '请输入院系名称', trigger: 'blur'}],
           topDegree: [{required: true, message: '请输入学历', trigger: 'blur'}],
           specialty: [{required: true, message: '请输入专业', trigger: 'blur'}],
           school: [{required: true, message: '请输入毕业院校', trigger: 'blur'}],
-          beginDate: [{required: true, message: '请输入入职日期', trigger: 'blur'}],
+          beginDate: [{required: true, message: '请输入入学日期', trigger: 'blur'}],
           workState: [{required: true, message: '请输入工作状态', trigger: 'blur'}],
           studentId: [{required: true, message: '请输入学号', trigger: 'blur'}],
           contractTerm: [{required: true, message: '请输入合同期限', trigger: 'blur'}],
@@ -670,7 +635,7 @@
     },
     mounted() {
       this.initStudents();
-      // this.initData();
+      this.initData();
       // this.initPositions();
     },
     methods: {
@@ -712,9 +677,6 @@
           phone: "",
           address: "",
           departmentId: null,
-          jobLevelId: 9,
-          posId: 29,
-          engageForm: "",
           topDegree: "",
           specialty: "",
           school: "",
@@ -730,7 +692,7 @@
         this.inputDepName = '';
       },
       showEditEmpView(data) {
-        this.initPositions();
+        // this.initPositions();
         this.title = '编辑学生信息';
         this.emp = data;
         this.inputDepName = data.department.name;
@@ -791,11 +753,11 @@
         this.popVisible2 = !this.popVisible2
       },
       initPositions() {
-        this.getRequest('/admin/student/positions').then(resp => {
-          if (resp) {
-            this.positions = resp;
-          }
-        })
+        // this.getRequest('/admin/student/positions').then(resp => {
+        //   if (resp) {
+        //     this.positions = resp;
+        //   }
+        // })
       },
       getMaxWordID() {
         this.getRequest("/admin/student/maxstudentId").then(resp => {
@@ -804,32 +766,62 @@
           }
         })
       },
+      changeDepartment(departmentId) {
+        let selectedSpecialty = []
+        this.specialty.forEach((spelty) => {
+          if (spelty.departmentId == departmentId) {
+            selectedSpecialty.push(spelty)
+          }
+        })
+        this.specialtySelected = selectedSpecialty
+      },
       initData() {
+        if (!window.sessionStorage.getItem("department")) {
+          this.$axios.get('/content/department').then(resp => {
+            if (resp.data.code === 200) {
+              this.department = resp.data.data;
+              window.sessionStorage.setItem("department", JSON.stringify(this.department));
+            }
+          })
+        } else {
+          this.department = JSON.parse(window.sessionStorage.getItem("department"));
+        }
+        if (!window.sessionStorage.getItem("specialty")) {
+          this.$axios.get('/content/specialty').then(resp => {
+            if (resp.data.code === 200) {
+              this.specialty = resp.data.data;
+              window.sessionStorage.setItem("specialty", JSON.stringify(this.specialty));
+            }
+          })
+        } else {
+          this.specialty = JSON.parse(window.sessionStorage.getItem("specialty"));
+        }
+        this.specialtySelected = this.specialty
+        if (!window.sessionStorage.getItem("position")) {
+          this.$axios.get('/content/position').then(resp => {
+            if (resp.data.code === 200) {
+              this.position = resp.data.data;
+              window.sessionStorage.setItem("position", JSON.stringify(this.position));
+            }
+          })
+        } else {
+          this.position = JSON.parse(window.sessionStorage.getItem("position"));
+        }
         if (!window.sessionStorage.getItem("nations")) {
-          this.getRequest('/admin/student/nations').then(resp => {
-            if (resp) {
-              this.nations = resp;
-              window.sessionStorage.setItem("nations", JSON.stringify(resp));
+          this.$axios.get('/content/nations').then(resp => {
+            if (resp.data.code === 200) {
+              this.nations = resp.data.data;
+              window.sessionStorage.setItem("nations", JSON.stringify(this.nations));
             }
           })
         } else {
           this.nations = JSON.parse(window.sessionStorage.getItem("nations"));
         }
-        if (!window.sessionStorage.getItem("joblevels")) {
-          this.getRequest('/admin/student/joblevels').then(resp => {
-            if (resp) {
-              this.joblevels = resp;
-              window.sessionStorage.setItem("joblevels", JSON.stringify(resp));
-            }
-          })
-        } else {
-          this.joblevels = JSON.parse(window.sessionStorage.getItem("joblevels"));
-        }
         if (!window.sessionStorage.getItem("politicsstatus")) {
-          this.getRequest('/admin/student/politicsstatus').then(resp => {
-            if (resp) {
-              this.politicsstatus = resp;
-              window.sessionStorage.setItem("politicsstatus", JSON.stringify(resp));
+          this.$axios.get('/content/politics').then(resp => {
+            if (resp.data.code === 200) {
+              this.politicsstatus = resp.data.data;
+              window.sessionStorage.setItem("politicsstatus", JSON.stringify(this.politicsstatus));
             }
           })
         } else {
@@ -863,28 +855,23 @@
       initStudents(type) {
         this.loading = true;
         let url = '/content/student?page=' + this.page + '&size=' + this.size;
-        if (type && type == 'advanced') {
-          if (this.searchValue.politicId) {
-            url += '&politicId=' + this.searchValue.politicId;
-          }
-          if (this.searchValue.nationId) {
-            url += '&nationId=' + this.searchValue.nationId;
-          }
-          if (this.searchValue.jobLevelId) {
-            url += '&jobLevelId=' + this.searchValue.jobLevelId;
-          }
-          if (this.searchValue.posId) {
-            url += '&posId=' + this.searchValue.posId;
-          }
-          if (this.searchValue.engageForm) {
-            url += '&engageForm=' + this.searchValue.engageForm;
-          }
-          if (this.searchValue.departmentId) {
-            url += '&departmentId=' + this.searchValue.departmentId;
-          }
-          if (this.searchValue.beginDateScope) {
-            url += '&beginDateScope=' + this.searchValue.beginDateScope;
-          }
+        if (this.searchValue.departmentId) {
+          url += '&departmentId=' + this.searchValue.departmentId;
+        }
+        if (this.searchValue.specialtyId) {
+          url += '&specialtyId=' + this.searchValue.specialtyId;
+        }
+        if (this.searchValue.positionId) {
+          url += '&positionId=' + this.searchValue.positionId;
+        }
+        if (this.searchValue.politicId) {
+          url += '&politicId=' + this.searchValue.politicId;
+        }
+        if (this.searchValue.nationId) {
+          url += '&nationId=' + this.searchValue.nationId;
+        }
+        if (this.searchValue.beginDateScope) {
+          url += '&beginDateScope=' + this.searchValue.beginDateScope;
         }
         if (this.keywordName) {
           url += "&name=" + this.keywordName;
@@ -894,7 +881,7 @@
         }
         this.$axios.get(url).then(resp => {
           if (resp.data.code === 200) {
-            this.emps = resp.data.data.data;
+            this.students = resp.data.data.data;
             this.total = resp.data.data.total;
             this.loading = false
           }
