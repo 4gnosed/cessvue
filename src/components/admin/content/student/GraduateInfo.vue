@@ -24,13 +24,15 @@
         </div>
         <div>
           <el-upload
-            :show-file-list="false"
-            :before-upload="beforeUpload"
-            :on-success="onSuccess"
-            :on-error="onError"
-            :disabled="importDataDisabled"
+            ref="upload"
+            action="void"
+            multiple
+            :multiple="false"
             style="display: inline-flex;margin-right: 8px"
-            action="http://localhost:8443/api/content/student/import">
+            :http-request="customUpload"
+            :on-remove="handleRemove"
+            :on-progress="progressA"
+            :auto-upload="true">
             <el-button :disabled="importDataDisabled" type="success" :icon="importDataBtnIcon">
               导入数据
             </el-button>
@@ -612,31 +614,39 @@
       this.initData();
     },
     methods: {
-      onError(err, file, fileList) {
-        this.importDataBtnText = '导入数据';
-        this.importDataBtnIcon = 'el-icon-upload2';
-        this.importDataDisabled = false;
+      customUpload(file) {
+        let FormDatas = new FormData();
+        FormDatas.append('file', file.file);
+        this.$axios({
+          url: this.baseUrl + "/content/student/import",
+          method: 'post',
+          data: FormDatas,
+          //上传进度
+          onUploadProgress: (progressEvent) => {
+            let num = progressEvent.loaded / progressEvent.total * 100 | 0;  //百分比
+            file.onProgress({percent: num})     //进度条
+          }
+        }).then(resp => {
+          if (resp.data.code === 200) {
+            file.onSuccess(); //上传成功(打钩的小图标)
+            this.$message({type: 'success', message: '导入完成'})
+          }
+        })
       },
-      onSuccess(response, file, fileList) {
-        this.importDataBtnText = '导入数据';
-        this.importDataBtnIcon = 'el-icon-upload2';
-        this.importDataDisabled = false;
-        this.initStudents();
+      /**     文件正在上传时的钩子    **/
+      progressA(event, file) {
       },
-      beforeUpload() {
-        this.importDataBtnText = '正在导入';
-        this.importDataBtnIcon = 'el-icon-loading';
-        this.importDataDisabled = true;
+      /**     移除上传文件    **/
+      handleRemove(file) {
+        this.$refs.upload.abort(); //取消上传
+        this.$message({message: '成功移除' + file.name, type: 'success'});
       },
       exportData() {
         this.downloadLoading = true
         this.$axios.get("/content/student/loading").then(resp => {
           if (resp.data.code === 200) {
             this.downloadLoading = false
-            this.$message({
-              type: 'info',
-              message: '下载完成'
-            })
+            this.$message({type: 'success', message: '下载完成'})
           }
         })
         // 文件传输不能用ajax
