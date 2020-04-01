@@ -30,12 +30,12 @@
             :on-error="onError"
             :disabled="importDataDisabled"
             style="display: inline-flex;margin-right: 8px"
-            action="/admin/student/import">
+            action="http://localhost:8443/api/content/student/import">
             <el-button :disabled="importDataDisabled" type="success" :icon="importDataBtnIcon">
-              {{importDataBtnText}}
+              导入数据
             </el-button>
           </el-upload>
-          <el-button type="success" @click="exportData" icon="el-icon-download">
+          <el-button :loading="downloadLoading" type="success" @click="exportData" icon="el-icon-download">
             导出数据
           </el-button>
           <el-button type="primary" icon="el-icon-plus" @click="showAddEmpView">
@@ -538,10 +538,11 @@
           computerLevel: null,
           beginDateScope: null
         },
+        baseUrl: this.$axios.defaults.baseURL,
         title: '',
-        importDataBtnText: '导入数据',
         importDataBtnIcon: 'el-icon-upload2',
         importDataDisabled: false,
+        downloadLoading: false,
         showAdvanceSearchView: false,
         students: [],
         loading: false,
@@ -628,7 +629,18 @@
         this.importDataDisabled = true;
       },
       exportData() {
-        window.open('/admin/student/export', '_parent');
+        this.downloadLoading = true
+        this.$axios.get("/content/student/loading").then(resp => {
+          if (resp.data.code === 200) {
+            this.downloadLoading = false
+            this.$message({
+              type: 'info',
+              message: '下载完成'
+            })
+          }
+        })
+        // 文件传输不能用ajax
+        window.open(this.baseUrl + "/content/student/export", "_parent")
       },
       emptyEmp() {
         this.student = {
@@ -827,6 +839,8 @@
 
   {
     transform: translateX(10px)
-    opacity: 0;
+  ;
+    opacity: 0
+  ;
   }
 </style>
