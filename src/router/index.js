@@ -7,6 +7,7 @@ import Home from '../components/Home'
 import AdminIndex from '../components/admin/AdminIndex'
 import StudentIndex from "../components/student/StudentIndex";
 import EnterpriseIndex from "../components/enterprise/EnterpriseIndex";
+import LeaderIndex from "../components/leader/LeaderIndex";
 
 Vue.use(Router)
 
@@ -51,8 +52,15 @@ export default new Router({
           meta: {
             requireAuth: true
           }
+        },
+        {
+          path: '/leader',
+          name: 'LeaderIndex',
+          component: LeaderIndex,
+          meta: {
+            requireAuth: true
+          }
         }
-
       ]
     },
     {
@@ -67,9 +75,7 @@ export default new Router({
       component: AdminIndex,
       meta: {
         requireAuth: true
-      },
-      children: [
-      ]
+      }
     }
   ]
 })

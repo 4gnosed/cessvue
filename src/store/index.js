@@ -5,11 +5,13 @@ import Vuex from 'vuex'
 // 它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化
 Vue.use(Vuex)
 
+let user = window.localStorage.getItem('user' || '[]');
 export default new Vuex.Store({
   state: {
     // 用户对象记录用户信息
     user: {
-      username: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).username
+      username: user == null ? '' : JSON.parse(user).username,
+      roleId: user == null ? '' : JSON.parse(user).roleId
     },
     adminMenus: []
   },

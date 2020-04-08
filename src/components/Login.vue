@@ -59,10 +59,8 @@ export default {
         })
         .then(resp => {
           if (resp.data.code === 200) {
-            // 返回成功代码直接跳转首页
-            // this.$router.replace({path: '/index'})
-            // 触发 store 中的 login() 方法，把 loginForm 对象传递给 store 中的 user 对象
-            this.$store.commit('login', this.loginForm)
+            // 触发 store 中的 login() 方法，把返回的user对象传递给 store 中
+            this.$store.commit('login', resp.data.data)
             // 获取登录前页面的路径并跳转，如果该路径不存在，则跳转到首页
             var path = this.$route.query.redirect
             this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})

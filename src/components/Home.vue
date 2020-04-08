@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100px;margin-left: -1px;margin-top: -6px">
     <nav-menu></nav-menu>
     <router-view/>
   </div>
@@ -14,8 +14,4 @@ export default {
 </script>
 
 <style scoped>
-  .nav-menu {
-    margin-bottom: 40px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
-  }
 </style>

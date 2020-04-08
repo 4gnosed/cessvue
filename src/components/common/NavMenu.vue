@@ -7,7 +7,7 @@
       background-color="#303643"
       text-color="#D2D3D6"
       active-text-color="white"
-      style="min-width: 1300px;">
+      style="min-width: 1300px;margin-left: -1px;margin-right: -30px">
       <el-menu-item class="font_class" v-for="(item,i) in navList" :key="i" :index="item.name">
         {{ item.navItem }}
       </el-menu-item>
@@ -16,12 +16,11 @@
         placeholder="快速搜索..."
         prefix-icon="el-icon-search"
         size="medium"
-        style="width: 300px;position:absolute;margin-top: 12px;right: 18%"
+        style="width: 300px;position:absolute;margin-top: 18px;right: 18%"
       >
       </el-input>
-      <!--      <i class="el-icon-switch-button" v-on:click="logout" style="float:right;font-size: 32px;color: #222;padding: 10px"></i>-->
       <i @click="viewMessage()" class="el-icon-bell"
-         style="font-size: 26px;color: #f0f0f0;padding: 18px;margin-left: 1120px">
+         style="font-size: 26px;color: #f0f0f0;padding: 20px;margin-left: 1180px">
         <el-badge is-dot></el-badge>
       </i>
       <el-dropdown class="drop_down" trigger="click">
@@ -57,7 +56,6 @@
 </template>
 
 <script>
-  import store from '../../store'
   export default {
     name: 'NavMenu',
     data() {
@@ -66,6 +64,7 @@
           {name: '/index', navItem: '首页'},
           {name: '/student', navItem: '学生'},
           {name: '/enterprise', navItem: '企业'},
+          {name: '/leader', navItem: '教师'},
           {name: '/admin/welcome', navItem: '学校就业部'}
         ]
       }
@@ -113,6 +112,7 @@
     float: right;
     font-size: 16px;
     padding: 13px;
+    margin-right: 20px;
     color: #f0f0f0;
   }
 
@@ -124,6 +124,7 @@
     position: absolute;
     width: 100%;
     bottom: 0px;
+    margin-left: -1px;
     border-top: 1px solid #969393;
   }
   .a {

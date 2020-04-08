@@ -1,11 +1,10 @@
 <template>
   <el-container id="admin-body">
-    <el-header style="z-index: 1;height: 80px;margin-left: -20px">
-      <Header style="position: absolute;width: 98%;"></Header>
+    <el-header style="z-index: 1;height: 100px;margin-left: -26px;margin-top: -6px">
+      <Header style="position: absolute;width: 100%;"></Header>
     </el-header>
-    <!--<el-row style="height: 100%;">-->
     <el-container>
-      <el-aside style="height: 112%;margin-top: -80px;width: 250px">
+      <el-aside style="height: 200%;margin-top: -80px;width: 210px;margin-left: -6px">
         <admin-menu></admin-menu>
       </el-aside>
       <el-main>
@@ -35,6 +34,6 @@ export default {
 
 <style scoped>
   #admin-body {
-    height: 95vh;
+    height: 50px;
   }
 </style>
