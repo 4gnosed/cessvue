@@ -31,9 +31,9 @@
         <el-button type="primary" @click="onSubmit(selectedRole)">确 定</el-button>
       </div>
     </el-dialog>
-    <el-row style="margin: 18px 0px 0px 18px ">
+    <el-row style="margin: -18px 0px 18px 18px ">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/admin' }">后台管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>角色配置</el-breadcrumb-item>
       </el-breadcrumb>

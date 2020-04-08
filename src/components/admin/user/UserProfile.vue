@@ -41,9 +41,9 @@
        <el-button type="primary" @click="deleteUser()">确 定</el-button>
       </span>
     </el-dialog>
-    <el-row style="margin: 18px 0px 0px 18px ">
+    <el-row style="margin: -18px 0px 18px 18px ">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/admin' }">后台管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户信息</el-breadcrumb-item>
       </el-breadcrumb>

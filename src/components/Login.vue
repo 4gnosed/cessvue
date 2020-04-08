@@ -2,19 +2,33 @@
   <body id="poster">
     <el-form class="login-container" label-position="left"
              label-width="0px">
-      <h3 class="login_title">系统登录</h3>
-      <el-form-item>
-        <el-input type="text" v-model="loginForm.username"
-                  auto-complete="off" placeholder="账号" spellcheck="false"></el-input>
+      <h3 class="login_title">Cess系统登录</h3>
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item index="1">
+          <i class="el-icon-user"></i>
+          <span slot="title">账户登录</span>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <i class="el-icon-message"></i>
+          <span slot="title">短信登录</span>
+        </el-menu-item>
+      </el-menu>
+      <el-form-item class="form_item">
+        <el-input type="text" v-model="loginForm.username" prefix-icon="el-icon-user-solid"
+                  auto-complete="off" placeholder="请输入账号" spellcheck="false">
+          <i slot="prepend">账号</i>
+        </el-input>
       </el-form-item>
-      <el-form-item>
-        <el-input type="password" v-model="loginForm.password"
-                  auto-complete="off" placeholder="密码" show-password="show-password"></el-input>
+      <el-form-item class="form_item">
+        <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"
+                  auto-complete="off" placeholder="请输入密码" show-password="show-password">
+          <i slot="prepend">密码</i>
+        </el-input>
       </el-form-item>
-      <el-form-item style="width: 100%">
+      <el-form-item class="form_item">
         <el-button type="primary" style="width: 100%;background: #505458;border: none" v-on:click="login">登录</el-button>
       </el-form-item>
-      <el-form-item style="width: 100%">
+      <el-form-item class="form_item">
         <router-link to="register"><el-button type="primary" style="width: 100%;background: #505458;border: none">没用账户？ 先注册</el-button></router-link>
       </el-form-item>
     </el-form>
@@ -31,11 +45,12 @@ export default {
         username: 'admin',
         password: '123'
       },
-      responseResult: []
+      responseResult: [],
+      activeIndex: '1'
     }
   },
   methods: {
-    login () {
+    login() {
       // add
       this.$axios
         .post('/login', {
@@ -59,6 +74,9 @@ export default {
         })
         .catch(failResponse => {
         })
+    },
+    handleSelect() {
+
     }
   }
 }
@@ -66,7 +84,7 @@ export default {
 
 <style>
   #poster {
-    background:url("../assets/eva.jpg") no-repeat;
+    background:url("../assets/img/eva.jpg") no-repeat;
     background-position: center;
     height: 100%;
     width: 100%;
@@ -79,7 +97,7 @@ export default {
   .login-container {
     border-radius: 15px;
     background-clip: padding-box;
-    margin: 90px auto;
+    margin: 200px auto;
     width: 350px;
     padding: 35px 35px 15px 35px;
     background: #fff;
@@ -91,5 +109,7 @@ export default {
     text-align: center;
     color: #505458;
   }
-
+  .form_item {
+    margin: 20px auto;
+  }
 </style>

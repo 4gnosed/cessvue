@@ -27,13 +27,13 @@ Vue.use(ElementUI)
 // 判断访问的路径是否需要拦截，如果需要，判断 store 里有没有存储 user 的信息，
 // 如果存在，则放行，否则跳转到登录页面，并存储访问的页面路径（以便在成功登录后跳转到要访问的页面）
 router.beforeEach((to, from, next) => {
-  if (store.state.user && to.path.startsWith('/admin')) {
+  if (store.state.user.username && to.path.startsWith('/admin')) {
     axios.get('/authentication').then(resp => {
       initAdminMenu(router, store)
     })
   }
   if (to.meta.requireAuth) {
-    if (store.state.user) {
+    if (store.state.user.username) {
       // next()
       // 页面拦截：访问每个页面前都向后端发送一个请求,后端拦截器验证登录状态
       axios.get('/authentication').then(resp => {

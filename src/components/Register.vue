@@ -3,24 +3,24 @@
   <el-scrollbar style="height: 100%;">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="login-container">
       <h3>用户注册</h3>
-      <el-form-item label="真实姓名" prop="name">
-        <el-input type="text" v-model="ruleForm.name" spellcheck="false" maxlength="20"></el-input>
+      <el-form-item label="" prop="name">
+        <el-input type="text" v-model="ruleForm.name" spellcheck="false" maxlength="20"><i slot="prepend">真实姓名</i></el-input>
       </el-form-item>
-      <el-form-item label="电话" prop="phone">
-        <el-input type="text" v-model="ruleForm.phone" spellcheck="false"></el-input>
+      <el-form-item label="" prop="phone">
+        <el-input type="text" v-model="ruleForm.phone" spellcheck="false"><i slot="prepend">电话</i></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input type="text" v-model="ruleForm.email" spellcheck="false"></el-input>
+      <el-form-item label="" prop="email">
+        <el-input type="text" v-model="ruleForm.email" spellcheck="false"><i slot="prepend">邮箱</i></el-input>
       </el-form-item>
-      <el-form-item label="用户名" prop="username">
-        <el-input type="text" v-model="ruleForm.username" spellcheck="false" maxlength="20"></el-input>
+      <el-form-item label="" prop="username">
+        <el-input type="text" v-model="ruleForm.username" spellcheck="false" maxlength="20"><i slot="prepend">用户名</i></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password" show-password="show-password" maxlength="16"></el-input>
+      <el-form-item label="" prop="password">
+        <el-input type="password" v-model="ruleForm.password" show-password="show-password" maxlength="16"><i slot="prepend">密码</i></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="checkPass">
+      <el-form-item label="" prop="checkPass">
         <el-input type="password" v-model="ruleForm.checkPass" @keyup.enter.native="register()"
-                  show-password="show-password" maxlength="16"></el-input>
+                  show-password="show-password" maxlength="16"><i slot="prepend">确认密码</i></el-input>
       </el-form-item>
       <el-form-item label="用户类型">
         <el-radio-group v-model="ruleForm.role" size="medium">
@@ -168,7 +168,7 @@ export default {
 </script>
 <style>
   #paper {
-    background: url("../assets/eva.jpg") no-repeat;
+    background: url("../assets/img/eva.jpg") no-repeat;
     background-position: center;
     height: 100%;
     width: 100%;
@@ -183,7 +183,7 @@ export default {
   .login-container {
     border-radius: 15px;
     background-clip: padding-box;
-    margin: 30px auto;
+    margin: 100px auto;
     width: 400px;
     padding: 35px 35px 35px 35px;
     background: #fff;

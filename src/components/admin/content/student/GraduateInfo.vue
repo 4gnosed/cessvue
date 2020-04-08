@@ -1,6 +1,13 @@
 <template>
   <div>
     <div>
+      <el-row style="margin: -18px 0px 18px 18px ">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
+          <el-breadcrumb-item>学生类管理</el-breadcrumb-item>
+          <el-breadcrumb-item>毕业生信息</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-row>
       <div style="display: flex;justify-content: space-between">
         <div>
           <el-input placeholder="请输入姓名" prefix-icon="el-icon-search"

@@ -5,6 +5,8 @@ import Login from '../components/Login'
 import Register from '../components/Register'
 import Home from '../components/Home'
 import AdminIndex from '../components/admin/AdminIndex'
+import StudentIndex from "../components/student/StudentIndex";
+import EnterpriseIndex from "../components/enterprise/EnterpriseIndex";
 
 Vue.use(Router)
 
@@ -33,18 +35,31 @@ export default new Router({
           path: '/index',
           name: 'AppIndex',
           component: AppIndex,
-          // 元数据requireAuth该页面是否需要拦截
+        },
+        {
+          path: '/student',
+          name: 'StudentIndex',
+          component: StudentIndex,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/enterprise',
+          name: 'EnterpriseIndex',
+          component: EnterpriseIndex,
           meta: {
             requireAuth: true
           }
         }
+
       ]
     },
     {
       path: '/',
-      name: 'login',
-      redirect: '/login',
-      component: Login
+      name: 'home',
+      redirect: '/home',
+      component: Home
     },
     {
       path: '/admin',

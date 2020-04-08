@@ -1,57 +1,98 @@
 <template>
-  <el-menu
-    :default-active="'/index'"
-    router
-    mode="horizontal"
-    background-color="white"
-    text-color="#222"
-    active-text-color="red"
-    style="min-width: 1300px">
-    <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
-      {{ item.navItem }}
-    </el-menu-item>
-    <span style="position: absolute;padding-top: 20px;right: 43%;font-size: 20px;font-weight: bold">Collage Employment Service System | 高校就业服务系统</span>
-    <el-input
-      placeholder="快速搜索..."
-      prefix-icon="el-icon-search"
-      size="medium"
-      style="width: 300px;position:absolute;margin-top: 12px;right: 18%"
-      v-model="keywords">
-    </el-input>
-    <i class="el-icon-switch-button" v-on:click="logout" style="float:right;font-size: 40px;color: #222;padding: 10px"></i>
-  </el-menu>
+  <div>
+    <el-menu
+      :default-active="'/index'"
+      router
+      mode="horizontal"
+      background-color="#303643"
+      text-color="#D2D3D6"
+      active-text-color="white"
+      style="min-width: 1300px;">
+      <el-menu-item class="font_class" v-for="(item,i) in navList" :key="i" :index="item.name">
+        {{ item.navItem }}
+      </el-menu-item>
+      <span style="position: absolute;padding-top: 20px;right: 43%;font-size: 20px;color: #D2D3D6;font-weight: bold;">Collage Employment Service System | 高校就业服务系统</span>
+      <el-input
+        placeholder="快速搜索..."
+        prefix-icon="el-icon-search"
+        size="medium"
+        style="width: 300px;position:absolute;margin-top: 12px;right: 18%"
+      >
+      </el-input>
+      <!--      <i class="el-icon-switch-button" v-on:click="logout" style="float:right;font-size: 32px;color: #222;padding: 10px"></i>-->
+      <i @click="viewMessage()" class="el-icon-bell"
+         style="font-size: 26px;color: #f0f0f0;padding: 18px;margin-left: 1120px">
+        <el-badge is-dot></el-badge>
+      </i>
+      <el-dropdown class="drop_down" trigger="click">
+        <template v-if="this.$store.state.user.username">
+          <el-button circle class="font_class">
+            {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown" class="font_class">
+            <el-dropdown-item @click.native="personCenter">个人中心</el-dropdown-item>
+            <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">安全退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+        <template v-else>
+          <el-button circle  class="font_class" @click.native="login">
+            未登录
+          </el-button>
+        </template>
+      </el-dropdown>
+    </el-menu>
+    <div class="login-footer">
+      <a class="a" href="https://github.com/4gnosed" target="_blank">
+        GitHub
+      </a>
+      <a class="a" href="https://blog.csdn.net/gnosed" target="_blank">
+        CSDN
+      </a>
+      <a class="a">
+        © 2020 CESS, Inc.
+      </a>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'NavMenu',
-  data () {
-    return {
-      navList: [
-        {name: '/index', navItem: '首页'},
-        {name: '/jotter', navItem: '笔记本'},
-        {name: '/library', navItem: '图书馆'},
-        {name: '/admin', navItem: '后台管理'}
-      ]
-    }
-  },
-  methods: {
-    logout () {
-      var _this = this
-      this.$axios.get('/logout').then(resp => {
-        if (resp.data.code === 200) {
-          // 前后端状态保持一致
-          _this.$store.commit('logout')
-          _this.$router.replace('/login')
-        }
-      })
+  import store from '../../store'
+  export default {
+    name: 'NavMenu',
+    data() {
+      return {
+        navList: [
+          {name: '/index', navItem: '首页'},
+          {name: '/student', navItem: '学生'},
+          {name: '/enterprise', navItem: '企业'},
+          {name: '/admin/welcome', navItem: '学校就业部'}
+        ]
+      }
+    },
+    methods: {
+      logout() {
+        var _this = this
+        this.$axios.get('/logout').then(resp => {
+          if (resp.data.code === 200) {
+            // 前后端状态保持一致
+            _this.$store.commit('logout')
+            _this.$router.replace('/home')
+          }
+        })
+      },
+      login() {
+        this.$router.replace('/login')
+      },
+      viewMessage() {
+        this.$message('新消息')
+      }
     }
   }
-}
 </script>
 
 <style scoped>
-  a{
+  a {
     text-decoration: none;
   }
 
@@ -61,6 +102,35 @@ export default {
 
   .el-icon-switch-button {
     cursor: pointer;
-    outline:0;
+    outline: 0;
+  }
+
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+
+  .drop_down {
+    float: right;
+    font-size: 16px;
+    padding: 13px;
+    color: #f0f0f0;
+  }
+
+  .login-footer {
+    padding: 10px;
+    background: #303643;
+    text-align: center;
+    font-size: 16px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    border-top: 1px solid #969393;
+  }
+  .a {
+    margin-left: 30px;
+    color: #f0f0f0;
+  }
+  .font_class {
+    font-size: 15px;font-weight: bold;
   }
 </style>
