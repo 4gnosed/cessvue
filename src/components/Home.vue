@@ -1,15 +1,20 @@
 <template>
   <div style="height: 100px;margin-left: -1px;margin-top: -6px">
-    <nav-menu></nav-menu>
-    <router-view/>
+    <el-scrollbar>
+      <nav-menu></nav-menu>
+      <router-view/>
+      <Footer></Footer>
+    </el-scrollbar>
   </div>
 </template>
 
 <script>
 import NavMenu from './common/NavMenu'
+import Footer from "./admin/Footer";
+
 export default {
   name: 'Home',
-  components: {NavMenu}
+  components: {NavMenu,Footer}
 }
 </script>
 

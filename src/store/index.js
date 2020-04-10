@@ -10,24 +10,25 @@ export default new Vuex.Store({
   state: {
     // 用户对象记录用户信息
     user: {
+      id: user == null ? '' : JSON.parse(user).id,
       username: user == null ? '' : JSON.parse(user).username,
       roleId: user == null ? '' : JSON.parse(user).roleId
     },
-    adminMenus: []
+    adminMenus: [],
   },
   mutations: {
     // 触发对用户对象赋值的方法，使用到本地缓存localStorage，登录成功后将保存用户信息，不清除缓存则登录状态一直保持
-    login (state, user) {
+    login(state, user) {
       state.user = user
       window.localStorage.setItem('user', JSON.stringify(user))
     },
     // 退出登录，将用户信息从localStorage移除
-    logout (state) {
+    logout(state) {
       state.user = []
       window.localStorage.removeItem('user')
       state.adminMenus = []
     },
-    initAdminMenu (state, menus) {
+    initAdminMenu(state, menus) {
       state.adminMenus = menus
     }
   }

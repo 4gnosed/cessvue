@@ -36,4 +36,19 @@ export default {
   #admin-body {
     height: 50px;
   }
+  .login-footer {
+    padding: 10px;
+    background: #303643;
+    text-align: center;
+    font-size: 16px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    margin-left: -1px;
+    border-top: 1px solid #969393;
+  }
+  .a {
+    margin-left: 30px;
+    color: #f0f0f0;
+  }
 </style>

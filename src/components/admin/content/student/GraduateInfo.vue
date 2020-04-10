@@ -569,6 +569,7 @@
         politics: [],
         topDegrees: ['本科', '大专', '硕士', '博士', '高中', '初中', '小学', '其他'],
         student: {
+          id: "",
           name: "",
           studentId: "",
           gender: "",
@@ -716,18 +717,19 @@
               })
             }
           });
-        } else {
-          this.$refs['stuForm'].validate(valid => {
-            if (valid) {
-              this.$axios.post("/content/student", this.student).then(resp => {
-                if (resp.data.code === 200) {
-                  this.dialogVisible = false;
-                  this.initStudents();
-                }
-              })
-            }
-          });
         }
+        // else {
+        //   this.$refs['stuForm'].validate(valid => {
+        //     if (valid) {
+        //       this.$axios.post("/content/student", this.student).then(resp => {
+        //         if (resp.data.code === 200) {
+        //           this.dialogVisible = false;
+        //           this.initStudents();
+        //         }
+        //       })
+        //     }
+        //   });
+        // }
       },
       changeDepartment(departmentId) {
         let selectedSpecialty = []

@@ -8,6 +8,7 @@ import AdminIndex from '../components/admin/AdminIndex'
 import StudentIndex from "../components/student/StudentIndex";
 import EnterpriseIndex from "../components/enterprise/EnterpriseIndex";
 import LeaderIndex from "../components/leader/LeaderIndex";
+import PersonCenter from "../components/PersonCenter";
 
 Vue.use(Router)
 
@@ -57,6 +58,14 @@ export default new Router({
           path: '/leader',
           name: 'LeaderIndex',
           component: LeaderIndex,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/personCenter',
+          name: 'PersonCenter',
+          component: PersonCenter,
           meta: {
             requireAuth: true
           }
