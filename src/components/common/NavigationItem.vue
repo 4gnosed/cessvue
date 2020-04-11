@@ -1,24 +1,19 @@
 <template>
   <div>
-    <!--叶子级菜单-->
-    <template v-if="item.children && item.children.length === 0">
+    <!--叶子项-->
+    <template v-if="item.children===null">
       <el-menu-item :key="item.id" :index="item.path">
+        <i :class="item.iconCls"></i>
         {{item.nameZh}}
       </el-menu-item>
     </template>
-    <!--父级菜单-->
-    <el-submenu v-else :index="item.path+111" style="text-align: left">
+    <!--父级菜单项-->
+    <el-submenu v-else :index="item.path" style="text-align: left">
       <span slot="title" style="font-size: 17px;">
         <i :class="item.iconCls"></i>
         {{item.nameZh}}
       </span>
-      <template v-for="child in item.children">
-        <navigation-item v-if="child.children && child.children.length>0" :key="child.id" :item="child"/>
-        <el-menu-item v-else :key="child.id" :index="child.path">
-          <i :class="child.iconCls"></i>
-          {{child.nameZh}}
-        </el-menu-item>
-      </template>
+      <navigation-item v-for="(child,i) in item.children" :key="i" :item="child"/>
     </el-submenu>
   </div>
 </template>

@@ -145,6 +145,8 @@ router.beforeEach((to, from, next) => {
         if (route.children) {
           route.children = formatRoutes(route.children)
         }
+        //如果是菜单项目，不用添加路由信息
+
         let fmtRoute = {
           path: route.path,
           component: resolve => {
