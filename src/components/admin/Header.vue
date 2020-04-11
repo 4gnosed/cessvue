@@ -26,11 +26,16 @@
 </template>
 
 <script>
+  import {createRouter} from "../../router";
+
   export default {
     name: 'Header',
     methods: {
       logout() {
         this.$router.replace('/index')
+            /*清空路由，防止路由重复加载*/
+            const newRouter = createRouter()
+            this.$router.matcher = newRouter.matcher
         // var _this = this
         // this.$axios.get('/logout').then(resp => {
         //   if (resp && resp.data.code === 200) {
