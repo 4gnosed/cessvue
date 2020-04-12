@@ -5,7 +5,7 @@
       <span>欢迎来到CESS个人中心</span>
     </div>
     <el-divider></el-divider>
-    <el-tabs :tab-position="tabPosition" style="height: 1300px;margin-top: 50px;margin-left: 50px;font-size: 18px">
+    <el-tabs :tab-position="tabPosition" style="height: 2000px;margin-top: 50px;margin-left: 50px;font-size: 18px">
       <el-tab-pane label="个人信息">
         <el-card style="width: 1500px;margin-left: 100px">
           <span>基本信息</span>
@@ -51,7 +51,7 @@
           <template v-if="user.roleId==2">
             <el-divider></el-divider>
             <span>学生详细信息</span>
-            <template v-if="isAuthenticate==1" >
+            <template v-if="isAuthenticate==1">
               <el-divider></el-divider>
               <el-alert
                 title="（请完善详细信息）"
@@ -256,20 +256,174 @@
             </el-form>
             <el-divider></el-divider>
             <div>
-              <el-button @click="reset()">重 置</el-button>
-              <el-button type="primary" @click="addOrUpdate()">更 新</el-button>
+              <el-button @click="resetStudent()">重 置</el-button>
+              <el-button type="primary" @click="addOrUpdateStudent()">更 新</el-button>
             </div>
           </template>
           <!--企业-->
           <template v-if="user.roleId==3">
             <el-divider></el-divider>
             <span>企业详细信息</span>
+            <template v-if="isAuthenticate==1">
+              <el-divider></el-divider>
+              <el-alert
+                title="（请完善详细信息）"
+                description="填写信息并等待认证，若已经填写则可以再次填写更新"
+                type="warning"
+                center
+                show-icon>
+              </el-alert>
+            </template>
             <el-divider></el-divider>
-            内容
+            <el-form :model="enterprise" :rules="rules" ref="entForm">
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="企业名称:" prop="name">
+                    <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="enterprise.name"
+                              placeholder="请输入企业名称"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="成立日期:" prop="createTime">
+                    <el-date-picker
+                      v-model="enterprise.createTime"
+                      size="mini"
+                      type="date"
+                      value-format="yyyy-MM-dd"
+                      style="width: 150px;"
+                      placeholder="createTime">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="所属行业:" prop="industry">
+                    <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="enterprise.industry"
+                              placeholder="请输入所属行业"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="企业性质:" prop="nature">
+                    <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="enterprise.nature"
+                              placeholder="请输入企业性质"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="经营范围:" prop="scope">
+                    <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="enterprise.scope"
+                              placeholder="请输入经营范围"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="融资阶段:" prop="financeId">
+                    <el-select v-model="enterprise.financeId" placeholder="融资阶段" size="mini" style="width: 150px;">
+                      <el-option
+                        v-for="item in finances"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="企业规模:" prop="scaleId">
+                    <el-select v-model="enterprise.scaleId" placeholder="企业规模" size="mini" style="width: 150px;">
+                      <el-option
+                        v-for="item in scales"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="地址:" prop="address">
+                    <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                              v-model="enterprise.address" placeholder="请输入地址"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="联系电话:" prop="phone">
+                    <el-input size="mini" style="width: 200px" prefix-icon="el-icon-phone"
+                              v-model="enterprise.phone" placeholder="联系电话"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="电子邮箱:" prop="email">
+                    <el-input size="mini" style="width: 150px" prefix-icon="el-icon-message"
+                              v-model="enterprise.email" placeholder="请输入电子邮箱"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="法人代表:" prop="boss">
+                    <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+                              v-model="enterprise.boss" placeholder="请输入法人代表"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="企业官网:" prop="website">
+                    <el-input size="mini" style="width: 200px" prefix-icon="el-icon-phone"
+                              v-model="enterprise.website" placeholder="企业官网"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="企业简介:" prop="introduction">
+                    <el-input type="textarea" size="mini" style="width: 1300px;margin-left: 100px" autosize
+                              prefix-icon="el-icon-edit"
+                              v-model="enterprise.introduction" placeholder="企业简介"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="产品介绍:" prop="product">
+                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                              v-model="enterprise.product" placeholder="产品介绍"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="企业荣誉:" prop="honor">
+                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                              v-model="enterprise.honor" placeholder="企业荣誉"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="企业文化:" prop="culture">
+                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                              v-model="enterprise.culture" placeholder="请输入企业文化"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="企业展望:" prop="expectation">
+                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                              v-model="enterprise.expectation" placeholder="请输入企业展望"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="福利:" prop="welfare">
+                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                              v-model="enterprise.welfare" placeholder="请输入福利"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
             <el-divider></el-divider>
             <div>
-              <el-button @click="reset()">重 置</el-button>
-              <el-button type="primary" @click="addOrUpdate()">更 新</el-button>
+              <el-button @click="resetEnterprise()">重 置</el-button>
+              <el-button type="primary" @click="addOrUpdateEnterprise()">更 新</el-button>
             </div>
           </template>
           <!--教师-->
@@ -280,8 +434,8 @@
             内容
             <el-divider></el-divider>
             <div>
-              <el-button @click="reset()">重 置</el-button>
-              <el-button type="primary" @click="addOrUpdate()">更 新</el-button>
+              <el-button @click="resetTeacher()">重 置</el-button>
+              <el-button type="primary" @click="addOrUpdateTeacher()">更 新</el-button>
             </div>
           </template>
         </el-card>
@@ -361,12 +515,45 @@
           school: [{required: true, message: '请输入毕业院校', trigger: 'blur'}],
           beginDate: [{required: true, message: '请输入入学日期', trigger: 'blur'}],
           studentId: [{required: true, message: '请输入学号', trigger: 'blur'}],
-        }
+        },
+        enterprise: {
+          id: '',
+          name: '',
+          createTime: '',
+          industry: '',
+          nature: '',
+          scope: '',
+          financeId: '',
+          scaleId: '',
+          finance: '',
+          scale: '',
+          address: '',
+          phone: '',
+          email: '',
+          boss: '',
+          website: '',
+          introduction: '',
+          product: '',
+          honor: '',
+          culture: '',
+          expectation: '',
+          welfare: '',
+        },
+        finances: [],
+        scales: []
       }
     },
     mounted() {
-      this.initData()
-      this.initStudent()
+      if (this.user.roleId == 2) {
+        this.initStudentData()
+        this.initStudent()
+      } else if (this.user.roleId == 3) {
+        this.initEnterpriseData()
+        this.initEnterprise()
+      } else if (this.user.roleId == 5) {
+
+      }
+
     },
     methods: {
       goBack() {
@@ -389,8 +576,7 @@
               message: '请完善详细信息',
               type: 'warning'
             })
-          }
-          else if (resp.data.code === 400){
+          } else if (resp.data.code === 400) {
             //审核未通过状态
             this.isAuthenticate = 1
             this.$notify({
@@ -401,7 +587,35 @@
           }
         })
       },
-      initData() {
+      initEnterprise() {
+        this.$axios.get('/enterprise/getOne?userId=' + this.user.id).then(resp => {
+          if (resp.data.code === 200) {
+            this.enterprise = resp.data.data;
+            this.$notify({
+              title: '提醒',
+              message: '您的身份通过审核',
+              type: 'success'
+            })
+          } else if (resp.data.code === 204) {
+            //提示需要完善信息认证
+            this.isAuthenticate = 1
+            this.$notify({
+              title: '提醒',
+              message: '请完善详细信息',
+              type: 'warning'
+            })
+          } else if (resp.data.code === 400) {
+            //审核未通过状态
+            this.isAuthenticate = 1
+            this.$notify({
+              title: '提醒',
+              message: '请等待审核结果',
+              type: 'warning'
+            })
+          }
+        })
+      },
+      initStudentData() {
         if (!window.sessionStorage.getItem("department")) {
           this.$axios.get('/content/department').then(resp => {
             if (resp.data.code === 200) {
@@ -454,6 +668,28 @@
           this.politics = JSON.parse(window.sessionStorage.getItem("politics"));
         }
       },
+      initEnterpriseData() {
+        if (!window.sessionStorage.getItem("finances")) {
+          this.$axios.get('/finance').then(resp => {
+            if (resp.data.code === 200) {
+              this.finances = resp.data.data;
+              window.sessionStorage.setItem("finances", JSON.stringify(this.finances));
+            }
+          })
+        } else {
+          this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
+        }
+        if (!window.sessionStorage.getItem("scales")) {
+          this.$axios.get('/scale').then(resp => {
+            if (resp.data.code === 200) {
+              this.scales = resp.data.data;
+              window.sessionStorage.setItem("scales", JSON.stringify(this.scales));
+            }
+          })
+        } else {
+          this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
+        }
+      },
       changeDepartment(departmentId) {
         let selectedSpecialty = []
         this.specialty.forEach((spelty) => {
@@ -463,10 +699,10 @@
         })
         this.specialtySelected = selectedSpecialty
       },
-      reset() {
+      resetStudent() {
         this.initStudent()
       },
-      addOrUpdate() {
+      addOrUpdateStudent() {
         if (this.student.id) {
           this.$refs['stuForm'].validate(valid => {
             if (valid) {
@@ -495,9 +731,36 @@
           });
         }
       },
+      addOrUpdateEnterprise() {
+        if (this.enterprise.id) {
+          this.$refs['entForm'].validate(valid => {
+            if (valid) {
+              this.$axios.put("/enterprise", this.enterprise).then(resp => {
+                if (resp.data.code === 200) {
+                  this.initEnterprise();
+                }
+              })
+            }
+          });
+        } else {
+          this.$refs['entForm'].validate(valid => {
+            if (valid) {
+              this.$axios.post("/enterprise?userId=" + this.user.id, this.enterprise).then(resp => {
+                if (resp.data.code === 200) {
+                  this.enterprise = resp.data.data;
+                  this.isAuthenticate = 1
+                  this.$notify({
+                    title: '提醒',
+                    message: '请等待审核结果',
+                    type: 'warning'
+                  })
+                }
+              })
+            }
+          });
+        }
+      },
       updatePassword(username) {
-        //弹出框
-
         // this.$axios.put('/password?username=' + username).then(resp => {
         //   if (resp && resp.data.code === 200) {
         //     this.$alert('密码已修改 ' + resp.data.data)
