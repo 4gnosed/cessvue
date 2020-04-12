@@ -1,6 +1,13 @@
 <template>
   <div>
     <div style="margin-top: 10px">
+      <el-row style="margin: -18px 0px 18px 18px ">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
+          <el-breadcrumb-item>学生类信息</el-breadcrumb-item>
+          <el-breadcrumb-item>学生信息审核</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-row>
       <el-table
         :data="userStudentVos"
         stripe
