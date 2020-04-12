@@ -11,8 +11,13 @@ export default new Vuex.Store({
     // 用户对象记录用户信息
     user: {
       id: user == null ? '' : JSON.parse(user).id,
+      roleId: user == null ? '' : JSON.parse(user).roleId,
       username: user == null ? '' : JSON.parse(user).username,
-      roleId: user == null ? '' : JSON.parse(user).roleId
+      role: user == null ? '' : JSON.parse(user).role,
+      name: user == null ? '' : JSON.parse(user).name,
+      lastLogin: user == null ? '' : JSON.parse(user).lastLogin,
+      phone: user == null ? '' : JSON.parse(user).phone,
+      email: user == null ? '' : JSON.parse(user).email
     },
     adminMenus: [],
   },
