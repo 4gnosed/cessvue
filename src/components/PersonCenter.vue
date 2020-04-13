@@ -62,7 +62,7 @@
               </el-alert>
             </template>
             <el-divider></el-divider>
-            <el-form :model="student" :rules="rules" ref="stuForm">
+            <el-form :model="student" :rules="stuRules" ref="stuForm">
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="姓名:" prop="name">
@@ -275,7 +275,7 @@
               </el-alert>
             </template>
             <el-divider></el-divider>
-            <el-form :model="enterprise" :rules="rules" ref="entForm">
+            <el-form :model="enterprise" :rules="entRules" ref="entForm">
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="企业名称:" prop="name">
@@ -495,7 +495,7 @@
           beginDate: "",
           endDate: ""
         },
-        rules: {
+        stuRules: {
           name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
           gender: [{required: true, message: '请输入性别', trigger: 'blur'}],
           birthday: [{required: true, message: '请输入出生日期', trigger: 'blur'}],
@@ -520,6 +520,28 @@
           school: [{required: true, message: '请输入毕业院校', trigger: 'blur'}],
           beginDate: [{required: true, message: '请输入入学日期', trigger: 'blur'}],
           studentId: [{required: true, message: '请输入学号', trigger: 'blur'}],
+        },
+        entRules: {
+          name: [{required: true, message: '请输入企业名称', trigger: 'blur'}],
+          email: [{required: true, message: '请输入邮箱地址', trigger: 'blur'}, {
+            type: 'email',
+            message: '邮箱格式不正确',
+            trigger: 'blur'
+          }],
+          phone: [{required: true, message: '请输入电话号码', trigger: 'blur'}],
+          address: [{required: true, message: '请输入地址', trigger: 'blur'}],
+          createTime: [{required: true, message: '请输入成立日期', trigger: 'blur'}],
+          industry: [{required: true, message: '请输入所属行业', trigger: 'blur'}],
+          nature: [{required: true, message: '请输入企业性质', trigger: 'blur'}],
+          scope: [{required: true, message: '请输入经营范围', trigger: 'blur'}],
+          boss: [{required: true, message: '请输入法人代表', trigger: 'blur'}],
+          website: [{required: true, message: '请输入企业官网', trigger: 'blur'}],
+          introduction: [{required: true, message: '请输入企业简介', trigger: 'blur'}],
+          product: [{required: true, message: '请输入企业产品', trigger: 'blur'}],
+          honor: [{required: true, message: '请输入企业荣誉', trigger: 'blur'}],
+          culture: [{required: true, message: '请输入企业文化', trigger: 'blur'}],
+          expectation: [{required: true, message: '请输入企业展望', trigger: 'blur'}],
+          welfare: [{required: true, message: '请输入企业福利', trigger: 'blur'}],
         },
         enterprise: {
           id: '',
