@@ -446,9 +446,24 @@
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="更改密码">
-        <el-form>
-          <el-form-item label="密码" label-width="120px" prop="password">
-            <el-button type="warning" @click="updatePassword(user.username)">更改密码</el-button>
+        <el-form :model="passForm" ref="passForm" :rules="passRules">
+          <el-form-item prop="oldPassword">
+            <el-input type="oldPassword" v-model="passForm.oldPassword" prefix-icon="el-icon-lock"
+                      auto-complete="off" placeholder="请输入旧密码" show-password="show-password">
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="newPassword">
+            <el-input type="newPassword" v-model="passForm.newPassword" prefix-icon="el-icon-lock"
+                      auto-complete="off" placeholder="请输入新密码" show-password="show-password">
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="checkPassword">
+            <el-input type="checkPassword" v-model="passForm.checkPassword" prefix-icon="el-icon-lock"
+                      auto-complete="off" placeholder="请再次输入新密码" show-password="show-password">
+            </el-input>
+          </el-form-item>
+          <el-form-item label-width="120px" prop="password">
+            <el-button type="warning" @click="updatePassword">更改密码</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -463,6 +478,27 @@
   export default {
     name: "PersonCenter",
     data() {
+      var validatePass1 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入旧密码'))
+        }
+        callback()
+      }
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入新密码'))
+        }
+        callback()
+      }
+      var validatePass3 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入新密码'))
+        } else if (value !== this.passForm.newPassword) {
+          callback(new Error('两次输入密码不一致!'))
+        } else {
+          callback()
+        }
+      }
       return {
         isAuthenticate: 0,
         tabPosition: 'left',
@@ -494,6 +530,41 @@
           positionId: "",
           beginDate: "",
           endDate: ""
+        },
+        enterprise: {
+          id: '',
+          name: '',
+          createTime: '',
+          industry: '',
+          nature: '',
+          scope: '',
+          financeId: '',
+          scaleId: '',
+          finance: '',
+          scale: '',
+          address: '',
+          phone: '',
+          email: '',
+          boss: '',
+          website: '',
+          introduction: '',
+          product: '',
+          honor: '',
+          culture: '',
+          expectation: '',
+          welfare: '',
+        },
+        finances: [],
+        scales: [],
+        passForm: {
+          oldPassword: '',
+          newPassword: '',
+          checkPassword: ''
+        },
+        passRules: {
+          oldPassword: [{validator: validatePass1, trigger: 'blur'}],
+          newPassword: [{validator: validatePass2, trigger: 'blur'}],
+          checkPassword: [{validator: validatePass3, trigger: 'blur'}]
         },
         stuRules: {
           name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
@@ -542,32 +613,7 @@
           culture: [{required: true, message: '请输入企业文化', trigger: 'blur'}],
           expectation: [{required: true, message: '请输入企业展望', trigger: 'blur'}],
           welfare: [{required: true, message: '请输入企业福利', trigger: 'blur'}],
-        },
-        enterprise: {
-          id: '',
-          name: '',
-          createTime: '',
-          industry: '',
-          nature: '',
-          scope: '',
-          financeId: '',
-          scaleId: '',
-          finance: '',
-          scale: '',
-          address: '',
-          phone: '',
-          email: '',
-          boss: '',
-          website: '',
-          introduction: '',
-          product: '',
-          honor: '',
-          culture: '',
-          expectation: '',
-          welfare: '',
-        },
-        finances: [],
-        scales: []
+        }
       }
     },
     mounted() {
@@ -836,11 +882,26 @@
         }
       },
       updatePassword(username) {
-        // this.$axios.put('/password?username=' + username).then(resp => {
-        //   if (resp && resp.data.code === 200) {
-        //     this.$alert('密码已修改 ' + resp.data.data)
-        //   }
-        // })
+        this.$refs['passForm'].validate(valid => {
+          if (valid) {
+            this.$axios({
+              url: '/password',
+              method: 'put',
+              data: {
+                username: this.$store.state.user.username,
+                oldPassword: this.passForm.oldPassword,
+                newPassword: this.passForm.newPassword
+              }
+            }).then(resp => {
+              if (resp.data.code === 200) {
+                this.$alert(resp.data.data + ',请重新登录')
+                this.$router.replace('/login')
+              } else {
+                this.$alert(resp.data.message)
+              }
+            })
+          }
+        })
       }
     }
   }
