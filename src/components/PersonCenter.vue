@@ -382,7 +382,8 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="产品介绍:" prop="product">
-                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                    <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                              prefix-icon="el-icon-edit"
                               v-model="enterprise.product" placeholder="产品介绍"></el-input>
                   </el-form-item>
                 </el-col>
@@ -390,7 +391,8 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="企业荣誉:" prop="honor">
-                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                    <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                              prefix-icon="el-icon-edit"
                               v-model="enterprise.honor" placeholder="企业荣誉"></el-input>
                   </el-form-item>
                 </el-col>
@@ -398,7 +400,8 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="企业文化:" prop="culture">
-                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                    <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                              prefix-icon="el-icon-edit"
                               v-model="enterprise.culture" placeholder="请输入企业文化"></el-input>
                   </el-form-item>
                 </el-col>
@@ -406,7 +409,8 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="企业展望:" prop="expectation">
-                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                    <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                              prefix-icon="el-icon-edit"
                               v-model="enterprise.expectation" placeholder="请输入企业展望"></el-input>
                   </el-form-item>
                 </el-col>
@@ -414,7 +418,8 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="福利:" prop="welfare">
-                    <el-input  size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize prefix-icon="el-icon-edit"
+                    <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                              prefix-icon="el-icon-edit"
                               v-model="enterprise.welfare" placeholder="请输入福利"></el-input>
                   </el-form-item>
                 </el-col>
@@ -716,7 +721,31 @@
         } else {
           this.$refs['stuForm'].validate(valid => {
             if (valid) {
-              this.$axios.post("/content/student?userId=" + this.user.id, this.student).then(resp => {
+              this.$axios({
+                url: '/content/student',
+                method: 'post',
+                data: {
+                  userId: this.user.id,
+                  name: this.student.name,
+                  studentId: this.student.studentId,
+                  gender: this.student.gender,
+                  birthday: this.student.birthday,
+                  idCard: this.student.idCard,
+                  nationId: this.student.nationId,
+                  nativePlace: this.student.nativePlace,
+                  politicId: this.student.politicId,
+                  email: this.student.email,
+                  phone: this.student.phone,
+                  address: this.student.address,
+                  school: this.student.school,
+                  topDegree: this.student.topDegree,
+                  departmentId: this.student.departmentId,
+                  specialtyId: this.student.specialtyId,
+                  positionId: this.student.positionId,
+                  beginDate: this.student.beginDate,
+                  endDate: this.student.endDate
+                }
+              }).then(resp => {
                 if (resp.data.code === 200) {
                   this.student = resp.data.data;
                   this.isAuthenticate = 1
@@ -745,7 +774,31 @@
         } else {
           this.$refs['entForm'].validate(valid => {
             if (valid) {
-              this.$axios.post("/enterprise?userId=" + this.user.id, this.enterprise).then(resp => {
+              this.$axios({
+                url: "/enterprise",
+                method: "post",
+                data: {
+                  userId: this.user.id,
+                  name: this.enterprise.name,
+                  createTime: this.enterprise.createTime,
+                  industry: this.enterprise.industry,
+                  nature: this.enterprise.nature,
+                  scope: this.enterprise.scope,
+                  financeId: this.enterprise.financeId,
+                  scaleId: this.enterprise.scaleId,
+                  address: this.enterprise.address,
+                  phone: this.enterprise.phone,
+                  email: this.enterprise.email,
+                  boss: this.enterprise.boss,
+                  website: this.enterprise.website,
+                  introduction: this.enterprise.introduction,
+                  product: this.enterprise.product,
+                  honor: this.enterprise.honor,
+                  culture: this.enterprise.culture,
+                  expectation: this.enterprise.expectation,
+                  welfare: this.enterprise.welfare
+                }
+              }).then(resp => {
                 if (resp.data.code === 200) {
                   this.enterprise = resp.data.data;
                   this.isAuthenticate = 1
