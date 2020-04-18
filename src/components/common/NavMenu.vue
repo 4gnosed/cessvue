@@ -51,10 +51,14 @@
       return {
         navList: [
           {name: '/index', navItem: '首页'},
-          {name: '/student', navItem: '学生'},
-          {name: '/enterprise', navItem: '企业'},
-          {name: '/leader', navItem: '教师'},
-          {name: '/admin/welcome', navItem: '学校就业部'}
+          // {name: '/student', navItem: '学生'},
+          // {name: '/enterprise', navItem: '企业'},
+          // {name: '/leader', navItem: '教师'},
+          // {name: '/admin/welcome', navItem: '学校就业部'}
+          {name: '/student', navItem: '求职'},
+          {name: '/enterprise', navItem: '招聘'},
+          {name: '/leader', navItem: '数据分析'},
+          {name: '/admin/welcome', navItem: '后台管理'}
         ]
       }
     },

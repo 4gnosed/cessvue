@@ -49,51 +49,51 @@ router.beforeEach((to, from, next) => {
           })
         } else {
           Vue.prototype.$message.error('您无权限访问！')
-          return false
+          // return false
         }
       } else {
         login()
       }
     }
     //学生
-    if (to.path.startsWith('/student')) {
-      if (username) {
-        if (roleId == studentId) {
-          getAuthority()
-        } else {
-          Vue.prototype.$message.error('您无权限访问！')
-          return false
-        }
-      } else {
-        login()
-      }
-    }
+    // if (to.path.startsWith('/student')) {
+    //   if (username) {
+    //     if (roleId == studentId) {
+    //       getAuthority()
+    //     } else {
+    //       Vue.prototype.$message.error('您无权限访问！')
+    //       return false
+    //     }
+    //   } else {
+    //     login()
+    //   }
+    // }
     //企业
-    if (to.path.startsWith('/enterprise')) {
-      if (username) {
-        if (roleId == enterpriseId) {
-          getAuthority()
-        } else {
-          Vue.prototype.$message.error('您无权限访问！')
-          return false
-        }
-      } else {
-        login()
-      }
-    }
+    // if (to.path.startsWith('/enterprise')) {
+    //   if (username) {
+    //     if (roleId == enterpriseId) {
+    //       getAuthority()
+    //     } else {
+    //       Vue.prototype.$message.error('您无权限访问！')
+    //       return false
+    //     }
+    //   } else {
+    //     login()
+    //   }
+    // }
     //教师
-    if (to.path.startsWith('/leader')) {
-      if (username) {
-        if (roleId == leaderId) {
-          getAuthority()
-        } else {
-          Vue.prototype.$message.error('您无权限访问！')
-          return false
-        }
-      } else {
-        login()
-      }
-    }
+    // if (to.path.startsWith('/leader')) {
+    //   if (username) {
+    //     if (roleId == leaderId) {
+    //       getAuthority()
+    //     } else {
+    //       Vue.prototype.$message.error('您无权限访问！')
+    //       return false
+    //     }
+    //   } else {
+    //     login()
+    //   }
+    // }
 
     if (to.meta.requireAuth) {
       if (username) {
