@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import PositionItem from "../admin/enterprise/PositionItem";
+  import PositionItem from "./PositionItem";
 
   let positionItem = PositionItem
   export default {
