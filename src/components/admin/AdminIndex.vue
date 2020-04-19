@@ -1,5 +1,21 @@
 <template>
   <el-container id="admin-body">
+    <template>
+      <el-backtop >
+        <div
+          style="{
+        height: 100%;
+        width: 100%;
+        background-color: #f2f5f6;
+        text-align: center;
+        line-height: 20px;
+        color: #303643;
+      }"
+        >
+          UP
+        </div>
+      </el-backtop>
+    </template>
     <el-header style="z-index: 1;height: 100px;margin-left: -26px;margin-top: -6px">
       <Header style="position: absolute;width: 100%;"></Header>
     </el-header>
