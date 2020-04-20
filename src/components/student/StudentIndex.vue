@@ -5,8 +5,8 @@
         <el-input placeholder="搜索职位、公司、关键词 " prefix-icon="el-icon-search"
                   clearable
                   @clear="initPositions"
-                  style="width: 400px;margin-right: 10px" v-model="this.searchValue.keywords"
-                  @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
+                  style="width: 400px;margin-right: 10px" v-model="searchValue.keywords"
+                  @keydown.enter.native="initPositions" :disabled="showAdvanceSearchView"></el-input>
         <el-button icon="el-icon-search" type="primary" @click="initPositions" :disabled="showAdvanceSearchView">
           搜索
         </el-button>
@@ -16,94 +16,77 @@
           高级搜索
         </el-button>
       </div>
-      <!--      <transition name="slide-fade">-->
-      <!--        <div v-show="showAdvanceSearchView"-->
-      <!--             style="border: 1px solid #409eff;border-radius: 5px;box-sizing: border-box;padding: 5px;margin: 10px 0px;">-->
-      <!--          <el-row class="el_row">-->
-      <!--            <el-col :span="5">-->
-      <!--              所属院系:-->
-      <!--              <el-select v-model="searchValue.departmentId" placeholder="所属院系" size="mini" clearable="clearable"-->
-      <!--                         @change="changeDepartment" style="width: 130px;">-->
-      <!--                <el-option-->
-      <!--                  v-for="item in department"-->
-      <!--                  :key="item.id"-->
-      <!--                  :label="item.name"-->
-      <!--                  :value="item.id">-->
-      <!--                </el-option>-->
-      <!--              </el-select>-->
-      <!--            </el-col>-->
-      <!--            <el-col :span="5">-->
-      <!--              专业:-->
-      <!--              <el-select v-model="searchValue.specialtyId" placeholder="专业" size="mini" clearable="clearable"-->
-      <!--                         style="width: 130px;">-->
-      <!--                <el-option-->
-      <!--                  v-for="item in specialtySelected"-->
-      <!--                  :key="item.id"-->
-      <!--                  :label="item.name"-->
-      <!--                  :value="item.id">-->
-      <!--                </el-option>-->
-      <!--              </el-select>-->
-      <!--            </el-col>-->
-      <!--            <el-col :span="5">-->
-      <!--              学生职位:-->
-      <!--              <el-select v-model="searchValue.positionId" placeholder="学生职位" size="mini" clearable="clearable"-->
-      <!--                         style="width: 130px;">-->
-      <!--                <el-option-->
-      <!--                  v-for="item in position"-->
-      <!--                  :key="item.id"-->
-      <!--                  :label="item.name"-->
-      <!--                  :value="item.id">-->
-      <!--                </el-option>-->
-      <!--              </el-select>-->
-      <!--            </el-col>-->
-      <!--            <el-col :span="5">-->
-      <!--              政治面貌:-->
-      <!--              <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable="clearable"-->
-      <!--                         style="width: 130px;">-->
-      <!--                <el-option-->
-      <!--                  v-for="item in politics"-->
-      <!--                  :key="item.id"-->
-      <!--                  :label="item.name"-->
-      <!--                  :value="item.id">-->
-      <!--                </el-option>-->
-      <!--              </el-select>-->
-      <!--            </el-col>-->
-      <!--            <el-col :span="4">-->
-      <!--              民族:-->
-      <!--              <el-select v-model="searchValue.nationId" placeholder="民族" size="mini" clearable="clearable"-->
-      <!--                         style="width: 130px;">-->
-      <!--                <el-option-->
-      <!--                  v-for="item in nations"-->
-      <!--                  :key="item.id"-->
-      <!--                  :label="item.name"-->
-      <!--                  :value="item.id">-->
-      <!--                </el-option>-->
-      <!--              </el-select>-->
-      <!--            </el-col>-->
-      <!--          </el-row class="el_row">-->
-      <!--          <el-row class="el_row" style="margin-top: 10px">-->
-      <!--            <el-col :span="10">-->
-      <!--              入学日期:-->
-      <!--              <el-date-picker-->
-      <!--                v-model="searchValue.beginDateScope"-->
-      <!--                type="daterange"-->
-      <!--                size="mini"-->
-      <!--                unlink-panels-->
-      <!--                value-format="yyyy-MM-dd"-->
-      <!--                range-separator="至"-->
-      <!--                start-placeholder="开始日期"-->
-      <!--                end-placeholder="结束日期"-->
-      <!--                :picker-options="pickerOptions">-->
-      <!--              </el-date-picker>-->
-      <!--            </el-col>-->
-      <!--            <el-col :span="5" :offset="4">-->
-      <!--              <el-button size="mini" @click="showAdvanceSearchView=false">取消</el-button>-->
-      <!--              <el-button size="mini" icon="el-icon-search" type="primary" @click="initStudents">搜索-->
-      <!--              </el-button>-->
-      <!--            </el-col>-->
-      <!--          </el-row class="el_row">-->
-      <!--        </div>-->
-      <!--      </transition>-->
+      <transition name="slide-fade">
+        <div v-show="showAdvanceSearchView"
+             style="border: 1px solid #409eff;border-radius: 5px;box-sizing: border-box;padding: 5px;margin: 10px 0px;">
+          <el-row style="margin-top: 10px">
+            <el-col :span="5">
+              工作经验:
+              <el-select v-model="searchValue.experienceId" placeholder="工作经验" size="mini" clearable="clearable"
+                         style="width: 130px;">
+                <el-option
+                  v-for="item in experiences"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="5">
+              学历要求:
+              <el-select v-model="searchValue.degreeId" placeholder="学历要求" size="mini" clearable="clearable"
+                         style="width: 130px;">
+                <el-option
+                  v-for="item in degrees"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="5">
+              薪资要求:
+              <el-select v-model="searchValue.salaryId" placeholder="薪资要求" size="mini" clearable="clearable"
+                         style="width: 130px;">
+                <el-option
+                  v-for="item in salaries"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="5">
+              融资阶段:
+              <el-select v-model="searchValue.financeId" placeholder="融资阶段" size="mini" clearable="clearable"
+                         style="width: 130px;">
+                <el-option
+                  v-for="item in finances"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="4">
+              企业规模:
+              <el-select v-model="searchValue.scaleId" placeholder="企业规模" size="mini" clearable="clearable"
+                         style="width: 130px;">
+                <el-option
+                  v-for="item in scales"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+          </el-row>
+          <el-row class="el_row" style="text-align: center;margin-bottom: 10px;margin-top: 10px">
+            <el-button size="mini" @click="showAdvanceSearchView=false">取消</el-button>
+            <el-button size="mini" icon="el-icon-search" type="primary" @click="initPositions">搜索</el-button>
+          </el-row>
+        </div>
+      </transition>
       <div class="position_card">
         <!--        <el-card id="el_card" class="position_item" shadow="hover" style="height: 100px"-->
         <el-collapse accordion>
@@ -189,25 +172,85 @@
                     </el-row>
                   </div>
                 </template>
-                <div style="font-size: 20px;margin-top: 10px">
-                  岗位职责：
-                  1. 负责游戏主体框架结构设计，设定核心玩法和系统规则；
-                  2. 负责用户日常游戏目标，产出、消耗等系统的规划和整体设计；
-                  3. 制定项目进度，安排、监督、指导下属策划的工作，协调技术完成对应开发内容，推动项目开发工作顺利进行；
-                  4. 负责提及把控输出策划设计方案的质量和效率；
-                  5. 把控游戏的产品质量、美术风格、技术要求等产品关键指标。
-                  任职要求：
-                  1. 3年以上游戏策划经验，有0-1的过程；
-                  2. 对游戏有深刻的认识和理解，游戏经验丰富，熟悉多种类型游戏；
-                  3. 良好的沟通、理解和语言表达能力，文字功底扎实，逻辑敏捷、思维清晰；
-                  4. 性格开朗、情绪稳定，工作积极主动，较好的工作抗压能力；
-                  5. 有桌游或棋类游戏开发经验者优先。
-                  公司介绍
-                  企业介绍
-
-                  闲徕互娱，是国内领先的移动互联网企业，致力于为用户提供专业、多元的互联网文娱生活。
-                  2017年，闲徕互娱被上市集团昆仑万维收购（股票代码：300418），依托集团强大的资源优势，构建多层次开放性平台，不断完善在业务领域的布局。
-                  业务范畴包括：移动游戏、文化娱乐、社交软
+                <div style="font-size: 16px;margin-top: 10px;text-align: left">
+                  <span style="font-weight: bold;margin-left: 18px">职位描述</span>
+                  <div style="margin-left: 18px;margin-right: 18px" v-html="keepTextStyle(position.description)"></div>
+                  <el-divider></el-divider>
+                  <span style="font-weight: bold;margin-left: 18px">公司介绍</span>
+                  <div style="margin-left: 18px;margin-right: 18px"
+                       v-html="keepTextStyle(enterprise.introduction)"></div>
+                  <el-divider></el-divider>
+                  <span style="font-weight: bold;margin-left: 18px">招聘人数</span>
+                  <div style="margin-left: 18px;margin-right: 18px">{{position.number}}</div>
+                  <el-divider></el-divider>
+                  <span style="font-weight: bold;margin-left: 18px">工作地址</span>
+                  <div style="margin-left: 18px;margin-right: 18px">{{position.address}}</div>
+                  <el-divider></el-divider>
+                  <span style="font-weight: bold;margin-left: 18px">工商信息</span>
+                  <el-row>
+                    <el-col>
+                      <div style="margin-left: 18px;margin-right: 18px">
+                        {{enterprise.name}}
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="6">
+                      <div style="margin-left: 18px;margin-right: 18px">
+                        <label style="color: #8D92B6">法人代表：</label>
+                        {{enterprise.boss}}
+                      </div>
+                    </el-col>
+                    <el-col :span="6">
+                      <div style="margin-left: 18px;margin-right: 18px">
+                        <label style="color: #8D92B6">官方网站：</label>
+                        {{enterprise.website}}
+                      </div>
+                    </el-col>
+                    <el-col :span="6">
+                      <div style="margin-left: 18px;margin-right: 18px">
+                        <label style="color: #8D92B6">联系方式：</label>
+                        {{enterprise.phone}}
+                      </div>
+                    </el-col>
+                    <el-col :span="6">
+                      <div style="margin-left: 18px;margin-right: 18px">
+                        <label style="color: #8D92B6">邮箱：</label>
+                        {{enterprise.email}}
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="6">
+                      <div style="margin-left: 18px;margin-right: 18px">
+                        <label style="color: #8D92B6">成立时间：</label>
+                        {{enterprise.createTime}}
+                      </div>
+                    </el-col>
+                    <el-col :span="18">
+                      <div style="margin-left: 18px;margin-right: 18px">
+                        <label style="color: #8D92B6">福利：</label>
+                        {{enterprise.welfare}}
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="4"></el-col>
+                  </el-row>
+                  <el-divider></el-divider>
+                  <span style="font-weight: bold;margin-left: 18px">推荐职位</span>
+                  <el-divider></el-divider>
+                  <span style="font-weight: bold;margin-left: 18px">推荐公司</span>
+                  <el-divider></el-divider>
+                  <div style="text-align: center">
+                    <el-button
+                      id="submitButton"
+                      size="middle"
+                      type="primary"
+                      @click="sendResume()">
+                      投递简历
+                    </el-button>
+                  </div>
                 </div>
               </el-collapse-item>
             </template>
@@ -235,7 +278,12 @@
       return {
         showAdvanceSearchView: false,
         searchValue: {
-          keywords: '',
+          keywords: null,
+          experienceId: null,
+          degreeId: null,
+          salaryId: null,
+          financeId: null,
+          scaleId: null,
         },
         position: {
           userId: '',
@@ -259,6 +307,8 @@
         scales: [],
         positions: [],
         enterprises: [],
+        finances: [],
+        scales: [],
         total: 0,
         page: 1,
         size: 10,
@@ -320,11 +370,56 @@
         } else {
           this.enterprises = JSON.parse(window.sessionStorage.getItem("enterprises"));
         }
+        if (!window.sessionStorage.getItem("natures")) {
+          this.$axios.get('/nature').then(resp => {
+            if (resp.data.code === 200) {
+              this.natures = resp.data.data;
+              window.sessionStorage.setItem("natures", JSON.stringify(this.natures));
+            }
+          })
+        } else {
+          this.natures = JSON.parse(window.sessionStorage.getItem("natures"));
+        }
+        if (!window.sessionStorage.getItem("finances")) {
+          this.$axios.get('/finance').then(resp => {
+            if (resp.data.code === 200) {
+              this.finances = resp.data.data;
+              window.sessionStorage.setItem("finances", JSON.stringify(this.finances));
+            }
+          })
+        } else {
+          this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
+        }
+        if (!window.sessionStorage.getItem("scales")) {
+          this.$axios.get('/scale').then(resp => {
+            if (resp.data.code === 200) {
+              this.scales = resp.data.data;
+              window.sessionStorage.setItem("scales", JSON.stringify(this.scales));
+            }
+          })
+        } else {
+          this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
+        }
       },
       initPositions() {
         let url = '/positions?page=' + this.page + '&size=' + this.size;
         if (this.searchValue.keywords) {
           url += '&keywords=' + this.searchValue.keywords;
+        }
+        if (this.searchValue.experienceId) {
+          url += '&experienceId=' + this.searchValue.experienceId;
+        }
+        if (this.searchValue.degreeId) {
+          url += '&degreeId=' + this.searchValue.degreeId;
+        }
+        if (this.searchValue.salaryId) {
+          url += '&salaryId=' + this.searchValue.salaryId;
+        }
+        if (this.searchValue.financeId) {
+          url += '&financeId=' + this.searchValue.financeId;
+        }
+        if (this.searchValue.scaleId) {
+          url += '&scaleId=' + this.searchValue.scaleId;
         }
         this.$axios.get(url).then(resp => {
           if (resp.data.code === 200) {
@@ -340,6 +435,12 @@
       currentChange(currentPage) {
         this.page = currentPage;
         this.initPositions();
+      },
+      keepTextStyle(text) {
+        return text.replace(/\n/g, "<br/>")
+      },
+      sendResume() {
+
       }
     },
     filters: {
@@ -379,12 +480,12 @@
 
   .top_el_row {
     height: 40px;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .mid_el_row {
     height: 40px;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .bot_el_row {
