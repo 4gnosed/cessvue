@@ -247,7 +247,7 @@
                       id="submitButton"
                       size="middle"
                       type="primary"
-                      @click="sendResume()">
+                      @click="showResume()">
                       投递简历
                     </el-button>
                   </div>
@@ -267,12 +267,217 @@
           </el-pagination>
         </div>
       </div>
+      <div>
+        <el-dialog
+          :visible.sync="dialogVisible"
+          title="您的简历"
+          center
+          width="80%">
+          <div style="height: 1000px">
+            <el-tabs :tab-position="tabPosition" v-model="active" style="height: 900px;">
+              <el-tab-pane label="基本信息" name="0">
+                <div style="margin-left: 60px;margin-top: 60px">
+                  <student-info></student-info>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="工作经验" name="1">
+                <div style="margin-left: 60px;margin-top: 60px">
+                  <el-form :model="work" ref="workForm">
+                    <el-row>
+                      <el-col span="12">
+                        <el-form-item label="开始日期:" prop="beginDate">
+                          <el-date-picker
+                            v-model="work.beginDate"
+                            size="mini"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            style="width: 150px;"
+                            placeholder="开始日期">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                      <el-col span="12">
+                        <el-form-item label="结束日期:" prop="endDate">
+                          <el-date-picker
+                            v-model="work.endDate"
+                            size="mini"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            style="width: 150px;"
+                            placeholder="结束日期">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="6">
+                        <el-form-item label="姓名:" prop="enterpriseName">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.enterpriseName"
+                                    placeholder="请输入企业名称"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="所属行业:" prop="enterpriseName">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.industry"
+                                    placeholder="请输入所属行业"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="部门:" prop="department">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.department"
+                                    placeholder="请输入部门名称"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="实习职位:" prop="position">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.position"
+                                    placeholder="请输入实习职位"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="6">
+                        <el-form-item label="企业性质:" prop="nature">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.nature"
+                                    placeholder="请输入企业性质"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="企业规模:" prop="scaleId">
+                          <el-select v-model="work.scaleId" placeholder="企业规模" size="mini" style="width: 150px;">
+                            <el-option
+                              v-for="item in scales"
+                              :key="item.id"
+                              :label="item.name"
+                              :value="item.id">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="工作性质:" prop="natureId">
+                          <el-select v-model="work.natureId" placeholder="工作性质" size="mini" style="width: 150px;">
+                            <el-option
+                              v-for="item in natures"
+                              :key="item.id"
+                              :label="item.name"
+                              :value="item.id">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="部门人数:" prop="departmentNumber">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.departmentNumber"
+                                    placeholder="请输入部门人数"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="6">
+                        <el-form-item label="主管:" prop="leader">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.leader"
+                                    placeholder="请输入主管姓名"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="证明人:" prop="witness">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.witness"
+                                    placeholder="请输入证明人姓名"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="证明人联系电话:" prop="witnessPhone">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="work.witnessPhone"
+                                    placeholder="请输入证明人联系电话"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-form-item label="离职原因:" prop="workoutReason">
+                        <el-input type="textarea" :rows="8" v-model="work.workoutReason"
+                                  style="width: 1000px;" placeholder="请输入离职原因"  maxlength="500"></el-input>
+                      </el-form-item>
+                    </el-row>
+                    <el-row>
+                      <el-form-item label="主要成绩:" prop="achievement">
+                        <el-input type="textarea" :rows="8" v-model="work.achievement"
+                                  style="width: 1000px;" placeholder="请输入主要成绩"  maxlength="500"></el-input>
+                      </el-form-item>
+                    </el-row>
+                    <el-row>
+                      <el-form-item label="工作描述:" prop="description">
+                        <el-input type="textarea" :rows="8" v-model="work.description"
+                                  style="width: 1000px;" placeholder="请输入工作描述" maxlength="500"></el-input>
+                      </el-form-item>
+                    </el-row>
+                  </el-form>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="项目经验" name="2">
+                <div style="margin-left: 60px;margin-top: 60px">
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="培训经历" name="3">
+                <div style="margin-left: 60px;margin-top: 60px">
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="技能掌握" name="4">
+                <div style="margin-left: 60px;margin-top: 60px">
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="获得证书" name="5">
+                <div style="margin-left: 60px;margin-top: 60px">
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="备注" name="6">
+                <div style="margin-left: 60px;margin-top: 60px">
+                </div>
+              </el-tab-pane>
+            </el-tabs>
+            <el-button type="mini" style="margin-top: 12px;" @click="last">上一步</el-button>
+            <el-button type="mini" style="margin-top: 12px;" @click="next">下一步</el-button>
+          </div>
+          <el-divider></el-divider>
+          <div slot="footer" class="dialog-footer">
+            <el-upload
+              ref="upload"
+              action="void"
+              multiple
+              :multiple="false"
+              style="margin-bottom: 10px"
+              :http-request="customUpload"
+              :on-remove="handleRemove"
+              :on-progress="progressA"
+              :auto-upload="true">
+              <el-button :disabled="importDataDisabled" type="success" :icon="importDataBtnIcon">
+                上传附件
+              </el-button>
+            </el-upload>
+            <el-divider></el-divider>
+            <el-button type="primary" @click="saveResume">投递简历</el-button>
+          </div>
+        </el-dialog>
+
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import StudentInfo from "./StudentInfo";
+
   export default {
+    components: {StudentInfo},
     name: "student",
     data() {
       return {
@@ -308,10 +513,35 @@
         positions: [],
         enterprises: [],
         finances: [],
-        scales: [],
         total: 0,
         page: 1,
         size: 10,
+        dialogVisible: false,
+        stepNum: 0,
+        activeInt: 0,
+        active: '0',
+        tabPosition: 'left',
+        importDataDisabled: false,
+        importDataBtnIcon: 'el-icon-upload2',
+        work: {
+          id: '',
+          beginDate: '',
+          endDate: '',
+          enterpriseName: '',
+          industry: '',
+          department: '',
+          position: '',
+          nature: '',
+          scaleId: '',
+          natureId: '',
+          departmentNumber: '',
+          leader: '',
+          witness: '',
+          witnessPhone: '',
+          workoutReason: '',
+          achievement: '',
+          description: ''
+        }
       }
     },
     mounted() {
@@ -439,8 +669,62 @@
       keepTextStyle(text) {
         return text.replace(/\n/g, "<br/>")
       },
-      sendResume() {
-
+      showResume() {
+        this.stepNum = 7
+        this.dialogVisible = true
+      },
+      saveResume() {
+        this.dialogVisible = false
+      },
+      next() {
+        this.activeInt++;
+        this.asyncActiveInt()
+      },
+      last() {
+        this.activeInt--;
+        this.asyncActiveInt()
+      },
+      asyncActiveInt() {
+        if (this.activeInt < 0) {
+          this.activeInt = this.stepNum - 1
+          this.active = this.activeInt + ''
+        }
+        for (let i = 0; i < this.stepNum; i++) {
+          if (this.activeInt == i) {
+            this.active = i + ''
+          }
+        }
+        if (this.activeInt >= this.stepNum) {
+          this.activeInt = '0'
+          this.active = '0'
+        }
+      },
+      customUpload(file) {
+        let FormDatas = new FormData();
+        FormDatas.append('file', file.file);
+        this.$axios({
+          url: this.baseUrl + "/content/student/import",
+          method: 'post',
+          data: FormDatas,
+          //上传进度
+          onUploadProgress: (progressEvent) => {
+            let num = progressEvent.loaded / progressEvent.total * 100 | 0;  //百分比
+            file.onProgress({percent: num})     //进度条
+          }
+        }).then(resp => {
+          if (resp.data.code === 200) {
+            file.onSuccess(); //上传成功(打钩的小图标)
+            this.$message({type: 'success', message: '上传完成'})
+          }
+        })
+      },
+      /**     文件正在上传时的钩子    **/
+      progressA(event, file) {
+      },
+      /**     移除上传文件    **/
+      handleRemove(file) {
+        this.$refs.upload.abort(); //取消上传
+        this.$message({message: '成功移除' + file.name, type: 'success'});
       }
     },
     filters: {
