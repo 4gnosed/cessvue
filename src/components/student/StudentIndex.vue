@@ -273,7 +273,7 @@
           title="您的简历"
           center
           width="80%">
-          <div style="height: 1000px">
+          <div style="height: 900px">
             <el-tabs :tab-position="tabPosition" v-model="active" style="height: 900px;">
               <el-tab-pane label="基本信息" name="0">
                 <div style="margin-left: 60px;margin-top: 60px">
@@ -284,7 +284,7 @@
                 <div style="margin-left: 60px;margin-top: 60px">
                   <el-form :model="work" ref="workForm">
                     <el-row>
-                      <el-col span="12">
+                      <el-col :span="12">
                         <el-form-item label="开始日期:" prop="beginDate">
                           <el-date-picker
                             v-model="work.beginDate"
@@ -296,7 +296,7 @@
                           </el-date-picker>
                         </el-form-item>
                       </el-col>
-                      <el-col span="12">
+                      <el-col :span="12">
                         <el-form-item label="结束日期:" prop="endDate">
                           <el-date-picker
                             v-model="work.endDate"
@@ -405,13 +405,13 @@
                     <el-row>
                       <el-form-item label="离职原因:" prop="workoutReason">
                         <el-input type="textarea" :rows="8" v-model="work.workoutReason"
-                                  style="width: 1000px;" placeholder="请输入离职原因"  maxlength="500"></el-input>
+                                  style="width: 1000px;" placeholder="请输入离职原因" maxlength="500"></el-input>
                       </el-form-item>
                     </el-row>
                     <el-row>
                       <el-form-item label="主要成绩:" prop="achievement">
                         <el-input type="textarea" :rows="8" v-model="work.achievement"
-                                  style="width: 1000px;" placeholder="请输入主要成绩"  maxlength="500"></el-input>
+                                  style="width: 1000px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
                       </el-form-item>
                     </el-row>
                     <el-row>
@@ -447,24 +447,34 @@
             <el-button type="mini" style="margin-top: 12px;" @click="last">上一步</el-button>
             <el-button type="mini" style="margin-top: 12px;" @click="next">下一步</el-button>
           </div>
-          <el-divider></el-divider>
           <div slot="footer" class="dialog-footer">
-            <el-upload
-              ref="upload"
-              action="void"
-              multiple
-              :multiple="false"
-              style="margin-bottom: 10px"
-              :http-request="customUpload"
-              :on-remove="handleRemove"
-              :on-progress="progressA"
-              :auto-upload="true">
-              <el-button :disabled="importDataDisabled" type="success" :icon="importDataBtnIcon">
-                上传附件
-              </el-button>
-            </el-upload>
             <el-divider></el-divider>
-            <el-button type="primary" @click="saveResume">投递简历</el-button>
+            <div style="margin-bottom: 20px">
+              <a class="el-upload-list__item-name" :href="this.fileUrlVo.path" target=" _blank">
+                <i class="el-icon-document"></i>
+                {{this.fileUrlVo.fileName}}
+              </a>
+            </div>
+            <div>
+              <el-upload
+                ref="upload"
+                action="void"
+                multiple
+                :multiple="false"
+                style="margin-bottom: 10px"
+                :http-request="customUpload"
+                :on-remove="handleRemove"
+                :on-progress="progressA"
+                :auto-upload="true">
+                <el-button :disabled="uploadDataDisabled" type="success" :icon="uploadDataBtnIcon">
+                  上传附件
+                </el-button>
+              </el-upload>
+            </div>
+            <el-divider></el-divider>
+            <div style="margin-bottom: 10px">
+              <el-button type="primary" @click="saveResume">投递简历</el-button>
+            </div>
           </div>
         </el-dialog>
 
@@ -475,6 +485,7 @@
 
 <script>
   import StudentInfo from "./StudentInfo";
+  import store from "../../store";
 
   export default {
     components: {StudentInfo},
@@ -521,8 +532,9 @@
         activeInt: 0,
         active: '0',
         tabPosition: 'left',
-        importDataDisabled: false,
-        importDataBtnIcon: 'el-icon-upload2',
+        baseUrl: this.$axios.defaults.baseURL,
+        uploadDataDisabled: false,
+        uploadDataBtnIcon: 'el-icon-upload2',
         work: {
           id: '',
           beginDate: '',
@@ -541,7 +553,13 @@
           workoutReason: '',
           achievement: '',
           description: ''
-        }
+        },
+        fileUrlVo: '',
+        studentId: this.$store.state.studentId,
+        user: this.$store.state.user,
+        userId: this.$store.state.user.id,
+        username: this.$store.state.user.username,
+        roleId: this.$store.state.user.roleId
       }
     },
     mounted() {
@@ -672,6 +690,17 @@
       showResume() {
         this.stepNum = 7
         this.dialogVisible = true
+        //判断该用户是否为学生
+        if (this.roleId === this.studentId) {
+          //获取该用户已经上传的简历附件
+          this.$axios.get('/resume/file?userId=' + this.userId).then(resp => {
+            if (resp.data.code === 200) {
+              this.fileUrlVo = resp.data.data;
+            }
+          })
+        } else {
+          //提示或者路由至登录页面
+        }
       },
       saveResume() {
         this.dialogVisible = false
@@ -702,8 +731,9 @@
       customUpload(file) {
         let FormDatas = new FormData();
         FormDatas.append('file', file.file);
+        FormDatas.append('userId', this.user.id);
         this.$axios({
-          url: this.baseUrl + "/content/student/import",
+          url: this.baseUrl + "/resume/file",
           method: 'post',
           data: FormDatas,
           //上传进度

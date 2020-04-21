@@ -20,6 +20,13 @@ export default new Vuex.Store({
       email: user == null ? '' : JSON.parse(user).email
     },
     adminMenus: [],
+    //用户角色
+    adminId: 1,
+    studentId: 2,
+    enterpriseId: 3,
+    departmentId: 4,
+    leaderId: 5,
+    adminContentId: 6
   },
   mutations: {
     // 触发对用户对象赋值的方法，使用到本地缓存localStorage，登录成功后将保存用户信息，不清除缓存则登录状态一直保持

@@ -31,14 +31,15 @@ Vue.use(ElementUI)
 // 判断访问的路径是否需要拦截，如果需要，判断 store 里有没有存储 user 的信息，
 // 如果存在，则放行，否则跳转到登录页面，并存储访问的页面路径（以便在成功登录后跳转到要访问的页面）
 router.beforeEach((to, from, next) => {
-    let username = store.state.user.username;
-    let roleId = store.state.user.roleId;
-    let adminId = 1;
-    let studentId = 2;
-    let enterpriseId = 3;
-    let departmentId = 4;
-    let leaderId = 5;
-    let adminContentId = 6;
+    let state = store.state;
+    let username = state.user.username;
+    let roleId = state.user.roleId;
+    let adminId = state.adminId;
+    let studentId = state.studentId;
+    let enterpriseId = state.enterpriseId;
+    let departmentId = state.departmentId;
+    let leaderId = state.leaderId;
+    let adminContentId = state.adminContentId;
 
     // 管理员
     if (to.path.startsWith('/admin')) {
