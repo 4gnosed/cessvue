@@ -273,21 +273,21 @@
           title="您的简历"
           center
           width="80%">
-          <div style="height: 900px">
-            <el-tabs :tab-position="tabPosition" v-model="active" style="height: 900px;">
-              <el-tab-pane label="基本信息" name="0">
-                <div style="margin-left: 60px;margin-top: 60px">
-                  <student-info></student-info>
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="工作经验" name="1">
-                <div style="margin-left: 60px;margin-top: 60px">
-                  <el-form :model="work" ref="workForm">
+          <div style="height: 740px">
+            <el-form :model="resume" ref="resumeForm">
+              <el-tabs :tab-position="tabPosition" v-model="active" style="height: 740px;">
+                <el-tab-pane label="基本信息" name="0">
+                  <div style="margin-left: 60px;margin-top: 40px">
+                    <student-info></student-info>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="工作经验" name="1">
+                  <div style="margin-left: 60px;margin-top: 40px">
                     <el-row>
                       <el-col :span="12">
                         <el-form-item label="开始日期:" prop="beginDate">
                           <el-date-picker
-                            v-model="work.beginDate"
+                            v-model="resume.experienceWork.beginDate"
                             size="mini"
                             type="date"
                             value-format="yyyy-MM-dd"
@@ -299,7 +299,7 @@
                       <el-col :span="12">
                         <el-form-item label="结束日期:" prop="endDate">
                           <el-date-picker
-                            v-model="work.endDate"
+                            v-model="resume.experienceWork.endDate"
                             size="mini"
                             type="date"
                             value-format="yyyy-MM-dd"
@@ -313,28 +313,28 @@
                       <el-col :span="6">
                         <el-form-item label="姓名:" prop="enterpriseName">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.enterpriseName"
+                                    v-model="resume.experienceWork.enterpriseName"
                                     placeholder="请输入企业名称"></el-input>
                         </el-form-item>
                       </el-col>
                       <el-col :span="6">
                         <el-form-item label="所属行业:" prop="enterpriseName">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.industry"
+                                    v-model="resume.experienceWork.industry"
                                     placeholder="请输入所属行业"></el-input>
                         </el-form-item>
                       </el-col>
                       <el-col :span="6">
                         <el-form-item label="部门:" prop="department">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.department"
+                                    v-model="resume.experienceWork.department"
                                     placeholder="请输入部门名称"></el-input>
                         </el-form-item>
                       </el-col>
                       <el-col :span="6">
                         <el-form-item label="实习职位:" prop="position">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.position"
+                                    v-model="resume.experienceWork.position"
                                     placeholder="请输入实习职位"></el-input>
                         </el-form-item>
                       </el-col>
@@ -343,13 +343,14 @@
                       <el-col :span="6">
                         <el-form-item label="企业性质:" prop="nature">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.nature"
+                                    v-model="resume.experienceWork.nature"
                                     placeholder="请输入企业性质"></el-input>
                         </el-form-item>
                       </el-col>
                       <el-col :span="6">
                         <el-form-item label="企业规模:" prop="scaleId">
-                          <el-select v-model="work.scaleId" placeholder="企业规模" size="mini" style="width: 150px;">
+                          <el-select v-model="resume.experienceWork.scaleId" placeholder="企业规模" size="mini"
+                                     style="width: 150px;">
                             <el-option
                               v-for="item in scales"
                               :key="item.id"
@@ -361,7 +362,8 @@
                       </el-col>
                       <el-col :span="6">
                         <el-form-item label="工作性质:" prop="natureId">
-                          <el-select v-model="work.natureId" placeholder="工作性质" size="mini" style="width: 150px;">
+                          <el-select v-model="resume.experienceWork.natureId" placeholder="工作性质" size="mini"
+                                     style="width: 150px;">
                             <el-option
                               v-for="item in natures"
                               :key="item.id"
@@ -374,7 +376,7 @@
                       <el-col :span="6">
                         <el-form-item label="部门人数:" prop="departmentNumber">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.departmentNumber"
+                                    v-model="resume.experienceWork.departmentNumber"
                                     placeholder="请输入部门人数"></el-input>
                         </el-form-item>
                       </el-col>
@@ -383,77 +385,225 @@
                       <el-col :span="6">
                         <el-form-item label="主管:" prop="leader">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.leader"
+                                    v-model="resume.experienceWork.leader"
                                     placeholder="请输入主管姓名"></el-input>
                         </el-form-item>
                       </el-col>
                       <el-col :span="6">
                         <el-form-item label="证明人:" prop="witness">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.witness"
+                                    v-model="resume.experienceWork.witness"
                                     placeholder="请输入证明人姓名"></el-input>
                         </el-form-item>
                       </el-col>
                       <el-col :span="6">
                         <el-form-item label="证明人联系电话:" prop="witnessPhone">
                           <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
-                                    v-model="work.witnessPhone"
+                                    v-model="resume.experienceWork.witnessPhone"
                                     placeholder="请输入证明人联系电话"></el-input>
                         </el-form-item>
                       </el-col>
                     </el-row>
                     <el-row>
                       <el-form-item label="离职原因:" prop="workoutReason">
-                        <el-input type="textarea" :rows="8" v-model="work.workoutReason"
-                                  style="width: 1000px;" placeholder="请输入离职原因" maxlength="500"></el-input>
+                        <el-input type="textarea" :rows="6" v-model="resume.experienceWork.workoutReason"
+                                  style="width: 1075px;" placeholder="请输入离职原因" maxlength="500"></el-input>
                       </el-form-item>
                     </el-row>
                     <el-row>
                       <el-form-item label="主要成绩:" prop="achievement">
-                        <el-input type="textarea" :rows="8" v-model="work.achievement"
-                                  style="width: 1000px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
+                        <el-input type="textarea" :rows="6" v-model="resume.experienceWork.achievement"
+                                  style="width: 1075px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
                       </el-form-item>
                     </el-row>
                     <el-row>
                       <el-form-item label="工作描述:" prop="description">
-                        <el-input type="textarea" :rows="8" v-model="work.description"
-                                  style="width: 1000px;" placeholder="请输入工作描述" maxlength="500"></el-input>
+                        <el-input type="textarea" :rows="6" v-model="resume.experienceWork.description"
+                                  style="width: 1075px;" placeholder="请输入工作描述" maxlength="500"></el-input>
                       </el-form-item>
                     </el-row>
-                  </el-form>
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="项目经验" name="2">
-                <div style="margin-left: 60px;margin-top: 60px">
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="培训经历" name="3">
-                <div style="margin-left: 60px;margin-top: 60px">
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="技能掌握" name="4">
-                <div style="margin-left: 60px;margin-top: 60px">
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="获得证书" name="5">
-                <div style="margin-left: 60px;margin-top: 60px">
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="备注" name="6">
-                <div style="margin-left: 60px;margin-top: 60px">
-                </div>
-              </el-tab-pane>
-            </el-tabs>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="项目经验" name="2">
+                  <div style="margin-left: 60px;margin-top: 40px">
+                    <el-row>
+                      <el-col :span="8">
+                        <el-form-item label="开始日期:" prop="beginDate">
+                          <el-date-picker
+                            v-model="resume.experienceProject.beginDate"
+                            size="mini"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            style="width: 150px;"
+                            placeholder="开始日期">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="8">
+                        <el-form-item label="结束日期:" prop="endDate">
+                          <el-date-picker
+                            v-model="resume.experienceProject.endDate"
+                            size="mini"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            style="width: 150px;"
+                            placeholder="结束日期">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="8">
+                        <el-form-item label="项目名称:" prop="name">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceProject.name"
+                                    placeholder="请输入项目名称"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="6">
+                        <el-form-item label="开发工具:" prop="tool">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceProject.tool"
+                                    placeholder="请输入开发工具"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="软件环境:" prop="software">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceProject.software"
+                                    placeholder="请输入软件环境"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="硬件环境:" prop="hardware">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceProject.hardware"
+                                    placeholder="请输入硬件环境"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="项目人数:" prop="number">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceProject.number"
+                                    placeholder="请输入number"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-form-item label="项目描述:" prop="description">
+                        <el-input type="textarea" :rows="12" v-model="resume.experienceProject.description"
+                                  style="width: 1075px;" placeholder="请输入项目描述" maxlength="1000"></el-input>
+                      </el-form-item>
+                    </el-row>
+                    <el-row>
+                      <el-form-item label="责任描述:" prop="responsibility">
+                        <el-input type="textarea" :rows="12" v-model="resume.experienceProject.responsibility"
+                                  style="width: 1075px;" placeholder="请输入责任描述" maxlength="1000"></el-input>
+                      </el-form-item>
+                    </el-row>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="培训经历" name="3">
+                  <div style="margin-left: 60px;margin-top: 40px">
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item label="开始日期:" prop="beginDate">
+                          <el-date-picker
+                            v-model="resume.experienceTrain.beginDate"
+                            size="mini"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            style="width: 150px;"
+                            placeholder="开始日期">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="结束日期:" prop="endDate">
+                          <el-date-picker
+                            v-model="resume.experienceTrain.endDate"
+                            size="mini"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            style="width: 150px;"
+                            placeholder="结束日期">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="8">
+                        <el-form-item label="培训机构:" prop="organization">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceTrain.organization"
+                                    placeholder="请输入培训机构名称"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="8">
+                        <el-form-item label="培训地址:" prop="address">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceTrain.address"
+                                    placeholder="请输入培训地址"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="8">
+                        <el-form-item label="获得证书:" prop="certificate">
+                          <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+                                    v-model="resume.experienceTrain.certificate"
+                                    placeholder="请输入获得证书"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-form-item label="培训描述:" prop="description">
+                        <el-input type="textarea" :rows="16" v-model="resume.experienceTrain.description"
+                                  style="width: 1075px;" placeholder="请输入培训描述" maxlength="1000"></el-input>
+                      </el-form-item>
+                    </el-row>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="技能掌握" name="4">
+                  <div style="margin-left: 60px;margin-top: 40px">
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="获得证书" name="5">
+                  <div style="margin-left: 60px;margin-top: 40px">
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="自我评价" name="6">
+                  <div style="margin-left: 60px;margin-top: 40px">
+                    <el-row>
+                      <el-form-item label="自我评价:" prop="selfEvaluation">
+                        <el-input type="textarea" :rows="16" v-model="resume.selfEvaluation"
+                                  style="width: 1075px;" placeholder="请输入自我评价" maxlength="1000"></el-input>
+                      </el-form-item>
+                    </el-row>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="备注" name="7">
+                  <div style="margin-left: 60px;margin-top: 40px">
+                    <el-row>
+                      <el-form-item label="备注:" prop="remark">
+                        <el-input type="textarea" :rows="16" v-model="resume.remark"
+                                  style="width: 1075px;" placeholder="请输入自我评价" maxlength="1000"></el-input>
+                      </el-form-item>
+                    </el-row>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
+            </el-form>
             <el-button type="mini" style="margin-top: 12px;" @click="last">上一步</el-button>
             <el-button type="mini" style="margin-top: 12px;" @click="next">下一步</el-button>
           </div>
           <div slot="footer" class="dialog-footer">
             <el-divider></el-divider>
             <div style="margin-bottom: 20px">
-              <a class="el-upload-list__item-name" :href="this.fileUrlVo.path" target=" _blank">
-                <i class="el-icon-document"></i>
-                {{this.fileUrlVo.fileName}}
-              </a>
+              <template v-if="this.resume.fileUrlVo !== null && this.resume.fileUrlVo !=''">
+                <a class="el-upload-list__item-name" :href="this.resume.fileUrlVo.path" target=" _blank">
+                  <i class="el-icon-document"></i>
+                  {{this.resume.fileUrlVo.fileName}}
+                </a>
+              </template>
             </div>
             <div>
               <el-upload
@@ -473,7 +623,8 @@
             </div>
             <el-divider></el-divider>
             <div style="margin-bottom: 10px">
-              <el-button type="primary" @click="saveResume">投递简历</el-button>
+              <el-button type="primary" @click="cancel">取消</el-button>
+              <el-button type="primary" @click="sendOrUpdateResume">保存并投递简历</el-button>
             </div>
           </div>
         </el-dialog>
@@ -535,26 +686,55 @@
         baseUrl: this.$axios.defaults.baseURL,
         uploadDataDisabled: false,
         uploadDataBtnIcon: 'el-icon-upload2',
-        work: {
+        resume: {
           id: '',
-          beginDate: '',
-          endDate: '',
-          enterpriseName: '',
-          industry: '',
-          department: '',
-          position: '',
-          nature: '',
-          scaleId: '',
-          natureId: '',
-          departmentNumber: '',
-          leader: '',
-          witness: '',
-          witnessPhone: '',
-          workoutReason: '',
-          achievement: '',
-          description: ''
+          selfEvaluation: '',
+          remark: '',
+          avatarPath: '',
+          fileUrlVo: '',
+          experienceWork: {
+            id: '',
+            beginDate: '',
+            endDate: '',
+            enterpriseName: '',
+            industry: '',
+            department: '',
+            position: '',
+            nature: '',
+            scaleId: '',
+            natureId: '',
+            departmentNumber: '',
+            leader: '',
+            witness: '',
+            witnessPhone: '',
+            workoutReason: '',
+            achievement: '',
+            description: ''
+          },
+          experienceProject: {
+            id: '',
+            beginDate: '',
+            endDate: '',
+            name: '',
+            tool: '',
+            software: '',
+            hardware: '',
+            number: '',
+            description: '',
+            responsibility: ''
+          },
+          experienceTrain: {
+            id: '',
+            beginDate: '',
+            endDate: '',
+            organization: '',
+            address: '',
+            certificate: '',
+            description: ''
+          },
+          experienceSkillList: [],
+          experienceCertificateList: []
         },
-        fileUrlVo: '',
         studentId: this.$store.state.studentId,
         user: this.$store.state.user,
         userId: this.$store.state.user.id,
@@ -688,21 +868,21 @@
         return text.replace(/\n/g, "<br/>")
       },
       showResume() {
-        this.stepNum = 7
+        this.stepNum = 8
         this.dialogVisible = true
         //判断该用户是否为学生
         if (this.roleId === this.studentId) {
           //获取该用户已经上传的简历附件
-          this.$axios.get('/resume/file?userId=' + this.userId).then(resp => {
+          this.$axios.get('/resume?userId=' + this.userId).then(resp => {
             if (resp.data.code === 200) {
-              this.fileUrlVo = resp.data.data;
+              this.resume = resp.data.data;
             }
           })
         } else {
           //提示或者路由至登录页面
         }
       },
-      saveResume() {
+      cancel() {
         this.dialogVisible = false
       },
       next() {
@@ -755,6 +935,34 @@
       handleRemove(file) {
         this.$refs.upload.abort(); //取消上传
         this.$message({message: '成功移除' + file.name, type: 'success'});
+      },
+      sendOrUpdateResume() {
+        this.dialogVisible = false
+        if (this.resume.id) {
+          alert('已有简历id')
+          this.$axios.put('/resume?userId=' + this.userId, this.resume).then(resp => {
+            if (resp.data.code === 200) {
+              this.$message({
+                message: '保存并投递成功，请等待回复',
+                type: 'success'
+              })
+            } else {
+              this.$message.error('保存并投递失败')
+            }
+          })
+        } else {
+          alert('未有简历id')
+          this.$axios.post('/resume?userId=' + this.userId, this.resume).then(resp => {
+            if (resp.data.code === 200) {
+              this.$message({
+                message: '保存并投递成功，请等待回复',
+                type: 'success'
+              })
+            } else {
+              this.$message.error('保存并投递失败')
+            }
+          })
+        }
       }
     },
     filters: {
