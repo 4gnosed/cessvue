@@ -247,7 +247,7 @@
                       id="submitButton"
                       size="middle"
                       type="primary"
-                      @click="showResume()">
+                      @click="showResume(position.id)">
                       投递简历
                     </el-button>
                   </div>
@@ -605,7 +605,7 @@
           <div slot="footer" class="dialog-footer">
             <el-divider></el-divider>
             <div style="margin-bottom: 20px">
-              <template v-if="this.resume.fileUrlVo !== null && this.resume.fileUrlVo !=''">
+              <template v-if=" this.resume.fileUrlVo.fileName!=null">
                 <a class="el-upload-list__item-name" :href="this.resume.fileUrlVo.path" target=" _blank">
                   <i class="el-icon-document"></i>
                   {{this.resume.fileUrlVo.fileName}}
@@ -631,7 +631,7 @@
             <el-divider></el-divider>
             <div style="margin-bottom: 10px">
               <el-button type="primary" @click="cancel">取消</el-button>
-              <el-button type="primary" @click="addOrUpdateResume">保存并投递简历</el-button>
+              <el-button type="primary" @click="saveOrUpdateResume">保存并投递简历</el-button>
             </div>
           </div>
         </el-dialog>
@@ -658,6 +658,7 @@
           financeId: null,
           scaleId: null,
         },
+        selectPositionId: '',
         position: {
           userId: '',
           enterpriseId: '',
@@ -697,7 +698,12 @@
           selfEvaluation: '',
           remark: '',
           avatarPath: '',
-          fileUrlVo: '',
+          fileUrlVo: {
+            ipPort: '',
+            filePath: '',
+            path: '',
+            fileName: ''
+          },
           experienceWork: {
             id: '',
             beginDate: '',
@@ -946,11 +952,13 @@
       keepTextStyle(text) {
         return text.replace(/\n/g, "<br/>")
       },
-      showResume() {
-        this.stepNum = 8
-        this.dialogVisible = true
+      showResume(positionId) {
         //判断该用户是否为学生
         if (this.roleId === this.studentId) {
+          this.stepNum = 8
+          this.dialogVisible = true
+          //当前职位
+          this.selectPositionId = positionId
           //获取该用户已经上传的简历附件
           this.$axios.get('/resume?userId=' + this.userId).then(resp => {
             if (resp.data.code === 200) {
@@ -1015,7 +1023,7 @@
         this.$refs.upload.abort(); //取消上传
         this.$notify({message: '成功移除' + file.name, type: 'success'});
       },
-      addOrUpdateResume() {
+      saveOrUpdateResume() {
         this.$refs['resumeRefs'].validate(valid => {
           if (valid) {
             this.$refs['workRefs'].validate(valid => {
@@ -1026,27 +1034,30 @@
                       if (valid) {
                         this.dialogVisible = false
                         if (this.resume.id) {
-                          this.$axios.put('/resume?userId=' + this.userId, this.resume).then(resp => {
-                            if (resp.data.code === 200) {
-                              this.$notify({
-                                message: '保存并投递成功，请等待回复',
-                                type: 'success'
-                              })
-                            } else {
-                              this.$notify.error('保存并投递失败')
-                            }
-                          })
+                          this.$axios.put('/resume?userId=' + this.userId, this.resume)
+                            .then(resp => {
+                              if (resp.data.code === 200) {
+                                this.$notify({
+                                  message: '保存并投递成功，请等待回复',
+                                  type: 'success'
+                                })
+                              } else {
+                                this.$notify.error('保存并投递失败')
+                              }
+                            })
                         } else {
-                          this.$axios.post('/resume?userId=' + this.userId, this.resume).then(resp => {
-                            if (resp.data.code === 200) {
-                              this.$notify({
-                                message: '保存并投递成功，请等待回复',
-                                type: 'success'
-                              })
-                            } else {
-                              this.$notify.error('保存并投递失败')
-                            }
-                          })
+                          this.$axios.post(
+                            '/resume?userId=' + this.userId + '&positionId=' + this.selectPositionId, this.resume)
+                            .then(resp => {
+                              if (resp.data.code === 200) {
+                                this.$notify({
+                                  message: '保存并投递成功，请等待回复',
+                                  type: 'success'
+                                })
+                              } else {
+                                this.$notify.error('保存并投递失败')
+                              }
+                            })
                         }
                       } else {
                         this.$notify.error('培训经历内容不完整')
