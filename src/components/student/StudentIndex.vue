@@ -966,7 +966,20 @@
             }
           })
         } else {
-          //提示或者路由至登录页面
+          //提示并路由至登录页面
+          this.$confirm('您不是学生用户，是否退出重新登录?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios.get('/logout').then(resp => {
+              if (resp.data.code === 200) {
+                // 前后端状态保持一致
+                this.$store.commit('logout')
+                this.$router.replace('/login')
+              }
+            })
+          })
         }
       },
       cancel() {

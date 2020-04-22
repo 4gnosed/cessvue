@@ -49,53 +49,40 @@ router.beforeEach((to, from, next) => {
             initAdminMenu(router, store)
           })
         } else {
-          Vue.prototype.$message.error('您无权限访问！')
-          // return false
+          confirmToLogin('管理员')
         }
       } else {
         login()
       }
     }
-    //学生
-    // if (to.path.startsWith('/student')) {
-    //   if (username) {
-    //     if (roleId == studentId) {
-    //       getAuthority()
-    //     } else {
-    //       Vue.prototype.$message.error('您无权限访问！')
-    //       return false
-    //     }
-    //   } else {
-    //     login()
-    //   }
-    // }
     //企业
-    // if (to.path.startsWith('/enterprise')) {
-    //   if (username) {
-    //     if (roleId == enterpriseId) {
-    //       getAuthority()
-    //     } else {
-    //       Vue.prototype.$message.error('您无权限访问！')
-    //       return false
-    //     }
-    //   } else {
-    //     login()
-    //   }
-    // }
+    if (to.path.startsWith('/enterprise')) {
+      if (username) {
+        if (roleId == enterpriseId) {
+          getAuthority()
+        } else {
+          confirmToLogin('企业')
+          return false
+        }
+      } else {
+        login()
+      }
+    }
     //教师
-    // if (to.path.startsWith('/leader')) {
-    //   if (username) {
-    //     if (roleId == leaderId) {
-    //       getAuthority()
-    //     } else {
-    //       Vue.prototype.$message.error('您无权限访问！')
-    //       return false
-    //     }
-    //   } else {
-    //     login()
-    //   }
-    // }
+    if (to.path.startsWith('/leader')) {
+      if (username) {
+        if (roleId == leaderId) {
+          getAuthority()
+        } else {
+          confirmToLogin('教师')
+          return false
+        }
+      } else {
+        login()
+      }
+    }
 
+    //验证
     if (to.meta.requireAuth) {
       if (username) {
         // alert('用户角色id：'+roleId)
@@ -108,10 +95,36 @@ router.beforeEach((to, from, next) => {
       next()
     }
 
+    //登录并且携带登录成功后重定向路径
     function login() {
       next({
         path: 'login',
         query: {redirect: to.fullPath}
+      })
+    }
+
+    //退出登录
+    function logout() {
+      Vue.prototype.$axios.get('/logout').then(resp => {
+        if (resp.data.code === 200) {
+          // 前后端状态保持一致
+          this.$store.commit('logout')
+        }
+      })
+    }
+
+    //根据当前在线用户角色进行页面权限验证
+    function confirmToLogin(roleName) {
+      Vue.prototype.$confirm('您不是' + roleName + '账户，是否退出重新登录?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        logout()
+        next({
+          path: 'login',
+          query: {redirect: to.fullPath}
+        })
       })
     }
 
