@@ -23,9 +23,7 @@
     padding: 10px;
     background: #303643;
     text-align: center;
-    font-size: 16px;
-    /*position: absolute;*/
-    /*width: 100%;*/
+    font-size: 10px;
     bottom: 0px;
     border-top: 1px solid #969393;
   }

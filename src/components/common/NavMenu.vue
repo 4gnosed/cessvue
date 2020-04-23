@@ -7,14 +7,14 @@
       background-color="#303643"
       text-color="#D2D3D6"
       active-text-color="red"
-    style="width: 100%">
+      style="width: 100%">
       <el-row>
-        <el-col :xs="10" :sm="10" :md="8" :lg="6" :xl="8">
+        <el-col :xs="12" :sm="11" :md="8" :lg="6" :xl="8">
           <el-menu-item class="el_menu_item" v-for="(item,i) in navList" :key="i" :index="item.name">
             {{ item.navItem }}
           </el-menu-item>
         </el-col>
-        <el-col :xs="8" :sm="8" :md="7" :lg="4" :xl="4">
+        <el-col :xs="6" :sm="7" :md="7" :lg="4" :xl="4">
           <div class="el_menu_else_item">
             高校就业服务系统
           </div>
@@ -29,26 +29,26 @@
             <el-input
               placeholder="快速搜索..."
               prefix-icon="el-icon-search"
-              size="medium"
+              size="mini"
               style="width: 150px;">
             </el-input>
           </div>
         </el-col>
         <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
           <div class="el_menu_else_item">
-            <i @click="viewMessage()" class="el-icon-s-comment" style="font-size: 30px;margin-top: 13px">
+            <i @click="viewMessage()" class="el-icon-s-comment" style="font-size: 20px;line-height: 56px;">
               <el-badge is-dot></el-badge>
             </i>
           </div>
         </el-col>
-        <el-col  :xs="4" :sm="4" :md="1" :lg="1" :xl="2">
+        <el-col :xs="4" :sm="4" :md="1" :lg="1" :xl="2">
           <div class="el_menu_else_item">
             <el-dropdown trigger="click">
               <template v-if="this.$store.state.user.username">
-                <el-button circle style="font-size: 16px;font-weight: bold;">
+                <el-button size="mini" round style="font-size: 10px;font-weight: bold;">
                   {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
-                <el-dropdown-menu slot="dropdown" style="font-size: 16px;font-weight: bold;">
+                <el-dropdown-menu slot="dropdown" style="font-size: 10px;font-weight: bold;">
                   <el-dropdown-item @click.native="personCenter">个人中心</el-dropdown-item>
                   <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
                   <el-dropdown-item @click.native="logout">安全退出</el-dropdown-item>
@@ -122,18 +122,18 @@
   }
 
   .el-icon-arrow-down {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .el_menu_item {
-    font-size: 15px;
+    font-size: 10px;
     font-weight: bold;
     float: left;
-    padding: 0 8px;
+    padding: 0 4px;
   }
 
   .el_menu_else_item {
-    font-size: 20px;
+    font-size: 10px;
     color: #D2D3D6;
     font-weight: bold;
     line-height: 56px;
