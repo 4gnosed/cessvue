@@ -273,9 +273,9 @@
           title="您的简历"
           center
           width="80%">
-          <div style="height: 740px">
+          <div style="height: 750px">
             <el-form :model="resume" ref="resumeRefs" :rules="resumeRules">
-              <el-tabs :tab-position="tabPosition" v-model="active" style="height: 740px;">
+              <el-tabs :tab-position="tabPosition" v-model="active" style="height: 750px;">
                 <el-tab-pane label="基本信息" name="0">
                   <div style="margin-left: 60px;margin-top: 40px">
                     <student-info></student-info>
@@ -407,19 +407,19 @@
                       </el-row>
                       <el-row>
                         <el-form-item label="离职原因:" prop="workoutReason">
-                          <el-input type="textarea" :rows="6" v-model="resume.experienceWork.workoutReason"
+                          <el-input type="textarea" :rows="5" v-model="resume.experienceWork.workoutReason"
                                     style="width: 1075px;" placeholder="请输入离职原因" maxlength="500"></el-input>
                         </el-form-item>
                       </el-row>
                       <el-row>
                         <el-form-item label="主要成绩:" prop="achievement">
-                          <el-input type="textarea" :rows="6" v-model="resume.experienceWork.achievement"
+                          <el-input type="textarea" :rows="5" v-model="resume.experienceWork.achievement"
                                     style="width: 1075px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
                         </el-form-item>
                       </el-row>
                       <el-row>
                         <el-form-item label="工作描述:" prop="description">
-                          <el-input type="textarea" :rows="6" v-model="resume.experienceWork.description"
+                          <el-input type="textarea" :rows="5" v-model="resume.experienceWork.description"
                                     style="width: 1075px;" placeholder="请输入工作描述" maxlength="500"></el-input>
                         </el-form-item>
                       </el-row>
@@ -510,7 +510,6 @@
                 <el-tab-pane label="培训经历" name="3">
                   <div style="margin-left: 60px;margin-top: 40px">
                     <el-form :model="resume.experienceTrain" ref="trainRefs" :rules="trainRules">
-
                       <el-row>
                         <el-col :span="12">
                           <el-form-item label="开始日期:" prop="beginDate">
@@ -570,11 +569,86 @@
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="技能掌握" name="4">
-                  <div style="margin-left: 60px;margin-top: 40px">
+                  <div style="margin-left: 60px;margin-top: 40px;">
+                    <el-button type="mini" style="background-color: #409EFF;color: white;margin-bottom: 20px"
+                               icon="el-icon-plus" @click="addSkill">添加技能
+                    </el-button>
+                    <el-form ref="skillRefs">
+                      <div v-for="(skill,index) in resume.experienceSkillList">
+                        <el-row>
+                          <el-col :span="8">
+                            <el-form-item label="技能">
+                              <el-input v-model="skill.name" placeholder="请输入技能名称" style="width: 150px"></el-input>
+                            </el-form-item>
+                          </el-col>
+                          <el-col :span="8">
+                            <el-form-item label="掌握程度">
+                              <el-select v-model="skill.levelId" placeholder="掌握程度">
+                                <el-option
+                                  v-for="item in levels"
+                                  :key="item.id"
+                                  :label="item.name"
+                                  :value="item.id">
+                                </el-option>
+                              </el-select>
+                            </el-form-item>
+                          </el-col>
+                          <el-col :span="8">
+                            <el-button type="mini" style="background-color: #409EFF;color: white"
+                                       icon="el-icon-delete" @click="deleteSkill(index)">删除
+                            </el-button>
+                          </el-col>
+                        </el-row>
+                      </div>
+                    </el-form>
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="获得证书" name="5">
-                  <div style="margin-left: 60px;margin-top: 40px">
+                  <div style="margin-left: 60px;margin-top: 40px;">
+                    <el-button type="mini" style="background-color: #409EFF;color: white;margin-bottom: 20px"
+                               icon="el-icon-plus" @click="addCertificate">添加证书
+                    </el-button>
+                    <el-form ref="CertificateRefs">
+                      <div v-for="(certificate,index) in resume.experienceCertificateList">
+                        <el-row>
+                          <el-col :span="6">
+                            <el-date-picker
+                              v-model="certificate.getDate"
+                              size="mini"
+                              type="date"
+                              value-format="yyyy-MM-dd"
+                              style="width: 150px;"
+                              placeholder="获得日期">
+                            </el-date-picker>
+                          </el-col>
+                          <el-col :span="6">
+                            <el-form-item label="证书名称">
+                              <el-input v-model="certificate.name" placeholder="请输入证书名称"
+                                        style="width: 150px"></el-input>
+                            </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                            <el-form-item label="成绩">
+                              <el-input v-model="certificate.result" placeholder="请输入成绩"
+                                        style="width: 150px"></el-input>
+                            </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                            <el-button type="mini" style="background-color: #409EFF;color: white"
+                                       icon="el-icon-delete" @click="deleteCertificate(index)">删除
+                            </el-button>
+                          </el-col>
+                        </el-row>
+                        <el-row>
+                          <el-col>
+                            <el-form-item label="证书描述:" prop="description">
+                              <el-input type="textarea" :rows="3" v-model="certificate.description"
+                                        style="width: 1075px;" placeholder="请输入证书描述" maxlength="500"></el-input>
+                            </el-form-item>
+                          </el-col>
+                        </el-row>
+                      </div>
+                    </el-form>
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="自我评价" name="6">
@@ -599,8 +673,12 @@
                 </el-tab-pane>
               </el-tabs>
             </el-form>
-            <el-button type="mini" style="margin-top: 12px;" @click="last">上一步</el-button>
-            <el-button type="mini" style="margin-top: 12px;" @click="next">下一步</el-button>
+            <el-button type="mini" style="margin-top: 12px;background-color: #409EFF;color: white"
+                       icon="el-icon-arrow-left" @click="last">上一步
+            </el-button>
+            <el-button type="mini" style="margin-top: 12px;background-color: #409EFF;color: white"
+                       icon="el-icon-arrow-right" @click="next">下一步
+            </el-button>
           </div>
           <div slot="footer" class="dialog-footer">
             <el-divider></el-divider>
@@ -682,6 +760,7 @@
         positions: [],
         enterprises: [],
         finances: [],
+        levels: [],
         total: 0,
         page: 1,
         size: 10,
@@ -744,8 +823,21 @@
             certificate: '',
             description: ''
           },
-          experienceSkillList: [],
-          experienceCertificateList: []
+          experienceSkillList: [
+            {
+              id: '',
+              name: '',
+              levelId: ''
+            }
+          ],
+          experienceCertificateList: [
+            {
+              getDate: '',
+              name: '',
+              result: '',
+              description: ''
+            }
+          ]
         },
         studentId: this.$store.state.studentId,
         user: this.$store.state.user,
@@ -824,7 +916,7 @@
             {required: true, message: '请输入培训地址', trigger: 'blur'}],
           description: [
             {required: true, message: '请输入工作描述', trigger: 'blur'}]
-        },
+        }
       }
     },
     mounted() {
@@ -912,6 +1004,16 @@
           })
         } else {
           this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
+        }
+        if (!window.sessionStorage.getItem("levels")) {
+          this.$axios.get('/level').then(resp => {
+            if (resp.data.code === 200) {
+              this.levels = resp.data.data;
+              window.sessionStorage.setItem("levels", JSON.stringify(this.levels));
+            }
+          })
+        } else {
+          this.levels = JSON.parse(window.sessionStorage.getItem("levels"));
         }
       },
       initPositions() {
@@ -1088,6 +1190,35 @@
             this.$notify.error('自我评价不完整')
           }
         })
+      },
+      addSkill() {
+        if (this.resume.experienceSkillList.length == 10) {
+          this.$notify({message: '填写技能上限10个', type: 'warning'});
+          return
+        }
+        this.resume.experienceSkillList.push({
+          id: '',
+          name: '',
+          levelId: ''
+        })
+      },
+      deleteSkill(index) {
+        this.resume.experienceSkillList.splice(index, 1)
+      },
+      addCertificate() {
+        if (this.resume.experienceCertificateList.length == 4) {
+          this.$notify({message: '填写证书上限4个', type: 'warning'});
+          return
+        }
+        this.resume.experienceCertificateList.push({
+          getDate: '',
+          name: '',
+          result: '',
+          description: ''
+        })
+      },
+      deleteCertificate(index) {
+        this.resume.experienceCertificateList.splice(index, 1)
       }
     },
     filters: {
