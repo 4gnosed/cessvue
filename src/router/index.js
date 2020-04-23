@@ -61,14 +61,6 @@ export default new Router({
           meta: {
             requireAuth: true
           }
-        },
-        {
-          path: '/personCenter',
-          name: 'PersonCenter',
-          component: PersonCenter,
-          meta: {
-            requireAuth: true
-          }
         }
       ]
     },
@@ -82,6 +74,14 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: AdminIndex,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/personCenter',
+      name: 'PersonCenter',
+      component: PersonCenter,
       meta: {
         requireAuth: true
       }

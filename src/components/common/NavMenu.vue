@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%">
     <el-menu
       :default-active="$route.path"
       router
@@ -7,54 +7,75 @@
       background-color="#303643"
       text-color="#D2D3D6"
       active-text-color="red"
-      style="min-width: 1300px;margin-left: -1px;margin-right: -30px">
-      <el-menu-item class="font_class" v-for="(item,i) in navList" :key="i" :index="item.name">
-        {{ item.navItem }}
-      </el-menu-item>
-      <span style="position: absolute;padding-top: 20px;right: 43%;font-size: 20px;color: #D2D3D6;font-weight: bold;">Collage Employment Service System | 高校就业服务系统</span>
-      <el-input
-        placeholder="快速搜索..."
-        prefix-icon="el-icon-search"
-        size="medium"
-        style="width: 300px;position:absolute;margin-top: 18px;right: 18%"
-      >
-      </el-input>
-      <i @click="viewMessage()" class="el-icon-bell"
-         style="font-size: 26px;color: #f0f0f0;padding: 20px;margin-left: 1180px">
-        <el-badge is-dot></el-badge>
-      </i>
-      <el-dropdown class="drop_down" trigger="click">
-        <template v-if="this.$store.state.user.username">
-          <el-button circle class="font_class">
-            {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown" class="font_class">
-            <el-dropdown-item @click.native="personCenter">个人中心</el-dropdown-item>
-            <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
-            <el-dropdown-item @click.native="logout">安全退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-        <template v-else>
-          <el-button circle  class="font_class" @click.native="login">
-            未登录
-          </el-button>
-        </template>
-      </el-dropdown>
+    style="width: 100%">
+      <el-row>
+        <el-col :xs="10" :sm="10" :md="8" :lg="6" :xl="8">
+          <el-menu-item class="el_menu_item" v-for="(item,i) in navList" :key="i" :index="item.name">
+            {{ item.navItem }}
+          </el-menu-item>
+        </el-col>
+        <el-col :xs="8" :sm="8" :md="7" :lg="4" :xl="4">
+          <div class="el_menu_else_item">
+            高校就业服务系统
+          </div>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="5" class="hidden-md-and-down">
+          <div class="el_menu_else_item">
+            |&nbsp;&nbsp;Collage Employment Service System
+          </div>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="4" :lg="3" :xl="4" class="hidden-sm-and-down">
+          <div class="el_menu_else_item">
+            <el-input
+              placeholder="快速搜索..."
+              prefix-icon="el-icon-search"
+              size="medium"
+              style="width: 150px;">
+            </el-input>
+          </div>
+        </el-col>
+        <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
+          <div class="el_menu_else_item">
+            <i @click="viewMessage()" class="el-icon-s-comment" style="font-size: 30px;margin-top: 13px">
+              <el-badge is-dot></el-badge>
+            </i>
+          </div>
+        </el-col>
+        <el-col  :xs="4" :sm="4" :md="1" :lg="1" :xl="2">
+          <div class="el_menu_else_item">
+            <el-dropdown trigger="click">
+              <template v-if="this.$store.state.user.username">
+                <el-button circle style="font-size: 16px;font-weight: bold;">
+                  {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown" style="font-size: 16px;font-weight: bold;">
+                  <el-dropdown-item @click.native="personCenter">个人中心</el-dropdown-item>
+                  <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
+                  <el-dropdown-item @click.native="logout">安全退出</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+              <template v-else>
+                <el-button circle @click.native="login">
+                  未登录
+                </el-button>
+              </template>
+            </el-dropdown>
+          </div>
+        </el-col>
+      </el-row>
     </el-menu>
   </div>
 </template>
 
 <script>
+  import 'element-ui/lib/theme-chalk/display.css';
+
   export default {
     name: 'NavMenu',
     data() {
       return {
         navList: [
           {name: '/index', navItem: '首页'},
-          // {name: '/student', navItem: '学生'},
-          // {name: '/enterprise', navItem: '企业'},
-          // {name: '/leader', navItem: '教师'},
-          // {name: '/admin/welcome', navItem: '学校就业部'}
           {name: '/student', navItem: '求职'},
           {name: '/enterprise', navItem: '招聘'},
           {name: '/leader', navItem: '数据分析'},
@@ -104,15 +125,18 @@
     font-size: 12px;
   }
 
-  .drop_down {
-    float: right;
-    font-size: 16px;
-    padding: 13px;
-    margin-right: 20px;
-    color: #f0f0f0;
+  .el_menu_item {
+    font-size: 15px;
+    font-weight: bold;
+    float: left;
+    padding: 0 8px;
   }
 
-  .font_class {
-    font-size: 15px;font-weight: bold;
+  .el_menu_else_item {
+    font-size: 20px;
+    color: #D2D3D6;
+    font-weight: bold;
+    line-height: 56px;
   }
+
 </style>

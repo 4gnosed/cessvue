@@ -24,10 +24,9 @@
     background: #303643;
     text-align: center;
     font-size: 16px;
-    position: absolute;
-    width: 100%;
+    /*position: absolute;*/
+    /*width: 100%;*/
     bottom: 0px;
-    margin-left: -1px;
     border-top: 1px solid #969393;
   }
   .a {

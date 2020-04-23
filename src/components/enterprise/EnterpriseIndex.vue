@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 1500px">
+  <div style="height: 1500px;margin-top: 50px">
     <el-dialog
       :visible.sync="dialogVisible"
       width="80%">

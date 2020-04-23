@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
     if (to.path.startsWith('/enterprise')) {
       if (username) {
         if (roleId == enterpriseId) {
-          getAuthority()
+          // getAuthority()
         } else {
           confirmToLogin('企业')
           return false
@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
     if (to.path.startsWith('/leader')) {
       if (username) {
         if (roleId == leaderId) {
-          getAuthority()
+          // getAuthority()
         } else {
           confirmToLogin('教师')
           return false
@@ -131,10 +131,10 @@ router.beforeEach((to, from, next) => {
     //确认权限
     function getAuthority() {
       axios.get('/authentication').then(resp => {
-        if (resp.data.code === 401) {
-          login()
-        } else {
+        if (resp.data.code === 200) {
           next()
+        } else {
+          login()
         }
       })
     }

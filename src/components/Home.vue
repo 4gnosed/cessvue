@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100px;margin-left: -1px;margin-top: -6px">
+  <div>
     <template>
       <el-backtop>
         <div
@@ -17,21 +17,23 @@
       </el-backtop>
     </template>
     <el-scrollbar>
-      <nav-menu></nav-menu>
-      <router-view/>
-      <Footer></Footer>
+      <div>
+        <nav-menu></nav-menu>
+        <router-view/>
+        <Footer></Footer>
+      </div>
     </el-scrollbar>
   </div>
 </template>
 
 <script>
-import NavMenu from './common/NavMenu'
-import Footer from "./admin/Footer";
+  import NavMenu from './common/NavMenu'
+  import Footer from "./admin/Footer";
 
-export default {
-  name: 'Home',
-  components: {NavMenu,Footer}
-}
+  export default {
+    name: 'Home',
+    components: {NavMenu, Footer}
+  }
 </script>
 
 <style scoped>
