@@ -236,7 +236,7 @@
                         size="mini"
                         type="date"
                         value-format="yyyy-MM-dd"
-                        style="width: 130px;"
+                        style="width: 150px;"
                         placeholder="入学日期">
                       </el-date-picker>
                     </el-form-item>
@@ -248,7 +248,7 @@
                         size="mini"
                         type="date"
                         value-format="yyyy-MM-dd"
-                        style="width: 130px;"
+                        style="width: 150px;"
                         placeholder="毕业日期">
                       </el-date-picker>
                     </el-form-item>
@@ -1617,30 +1617,30 @@
                   if (valid) {
                     this.$refs['trainRefs'].validate(valid => {
                       if (valid) {
-                        this.dialogVisible = false
                         if (this.resume.id) {
-                          this.$axios.put('/resume?userId=' + this.userId, this.resume)
+                          this.$axios.put('/resume?userId=' + this.user.id, this.resume)
                             .then(resp => {
                               if (resp.data.code === 200) {
                                 this.$notify({
-                                  message: '保存并投递成功，请等待回复',
+                                  message: '保存成功',
                                   type: 'success'
                                 })
                               } else {
-                                this.$notify.error('保存并投递失败')
+                                this.$notify.error('保存失败')
                               }
                             })
                         } else {
                           this.$axios.post(
-                            '/resume?userId=' + this.userId + '&positionId=' + this.selectPositionId, this.resume)
+                            '/resume/personCenter?userId=' + this.user.id, this.resume)
                             .then(resp => {
                               if (resp.data.code === 200) {
                                 this.$notify({
-                                  message: '保存并投递成功，请等待回复',
+                                  message: '保存成功',
                                   type: 'success'
                                 })
+                                this.initResumeData()
                               } else {
-                                this.$notify.error('保存并投递失败')
+                                this.$notify.error('保存失败')
                               }
                             })
                         }
