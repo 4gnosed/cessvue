@@ -275,7 +275,8 @@
           width="80%">
           <div style="height: 750px">
             <el-form :model="resume" ref="resumeRefs" :rules="resumeRules">
-              <el-tabs :tab-position="tabPosition" v-model="active" style="height: 750px;">
+              <el-tabs :tab-position="tabPosition" v-model="active" style="height: 750px;"
+                       @tab-click="changeActive">
                 <el-tab-pane label="基本信息" name="0">
                   <div style="margin-left: 60px;margin-top: 40px">
                     <student-info></student-info>
@@ -683,7 +684,7 @@
           <div slot="footer" class="dialog-footer">
             <el-divider></el-divider>
             <div style="margin-bottom: 20px">
-              <template v-if=" this.resume.fileUrlVo.fileName!=null">
+              <template v-if=" this.resume.fileUrlVo.fileName!=null&&this.resume.fileUrlVo.fileName!='' ">
                 <a class="el-upload-list__item-name" :href="this.resume.fileUrlVo.path" target=" _blank">
                   <i class="el-icon-document"></i>
                   {{this.resume.fileUrlVo.fileName}}
@@ -713,7 +714,6 @@
             </div>
           </div>
         </el-dialog>
-
       </div>
     </div>
   </div>
@@ -1061,7 +1061,7 @@
           this.dialogVisible = true
           //当前职位
           this.selectPositionId = positionId
-          //获取该用户已经上传的简历附件
+          //获取该用户已经保存的简历信息
           this.$axios.get('/resume?userId=' + this.userId).then(resp => {
             if (resp.data.code === 200) {
               this.resume = resp.data.data;
@@ -1094,6 +1094,9 @@
       last() {
         this.activeInt--;
         this.asyncActiveInt()
+      },
+      changeActive() {
+        this.activeInt = parseInt(this.active)
       },
       asyncActiveInt() {
         if (this.activeInt < 0) {
