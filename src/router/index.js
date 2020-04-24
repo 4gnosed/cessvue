@@ -73,7 +73,6 @@ export default new Router({
     },
     {
       path: '/admin',
-      alias: '/admin/welcome',
       name: 'Admin',
       component: AdminIndex,
       meta: {
@@ -152,7 +151,6 @@ export const createRouter = routes => new Router({
     },
     {
       path: '/admin',
-      alias: '/admin/welcome',
       name: 'Admin',
       component: AdminIndex,
       meta: {
