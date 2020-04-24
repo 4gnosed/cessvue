@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
     let adminContentId = state.adminContentId;
 
     // 管理员
-    if (to.path.startsWith('/admin')) {
+    if (to.path.startsWith('/admin') && !to.path.match('login')) {
       if (username) {
         if (roleId == adminId || roleId == departmentId || roleId == adminContentId) {
           axios.get('/authentication').then(resp => {
@@ -108,7 +108,7 @@ router.beforeEach((to, from, next) => {
       Vue.prototype.$axios.get('/logout').then(resp => {
         if (resp.data.code === 200) {
           // 前后端状态保持一致
-          this.$store.commit('logout')
+          Vue.prototype.$store.commit('logout')
         }
       })
     }

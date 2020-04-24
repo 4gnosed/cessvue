@@ -18,6 +18,7 @@ export default new Router({
   routes: [
     {
       path: '/login',
+      alias: '/admin/login',
       name: 'Login',
       component: Login
     },
@@ -139,14 +140,6 @@ export const createRouter = routes => new Router({
           meta: {
             requireAuth: true
           }
-        },
-        {
-          path: '/personCenter',
-          name: 'PersonCenter',
-          component: PersonCenter,
-          meta: {
-            requireAuth: true
-          }
         }
       ]
     },
@@ -160,6 +153,14 @@ export const createRouter = routes => new Router({
       path: '/admin',
       name: 'Admin',
       component: AdminIndex,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/personCenter',
+      name: 'PersonCenter',
+      component: PersonCenter,
       meta: {
         requireAuth: true
       }
