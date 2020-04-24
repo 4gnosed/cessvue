@@ -1,19 +1,8 @@
 <template>
   <div>
     <template>
-      <el-backtop>
-        <div
-          style="{
-        height: 100%;
-        width: 100%;
-        background-color: #f2f5f6;
-        text-align: center;
-        line-height: 20px;
-        color: #303643;
-      }"
-        >
-          UP
-        </div>
+      <el-backtop class="el_backtop">
+        UP
       </el-backtop>
     </template>
     <el-scrollbar>
@@ -37,4 +26,11 @@
 </script>
 
 <style scoped>
+  .el_backtop {
+    font-size: 14px;
+    background-color: #f2f5f6;
+    text-align: center;
+    line-height: 20px;
+    color: #303643;
+  }
 </style>

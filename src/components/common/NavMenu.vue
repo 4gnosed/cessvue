@@ -14,20 +14,19 @@
             {{ item.navItem }}
           </el-menu-item>
         </el-col>
-        <el-col :xs="6" :sm="7" :md="7" :lg="4" :xl="4">
-          <div class="el_menu_else_item">
+        <el-col :xs="6" :sm="7" :md="7" :lg="5" :xl="4">
+          <div class="el_menu_else_item title_item">
             高校就业服务系统
           </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="5" class="hidden-md-and-down">
-          <div class="el_menu_else_item">
-            |&nbsp;&nbsp;Collage Employment Service System
+        <el-col :xs="24" :sm="24" :md="24" :lg="7" :xl="5" class="hidden-md-and-down">
+          <div class="el_menu_else_item title_item" style="border-left: #D2D3D6 solid 2px">
+            Collage Employment Service System
           </div>
         </el-col>
         <el-col :xs="24" :sm="24" :md="4" :lg="3" :xl="4" class="hidden-sm-and-down">
           <div class="el_menu_else_item">
             <el-input
-              placeholder="快速搜索..."
               prefix-icon="el-icon-search"
               size="mini"
               style="width: 150px;">
@@ -36,26 +35,26 @@
         </el-col>
         <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
           <div class="el_menu_else_item">
-            <i @click="viewMessage()" class="el-icon-s-comment" style="font-size: 20px;line-height: 56px;">
+            <i @click="viewMessage()" class="el-icon-s-comment el_menu_else_item" style="font-size: 18px">
               <el-badge is-dot></el-badge>
             </i>
           </div>
         </el-col>
         <el-col :xs="4" :sm="4" :md="1" :lg="1" :xl="2">
           <div class="el_menu_else_item">
-            <el-dropdown trigger="click">
+            <el-dropdown trigger="click" class="el_menu_else_item">
               <template v-if="this.$store.state.user.username">
-                <el-button size="mini" round style="font-size: 10px;font-weight: bold;">
+                <el-button size="mini" round class="drop_down_button">
                   {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
-                <el-dropdown-menu slot="dropdown" style="font-size: 10px;font-weight: bold;">
+                <el-dropdown-menu slot="dropdown" style="font-size: 11px;">
                   <el-dropdown-item @click.native="personCenter">个人中心</el-dropdown-item>
                   <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
                   <el-dropdown-item @click.native="logout">安全退出</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
               <template v-else>
-                <el-button circle @click.native="login">
+                <el-button @click.native="login" size="mini" round class="drop_down_button">
                   未登录
                 </el-button>
               </template>
@@ -116,27 +115,33 @@
     pointer-events: none;
   }
 
-  .el-icon-switch-button {
-    cursor: pointer;
-    outline: 0;
-  }
-
   .el-icon-arrow-down {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .el_menu_item {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: bold;
     float: left;
     padding: 0 4px;
+    line-height: 30px;
+    height: 30px;
   }
 
   .el_menu_else_item {
-    font-size: 10px;
+    font-size: 11px;
     color: #D2D3D6;
     font-weight: bold;
-    line-height: 56px;
+    line-height: 30px;
+    height: 30px;
   }
 
+  .title_item {
+    font-size: 14px
+  }
+
+  .drop_down_button {
+    font-size: 11px;
+    font-weight: bold;
+  }
 </style>
