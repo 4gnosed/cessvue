@@ -1,70 +1,49 @@
 <template>
-  <el-container id="admin-body">
+  <el-container>
     <template>
-      <el-backtop >
-        <div
-          style="{
-        height: 100%;
-        width: 100%;
-        background-color: #f2f5f6;
-        text-align: center;
-        line-height: 20px;
-        color: #303643;
-      }"
-        >
-          UP
-        </div>
+      <el-backtop class="el_backtop">
+        UP
       </el-backtop>
     </template>
-    <el-header style="z-index: 1;height: 100px;margin-left: -26px;margin-top: -6px">
-      <Header style="position: absolute;width: 100%;"></Header>
+    <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
+      <Header></Header>
     </el-header>
     <el-container>
-      <el-aside style="height: 200%;margin-top: -80px;width: 210px;margin-left: -6px">
-        <admin-menu></admin-menu>
+      <el-aside style="width: 200px">
+        <admin-menu style="width: 200px;height: 1000px;"></admin-menu>
       </el-aside>
       <el-main>
         <router-view/>
       </el-main>
     </el-container>
+    <el-footer style="padding: 0px;height: 30px;margin-top: 1px">
+      <Footer></Footer>
+    </el-footer>
   </el-container>
 </template>
 
 <script>
-import AdminMenu from './AdminMenu'
-import Header from './Header'
+  import AdminMenu from './AdminMenu'
+  import Header from './Header'
+  import Footer from "./Footer";
 
-export default {
-  name: 'AdminIndex',
-  components: {AdminMenu, Header},
-  data () {
-    return {
-      dialogVisible: false
+  export default {
+    name: 'AdminIndex',
+    components: {Footer, AdminMenu, Header},
+    data() {
+      return {}
+    },
+    mounted() {
     }
-  },
-  mounted () {
-    // this.$router.replace('/admin/dashboard')
   }
-}
 </script>
 
 <style scoped>
-  #admin-body {
-    height: 50px;
-  }
-  .login-footer {
-    padding: 10px;
-    background: #303643;
+  .el_backtop {
+    font-size: 14px;
+    background-color: #f2f5f6;
     text-align: center;
-    font-size: 16px;
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-    margin-left: -1px;
-    border-top: 1px solid #969393;
-  }
-  .a {
-    margin-left: 30px;
-    color: #f0f0f0;
+    line-height: 20px;
+    color: #303643;
   }
 </style>

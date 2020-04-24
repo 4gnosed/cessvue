@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item label="角色分配" label-width="120px" prop="roles">
           <el-checkbox-group v-model="selectedRolesIds">
-              <el-checkbox v-for="(role,i) in roles" :key="i" :label="role.id" >{{role.nameZh}}</el-checkbox>
+            <el-checkbox v-for="(role,i) in roles" :key="i" :label="role.id">{{role.nameZh}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -34,18 +34,19 @@
       title="确认删除？"
       :visible.sync="dialogFormVisible1"
       width="30%"
+      class="common_font_size"
       center>
       <span></span>
       <span slot="footer" class="dialog-footer">
-       <el-button @click="dialogFormVisible1 = false">取 消</el-button>
-       <el-button type="primary" @click="deleteUser()">确 定</el-button>
+       <el-button class="common_font_size" size="mini" @click="dialogFormVisible1 = false">取 消</el-button>
+       <el-button class="common_font_size" size="mini" type="primary" @click="deleteUser()">确 定</el-button>
       </span>
     </el-dialog>
-    <el-row style="margin: -18px 0px 18px 18px ">
+    <el-row>
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户信息</el-breadcrumb-item>
+        <el-breadcrumb-item class="common_font_size" :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="common_font_size">用户管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="common_font_size">用户信息</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
     <user-registration @onSubmit="listUserDtos()"></user-registration>
@@ -56,8 +57,9 @@
         :data="userDtos"
         stripe
         highlight-current-row="highlight-current-row"
-        :default-sort = "{prop: 'id', order: 'ascending'}"
+        :default-sort="{prop: 'id', order: 'ascending'}"
         style="width: 100%"
+        class="common_font_size"
         :max-height="tableHeight">
         <el-table-column
           type="selection"
@@ -132,165 +134,196 @@
         </el-table-column>
       </el-table>
       <div style="margin: 20px 0 20px 0;float: left">
-        <el-button @click="resetSelected()">取消选择</el-button>
-        <el-button @click="deleteUsers()">批量删除</el-button>
+        <el-button class="common_font_size" size="mini" @click="resetSelected()">取消选择</el-button>
+        <el-button class="common_font_size" size="mini" @click="deleteUsers()">批量删除</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
-import UserRegistration from './UserRegister'
-export default {
-  name: 'UserProfile',
-  components: {UserRegistration},
-  data () {
-    return {
-      userDtos: [],
-      roles: [],
-      dialogFormVisible: false,
-      dialogFormVisible1: false,
-      selectedUser: [],
-      selectedRolesIds: [],
-      deletedIndex: -1,
-      deletedUserId: -1,
-      selectedUsers: []
-    }
-  },
-  mounted () {
-    this.listUserDtos()
-    this.listRoles()
-  },
-  computed: {
-    tableHeight () {
-      return window.innerHeight - 320
-    }
-  },
-  methods: {
-    listUserDtos () {
-      this.$axios.get('/admin/user').then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.userDtos = resp.data.data
-        }
-      })
-    },
-    listRoles () {
-      this.$axios.get('/admin/role').then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.roles = resp.data.data
-        }
-      })
-    },
-    commitStatusChange (user) {
-      let value = user.user.enabled
-      let isAdmin = 0
-      for (let i = 0; i < user.roles.length; i++) {
-        if (user.roles[i].id === 1) {
-          isAdmin = 1
-          break
-        }
+  import UserRegistration from './UserRegister'
+
+  export default {
+    name: 'UserProfile',
+    components: {UserRegistration},
+    data() {
+      return {
+        userDtos: [],
+        roles: [],
+        dialogFormVisible: false,
+        dialogFormVisible1: false,
+        selectedUser: [],
+        selectedRolesIds: [],
+        deletedIndex: -1,
+        deletedUserId: -1,
+        selectedUsers: []
       }
-      if (isAdmin === 1) {
-        user.user.enabled = true
-        this.$alert('不能禁用管理员账户')
-      } else {
-        this.$axios.put('/admin/user/status', {
-          enabled: value,
-          username: user.user.username
+    },
+    mounted() {
+      this.listUserDtos()
+      this.listRoles()
+    },
+    computed: {
+      tableHeight() {
+        return window.innerHeight - 320
+      }
+    },
+    methods: {
+      listUserDtos() {
+        this.$axios.get('/admin/user').then(resp => {
+          if (resp && resp.data.code === 200) {
+            this.userDtos = resp.data.data
+          }
+        })
+      },
+      listRoles() {
+        this.$axios.get('/admin/role').then(resp => {
+          if (resp && resp.data.code === 200) {
+            this.roles = resp.data.data
+          }
+        })
+      },
+      commitStatusChange(user) {
+        let value = user.user.enabled
+        let isAdmin = 0
+        for (let i = 0; i < user.roles.length; i++) {
+          if (user.roles[i].id === 1) {
+            isAdmin = 1
+            break
+          }
+        }
+        if (isAdmin === 1) {
+          user.user.enabled = true
+          this.$notify({
+            message: '不能禁用管理员账户',
+            type: "error"
+          })
+        } else {
+          this.$axios.put('/admin/user/status', {
+            enabled: value,
+            username: user.user.username
+          }).then(resp => {
+            if (resp && resp.data.code === 200) {
+              if (value) {
+                this.$notify({
+                  message: '用户 [' + user.user.username + '] 已启用',
+                  type: "success"
+                })
+              } else {
+                this.$notify({
+                  message: '用户 [' + user.user.username + '] 已禁用',
+                  type: "success"
+                })
+              }
+            }
+          })
+        }
+      },
+      onSubmit(user) {
+        // 根据视图绑定的角色 id 向后端传送角色信息
+        let roles = []
+        for (let i = 0; i < this.selectedRolesIds.length; i++) {
+          for (let j = 0; j < this.roles.length; j++) {
+            if (this.selectedRolesIds[i] === this.roles[j].id) {
+              roles.push(this.roles[j])
+            }
+          }
+        }
+        this.$axios.put('/admin/user', {
+          user: user,
+          roles: roles
         }).then(resp => {
           if (resp && resp.data.code === 200) {
-            if (value) {
-              this.$message('用户 [' + user.user.username + '] 已启用')
-            } else {
-              this.$message('用户 [' + user.user.username + '] 已禁用')
+            this.$notify({
+              message: '用户信息修改成功',
+              type: "success"
+            })
+            this.dialogFormVisible = false
+            // 修改角色后重新请求用户信息，实现视图更新
+            this.listUserDtos()
+          }
+        })
+      },
+      editUser(user) {
+        this.selectedUser = user.user
+        let roleIds = []
+        for (let i = 0; i < user.roles.length; i++) {
+          roleIds.push(user.roles[i].id)
+        }
+        this.selectedRolesIds = roleIds
+        this.dialogFormVisible = true
+      },
+      resetPassword(username) {
+        this.$axios.put('/admin/user/password?username=' + username).then(resp => {
+          if (resp && resp.data.code === 200) {
+            this.$notify({
+              message: '密码已重置为 ' + resp.data.data,
+              type: "success"
+            })
+          }
+        })
+      },
+      readyDeleteUser(index, user) {
+        this.dialogFormVisible1 = true
+        this.deletedIndex = index
+        this.deletedUserId = user.id
+      },
+      deleteUser() {
+        this.$axios.delete('/admin/user/delete?id=' + this.deletedUserId).then(resp => {
+          this.userDtos.splice(this.deletedIndex, 1)
+          if (resp && resp.data.code === 200) {
+            this.$notify({
+              message: '删除成功',
+              type: "success"
+            })
+          }
+        })
+        this.dialogFormVisible1 = false
+      },
+      resetSelected() {
+        this.$refs.multipleTable.clearSelection()
+      },
+      readyDeleteUsers(rows) {
+        this.selectedUsers = rows
+      },
+      deleteUsers() {
+        if (this.selectedUsers.length === 0) {
+          this.$notify({
+            message: '为选择用户',
+            type: "error"
+          })
+          return
+        }
+        let users = []
+        this.selectedUsers.forEach(item => {
+          users.push(item.user)
+          for (let i = 0; i < this.userDtos.length; i++) {
+            if (item.user.id === this.userDtos[i].user.id) {
+              this.userDtos.splice(i, 1)
             }
           }
         })
+        if (users) {
+          this.$axios.delete('/admin/user/deletes', {
+            data: users
+          }).then(resp => {
+            if (resp && resp.data.code === 200) {
+              this.$notify({
+                message: '删除成功',
+                type: "success"
+              })
+            }
+          })
+        }
+        this.$refs.multipleTable.clearSelection()
       }
-    },
-    onSubmit (user) {
-      // 根据视图绑定的角色 id 向后端传送角色信息
-      let roles = []
-      for (let i = 0; i < this.selectedRolesIds.length; i++) {
-        for (let j = 0; j < this.roles.length; j++) {
-          if (this.selectedRolesIds[i] === this.roles[j].id) {
-            roles.push(this.roles[j])
-          }
-        }
-      }
-      this.$axios.put('/admin/user', {
-        user: user,
-        roles: roles
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.$alert('用户信息修改成功')
-          this.dialogFormVisible = false
-          // 修改角色后重新请求用户信息，实现视图更新
-          this.listUserDtos()
-        }
-      })
-    },
-    editUser (user) {
-      this.selectedUser = user.user
-      let roleIds = []
-      for (let i = 0; i < user.roles.length; i++) {
-        roleIds.push(user.roles[i].id)
-      }
-      this.selectedRolesIds = roleIds
-      this.dialogFormVisible = true
-    },
-    resetPassword (username) {
-      this.$axios.put('/admin/user/password?username=' + username).then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.$alert('密码已重置为 ' + resp.data.data)
-        }
-      })
-    },
-    readyDeleteUser (index, user) {
-      this.dialogFormVisible1 = true
-      this.deletedIndex = index
-      this.deletedUserId = user.id
-    },
-    deleteUser () {
-      this.$axios.delete('/admin/user/delete?id=' + this.deletedUserId).then(resp => {
-        this.userDtos.splice(this.deletedIndex, 1)
-        if (resp && resp.data.code === 200) {
-          this.$alert('删除成功')
-        }
-      })
-      this.dialogFormVisible1 = false
-    },
-    resetSelected () {
-      this.$refs.multipleTable.clearSelection()
-    },
-    readyDeleteUsers (rows) {
-      this.selectedUsers = rows
-    },
-    deleteUsers () {
-      let users = []
-      this.selectedUsers.forEach(item => {
-        users.push(item.user)
-        for (let i = 0; i < this.userDtos.length; i++) {
-          if (item.user.id === this.userDtos[i].user.id) {
-            this.userDtos.splice(i, 1)
-          }
-        }
-      })
-      if (users) {
-        this.$axios.delete('/admin/user/deletes', {
-          data: users
-        }).then(resp => {
-          if (resp && resp.data.code === 200) {
-            this.$alert('删除成功')
-          }
-        })
-      }
-      this.$refs.multipleTable.clearSelection()
     }
   }
-}
 </script>
 
 <style scoped>
-
+  .common_font_size {
+    font-size: 12px;
+  }
 </style>

@@ -2,14 +2,16 @@
   <div>
     <!--叶子项-->
     <template v-if="item.children===null">
-      <el-menu-item :key="item.id" :index="item.path">
+      <el-menu-item :key="item.id" :index="item.path" class="child_class">
+        <span style="font-size: 10px;float: left;">
         <i :class="item.iconCls"></i>
         {{item.nameZh}}
+          </span>
       </el-menu-item>
     </template>
     <!--父级菜单项-->
-    <el-submenu v-else :index="item.path" style="text-align: left">
-      <span slot="title" style="font-size: 17px;">
+    <el-submenu v-else :index="item.path">
+      <span slot="title" style="font-size: 12px;float: left;">
         <i :class="item.iconCls"></i>
         {{item.nameZh}}
       </span>

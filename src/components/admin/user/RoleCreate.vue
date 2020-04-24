@@ -76,4 +76,7 @@ export default {
   .add-button {
     margin: 18px 0 0 28px;
   }
+  .common_font_size {
+    font-size: 12px;
+  }
 </style>
