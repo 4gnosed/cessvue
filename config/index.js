@@ -11,11 +11,13 @@ module.exports = {
     assetsPublicPath: '/',
     // 配置跨域支持,让后端能够访问到前端的资源
     proxyTable: {
+      // 匹配所有以"/api"开头的请求路径
       '/api': {
         target: 'http://localhost:8443',
         changeOrigin: true,
+        //重写，去掉开头的 "/api"
         pathRewrite: {
-          '^/api': ''
+          '^/api': '/'
         }
       }
     },

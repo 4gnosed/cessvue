@@ -73,6 +73,7 @@ export default new Router({
     },
     {
       path: '/admin',
+      alias: '/admin/welcome',
       name: 'Admin',
       component: AdminIndex,
       meta: {
@@ -90,7 +91,7 @@ export default new Router({
   ]
 })
 
-// 用于创建默认路由
+// 用于清空路由,防止路由重复加载
 export const createRouter = routes => new Router({
   // 从默认的hash模式设置为history模式，url不带#
   mode: 'history',
@@ -151,6 +152,7 @@ export const createRouter = routes => new Router({
     },
     {
       path: '/admin',
+      alias: '/admin/welcome',
       name: 'Admin',
       component: AdminIndex,
       meta: {

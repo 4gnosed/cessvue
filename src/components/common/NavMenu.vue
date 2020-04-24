@@ -68,6 +68,7 @@
 
 <script>
   import 'element-ui/lib/theme-chalk/display.css';
+  import {createRouter} from "../../router";
 
   export default {
     name: 'NavMenu',
@@ -89,6 +90,11 @@
           if (resp.data.code === 200) {
             // 前后端状态保持一致
             _this.$store.commit('logout')
+
+            /*清空路由，防止路由重复加载*/
+            const newRouter = createRouter()
+            this.$router.matcher = newRouter.matcher
+
             _this.$router.replace('/home')
           }
         })
@@ -106,7 +112,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   a {
     text-decoration: none;
   }
