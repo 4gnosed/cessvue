@@ -1,29 +1,24 @@
 <template>
   <div>
     <div>
-      <el-row style="margin: -18px 0px 18px 18px ">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
-          <el-breadcrumb-item>学生类管理</el-breadcrumb-item>
-          <el-breadcrumb-item>毕业生信息</el-breadcrumb-item>
-        </el-breadcrumb>
-      </el-row>
       <div style="display: flex;justify-content: space-between">
         <div>
-          <el-input placeholder="请输入姓名" prefix-icon="el-icon-search"
+          <el-input size="mini" placeholder="请输入姓名" prefix-icon="el-icon-search"
                     clearable
                     @clear="initStudents"
                     style="width: 130px;margin-right: 10px" v-model="keywordName"
                     @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
-          <el-input placeholder="请输入学号，可回车搜索..." prefix-icon="el-icon-search"
+          <el-input size="mini" placeholder="请输入学号，可回车搜索..." prefix-icon="el-icon-search"
                     clearable
                     @clear="initStudents"
                     style="width: 220px;margin-right: 10px" v-model="studentId"
                     @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
-          <el-button icon="el-icon-search" type="primary" @click="initStudents" :disabled="showAdvanceSearchView">
+          <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary" @click="initStudents"
+                     :disabled="showAdvanceSearchView">
             搜索
           </el-button>
-          <el-button type="primary" @click="showAdvanceSearchView = !showAdvanceSearchView">
+          <el-button class="common_font_size" size="mini" type="primary"
+                     @click="showAdvanceSearchView = !showAdvanceSearchView">
             <i :class="showAdvanceSearchView?'fa fa-angle-double-up':'fa fa-angle-double-down'"
                aria-hidden="true"></i>
             高级搜索
@@ -40,14 +35,16 @@
             :on-remove="handleRemove"
             :on-progress="progressA"
             :auto-upload="true">
-            <el-button :disabled="importDataDisabled" type="success" :icon="importDataBtnIcon">
+            <el-button class="common_font_size" size="mini" :disabled="importDataDisabled" type="success"
+                       :icon="importDataBtnIcon">
               导入数据
             </el-button>
           </el-upload>
-          <el-button :loading="downloadLoading" type="success" @click="exportData" icon="el-icon-download">
+          <el-button class="common_font_size" size="mini" :loading="downloadLoading" type="success" @click="exportData"
+                     icon="el-icon-download">
             导出数据
           </el-button>
-          <el-button type="primary" icon="el-icon-plus" @click="showAddEmpView">
+          <el-button class="common_font_size" size="mini" type="primary" icon="el-icon-plus" @click="showAddEmpView">
             添加学生
           </el-button>
         </div>
@@ -61,6 +58,7 @@
               <el-select v-model="searchValue.departmentId" placeholder="所属院系" size="mini" clearable="clearable"
                          @change="changeDepartment" style="width: 130px;">
                 <el-option
+                  class="common_font_size"
                   v-for="item in department"
                   :key="item.id"
                   :label="item.name"
@@ -73,6 +71,7 @@
               <el-select v-model="searchValue.specialtyId" placeholder="专业" size="mini" clearable="clearable"
                          style="width: 130px;">
                 <el-option
+                  class="common_font_size"
                   v-for="item in specialtySelected"
                   :key="item.id"
                   :label="item.name"
@@ -85,6 +84,7 @@
               <el-select v-model="searchValue.positionId" placeholder="学生职位" size="mini" clearable="clearable"
                          style="width: 130px;">
                 <el-option
+                  class="common_font_size"
                   v-for="item in position"
                   :key="item.id"
                   :label="item.name"
@@ -97,6 +97,7 @@
               <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable="clearable"
                          style="width: 130px;">
                 <el-option
+                  class="common_font_size"
                   v-for="item in politics"
                   :key="item.id"
                   :label="item.name"
@@ -109,6 +110,7 @@
               <el-select v-model="searchValue.nationId" placeholder="民族" size="mini" clearable="clearable"
                          style="width: 130px;">
                 <el-option
+                  class="common_font_size"
                   v-for="item in nations"
                   :key="item.id"
                   :label="item.name"
@@ -133,8 +135,9 @@
               </el-date-picker>
             </el-col>
             <el-col :span="5" :offset="4">
-              <el-button size="mini" @click="showAdvanceSearchView=false">取消</el-button>
-              <el-button size="mini" icon="el-icon-search" type="primary" @click="initStudents">搜索
+              <el-button class="common_font_size" size="mini" @click="showAdvanceSearchView=false">取消</el-button>
+              <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary"
+                         @click="initStudents">搜索
               </el-button>
             </el-col>
           </el-row>
@@ -151,7 +154,8 @@
         element-loading-text="正在加载..."
         element-loading-spinner="el-icon-loading"
         element-loading-background="RGB(239,239,239)"
-        style="width: 100%">
+        style="width: 100%"
+        class="common_font_size">
         <el-table-column
           type="selection"
           width="55">
@@ -283,8 +287,11 @@
           width="200"
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="showEditStudentView(scope.row)" style="padding: 3px" size="mini">编辑</el-button>
-            <el-button @click="deleteStudent(scope.row,scope.$index)" style="padding: 3px" size="mini" type="danger">删除
+            <el-button class="common_font_size" size="mini" @click="showEditStudentView(scope.row)"
+                       style="padding: 3px">编辑
+            </el-button>
+            <el-button class="common_font_size" size="mini" @click="deleteStudent(scope.row,scope.$index)"
+                       style="padding: 3px" type="danger">删除
             </el-button>
           </template>
         </el-table-column>
@@ -336,6 +343,7 @@
               <el-form-item label="政治面貌:" prop="politicId">
                 <el-select v-model="student.politicId" placeholder="政治面貌" size="mini" style="width: 200px;">
                   <el-option
+                    class="common_font_size"
                     v-for="item in politics"
                     :key="item.id"
                     :label="item.name"
@@ -350,6 +358,7 @@
               <el-form-item label="民族:" prop="nationId">
                 <el-select v-model="student.nationId" placeholder="民族" size="mini" style="width: 150px;">
                   <el-option
+                    class="common_font_size"
                     v-for="item in nations"
                     :key="item.id"
                     :label="item.name"
@@ -403,6 +412,7 @@
                 <el-select v-model="student.topDegree" placeholder="学历" size="mini"
                            style="width: 150px;">
                   <el-option
+                    class="common_font_size"
                     v-for="item in topDegrees"
                     :key="item"
                     :label="item"
@@ -422,6 +432,7 @@
                 <el-select v-model="student.departmentId" placeholder="院系" size="mini"
                            @change="changeDepartment" style="width: 150px;">
                   <el-option
+                    class="common_font_size"
                     v-for="item in department"
                     :key="item.id"
                     :label="item.name"
@@ -435,6 +446,7 @@
                 <el-select v-model="student.specialtyId" placeholder="专业" size="mini"
                            style="width: 150px;">
                   <el-option
+                    class="common_font_size"
                     v-for="item in specialtySelected"
                     :key="item.id"
                     :label="item.name"
@@ -448,6 +460,7 @@
                 <el-select v-model="student.positionId" placeholder="学生职位" size="mini"
                            style="width: 150px;">
                   <el-option
+                    class="common_font_size"
                     v-for="item in position"
                     :key="item.id"
                     :label="item.name"
@@ -498,8 +511,8 @@
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="doAddStudent">确 定</el-button>
+    <el-button class="common_font_size" size="mini" @click="dialogVisible = false">取 消</el-button>
+    <el-button class="common_font_size" size="mini" type="primary" @click="doAddStudent">确 定</el-button>
   </span>
     </el-dialog>
   </div>
@@ -637,7 +650,7 @@
         }).then(resp => {
           if (resp.data.code === 200) {
             file.onSuccess(); //上传成功(打钩的小图标)
-            this.$message({type: 'success', message: '导入完成'})
+            this.$notify({type: 'success', message: '导入完成'})
           }
         })
       },
@@ -647,14 +660,14 @@
       /**     移除上传文件    **/
       handleRemove(file) {
         this.$refs.upload.abort(); //取消上传
-        this.$message({message: '成功移除' + file.name, type: 'success'});
+        this.$notify({message: '成功移除' + file.name, type: 'success'});
       },
       exportData() {
         this.downloadLoading = true
         this.$axios.get("/content/student/loading").then(resp => {
           if (resp.data.code === 200) {
             this.downloadLoading = false
-            this.$message({type: 'success', message: '下载完成'})
+            this.$notify({type: 'success', message: '下载完成'})
           }
         })
         // 文件传输不能用ajax
@@ -699,7 +712,7 @@
             }
           })
         }).catch(() => {
-          this.$message({
+          this.$notify({
             type: 'info',
             message: '已取消删除'
           });

@@ -2,7 +2,7 @@
   <div>
     <template>
       <el-backtop class="el_backtop">
-        UP
+        <i class="el-icon-caret-top"></i>
       </el-backtop>
     </template>
     <el-scrollbar>

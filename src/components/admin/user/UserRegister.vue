@@ -185,14 +185,6 @@
     margin: 18px 0 0 25px;
   }
 
-  .common_font_size {
-    font-size: 12px;
-  }
-
-  .el-dialog__title {
-    font-size: 13px;
-  }
-
   .common_font_size el-col el-col-24{
     width: 330px;
   }

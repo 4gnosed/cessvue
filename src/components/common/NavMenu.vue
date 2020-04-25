@@ -79,7 +79,7 @@
           {name: '/student', navItem: '求职'},
           {name: '/enterprise', navItem: '招聘'},
           {name: '/leader', navItem: '数据分析'},
-          {name: '/admin/welcome', navItem: '后台管理'}
+          {name: '/admin', navItem: '后台管理'}
         ]
       }
     },

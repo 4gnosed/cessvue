@@ -2,7 +2,7 @@
   <el-container>
     <template>
       <el-backtop class="el_backtop">
-        UP
+        <i class="el-icon-caret-top"></i>
       </el-backtop>
     </template>
     <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">

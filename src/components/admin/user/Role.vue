@@ -40,6 +40,7 @@
         stripe
         highlight-current-row="highlight-current-row"
         style="width: 100%"
+        class="common_font_size"
         :max-height="tableHeight">
         <el-table-column
           type="index"

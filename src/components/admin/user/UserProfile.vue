@@ -317,7 +317,4 @@
 </script>
 
 <style scoped>
-  .common_font_size {
-    font-size: 12px;
-  }
 </style>

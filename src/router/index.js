@@ -70,8 +70,8 @@ export default new Router({
     },
     {
       path: '/admin',
-      alias: '/admin/welcome',
       name: 'Admin',
+      redirect: '/admin/welcome',
       component: AdminIndex,
       meta: {
         requireAuth: true
@@ -147,8 +147,8 @@ export const createRouter = routes => new Router({
     },
     {
       path: '/admin',
-      alias: '/admin/welcome',
       name: 'Admin',
+      redirect: '/admin/welcome',
       component: AdminIndex,
       meta: {
         requireAuth: true

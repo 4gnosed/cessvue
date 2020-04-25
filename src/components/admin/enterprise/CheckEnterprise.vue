@@ -1,13 +1,6 @@
 <template>
   <div>
     <div style="margin-top: 10px">
-      <el-row style="margin: -18px 0px 18px 18px ">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
-          <el-breadcrumb-item>企业类信息</el-breadcrumb-item>
-          <el-breadcrumb-item>企业信息审核</el-breadcrumb-item>
-        </el-breadcrumb>
-      </el-row>
       <el-table
         :data="userEnterpriseVos"
         stripe
@@ -17,7 +10,8 @@
         element-loading-text="正在加载..."
         element-loading-spinner="el-icon-loading"
         element-loading-background="RGB(239,239,239)"
-        style="width: 100%">
+        style="width: 100%"
+        class="common_font_size">
         <el-table-column
           label="用户信息"
           align="center">
@@ -37,28 +31,6 @@
             sortable
             fit>
           </el-table-column>
-          <!--          <el-table-column-->
-          <!--            prop="user.name"-->
-          <!--            label="真实姓名"-->
-          <!--            width="110"-->
-          <!--            sortable-->
-          <!--            fit>-->
-          <!--          </el-table-column>-->
-          <!--          <el-table-column-->
-          <!--            prop="user.phone"-->
-          <!--            width="110"-->
-          <!--            label="手机号"-->
-          <!--            sortable-->
-          <!--            fit>-->
-          <!--          </el-table-column>-->
-          <!--          <el-table-column-->
-          <!--            prop="user.email"-->
-          <!--            width="170"-->
-          <!--            label="邮箱"-->
-          <!--            sortable-->
-          <!--            show-overflow-tooltip-->
-          <!--            fit>-->
-          <!--          </el-table-column>-->
           <el-table-column
             prop="user.lastLogin"
             label="上次登录时间"
@@ -227,10 +199,10 @@
       }
     },
     mounted() {
-      this.inituserEnterpriseVos()
+      this.initUserEnterpriseVos()
     },
     methods: {
-      inituserEnterpriseVos() {
+      initUserEnterpriseVos() {
         this.loading = true
         this.$axios.get('/userEnterprise?page=' + this.page + '&size=' + this.size).then(resp => {
           if (resp.data.code === 200) {
@@ -242,27 +214,31 @@
       },
       sizeChange(currentSize) {
         this.size = currentSize;
-        this.inituserEnterpriseVos();
+        this.initUserEnterpriseVos();
       },
       currentChange(currentPage) {
         this.page = currentPage;
-        this.inituserEnterpriseVos();
+        this.initUserEnterpriseVos();
       },
       commitStatusChange(userEnterprise) {
         let value = userEnterprise.enabled
         this.$axios.put('/userEnterprise/status?enabled=' + value + '&id=' + userEnterprise.id).then(resp => {
           if (resp && resp.data.code === 200) {
             let msg = '设置用户 [' + userEnterprise.user.username + '] , 企业 [' + userEnterprise.enterprise.name + ']'
-            if (value) {
-              this.$message(msg + '审核通过')
-            } else {
-              this.$message(msg + ' 审核未通过')
-            }
+            this.$notify({
+              message: msg + '审核通过',
+              type: 'success'
+            })
+          } else {
+            this.$notify({
+              message: msg + ' 审核不通过',
+              type: 'success'
+            })
           }
         })
       },
       stateFormat(row, column, cellValue) {
-        if(cellValue){
+        if (cellValue) {
           return '经营中'
         } else {
           return '已关闭'

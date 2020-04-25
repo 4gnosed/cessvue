@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
   let adminContentId = state.adminContentId;
 
   // 页面拦截：访问每个页面前都向后端发送一个请求,后端拦截器验证登录状态
-  if (to.meta.requireAuth) {
+  if (to.meta.requireAuth || to.path.startsWith('/admin')) {
     // Vue.prototype.$notify({
     //   message: '需要验证登录状态'
     // })

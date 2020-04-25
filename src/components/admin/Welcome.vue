@@ -1,5 +1,7 @@
 <template>
-  <div><h3 class="common_font_size">欢迎来到Cess后台系统</h3></div>
+  <div>
+    <span class="common_font_size">欢迎来到Cess后台系统</span>
+  </div>
 </template>
 
 <script>
@@ -8,7 +10,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   .common_font_size {
     font-size: 12px;
   }
