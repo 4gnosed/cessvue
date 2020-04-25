@@ -29,163 +29,160 @@ axios.defaults.withCredentials = true
 // 判断访问的路径是否需要拦截，如果需要，判断 store 里有没有存储 user 的信息，
 // 如果存在，则放行，否则跳转到登录页面，并存储访问的页面路径（以便在成功登录后跳转到要访问的页面）
 router.beforeEach((to, from, next) => {
-    let state = store.state;
-    let username = state.user.username;
-    let roleId = state.user.roleId;
-    let adminId = state.adminId;
-    let studentId = state.studentId;
-    let enterpriseId = state.enterpriseId;
-    let departmentId = state.departmentId;
-    let leaderId = state.leaderId;
-    let adminContentId = state.adminContentId;
 
-    //验证
-    if (to.meta.requireAuth) {
-      if (username) {
-        // 页面拦截：访问每个页面前都向后端发送一个请求,后端拦截器验证登录状态
-        getAuthority()
-      } else {
-        login()
-      }
-    } else {
-      next()
-    }
+  let state = store.state;
+  let username = state.user.username;
+  let roleId = state.user.roleId;
+  let adminId = state.adminId;
+  let studentId = state.studentId;
+  let enterpriseId = state.enterpriseId;
+  let departmentId = state.departmentId;
+  let leaderId = state.leaderId;
+  let adminContentId = state.adminContentId;
 
-    // 管理员
-    if (to.path.startsWith('/admin') && !to.path.match('login')) {
-      if (username) {
-        if (roleId == adminId || roleId == departmentId || roleId == adminContentId) {
-          axios.get('/authentication').then(resp => {
-            // alert(to.path + '发起authentication请求')
-            if (resp.data.code === 200) {
-              // alert(to.path + '收到authentication 200 响应')
-              if (store.state.adminMenus.length == 0) {
+  // 页面拦截：访问每个页面前都向后端发送一个请求,后端拦截器验证登录状态
+  if (to.meta.requireAuth) {
+    // Vue.prototype.$notify({
+    //   message: '需要验证登录状态'
+    // })
+    axios.get('/authentication').then(resp => {
+      if (resp.data.code === 200) {
+        //页面-角色关系的验证
+        //管理员
+        if (to.path.startsWith('/admin')) {
+          //管理员账户访问后台管理页面
+          if (roleId == adminId || roleId == departmentId || roleId == adminContentId) {
+            //第一次进入后台welcome页面，进行权限验证，并加载菜单
+            if (!from.path.startsWith('/admin')) {
+              Vue.prototype.$notify({
+                message: '欢迎来到后台管理系统',
+                type: 'success'
+              })
+              //缓存是否已有菜单
+              if (store.state.adminMenus.length === 0) {
                 initAdminMenu(router, store)
               }
               next()
+            } else {
+              //成功进入后台welcome页面后，不用加载菜单
+              next()
             }
-          })
+          } else {
+            //非管理员账户访问后台管理页面
+            confirmToLogin('管理员')
+            return false
+          }
+        } else if (to.path.startsWith('/enterprise')) {
+          //企业
+          if (roleId == enterpriseId) {
+            next()
+          } else {
+            confirmToLogin('企业')
+            return false
+          }
+        } else if (to.path.startsWith('/leader')) {
+          //教师
+          if (roleId == leaderId) {
+            next()
+          } else {
+            confirmToLogin('教师')
+            return false
+          }
         } else {
-          confirmToLogin('管理员')
-          return false
+          //其它角色，这里先不处理
+          next()
         }
       } else {
-        login()
+        Vue.prototype.$notify({
+          message: '请重新登录', type: 'error'
+        })
+        return false
       }
-    } else if (to.path.startsWith('/enterprise')) {
-      //企业
-      if (username) {
-        if (roleId == enterpriseId) {
-          // getAuthority()
-        } else {
-          confirmToLogin('企业')
-          return false
-        }
-      } else {
-        login()
-      }
-    } else if (to.path.startsWith('/leader')) {
-      //教师
-      if (username) {
-        if (roleId == leaderId) {
-          // getAuthority()
-        } else {
-          confirmToLogin('教师')
-          return false
-        }
-      } else {
-        login()
-      }
-    }
+    })
+  } else {
+    // Vue.prototype.$notify({
+    //   message: '不需要验证登录状态'
+    // })
+    next()
+  }
 
 //登录并且携带登录成功后重定向路径
-    function login() {
+  function login() {
+    next({
+      path: 'login',
+      query: {redirect: to.fullPath}
+    })
+  }
+
+//退出登录
+  function logout() {
+    Vue.prototype.$axios.get('/logout').then(resp => {
+      if (resp.data.code === 200) {
+        // 前后端状态保持一致
+        Vue.prototype.$store.commit('logout')
+      }
+    })
+  }
+
+//根据当前在线用户角色进行页面权限验证
+  function confirmToLogin(roleName) {
+    Vue.prototype.$confirm('您不是' + roleName + '账户，是否退出重新登录?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      logout()
       next({
         path: 'login',
         query: {redirect: to.fullPath}
       })
-    }
-
-//退出登录
-    function logout() {
-      Vue.prototype.$axios.get('/logout').then(resp => {
-        if (resp.data.code === 200) {
-          // 前后端状态保持一致
-          Vue.prototype.$store.commit('logout')
-        }
-      })
-    }
-
-//根据当前在线用户角色进行页面权限验证
-    function confirmToLogin(roleName) {
-      Vue.prototype.$confirm('您不是' + roleName + '账户，是否退出重新登录?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        logout()
-        next({
-          path: 'login',
-          query: {redirect: to.fullPath}
-        })
-      })
-    }
-
-//确认权限
-    function getAuthority() {
-      axios.get('/authentication').then(resp => {
-        if (resp.data.code === 200) {
-          next()
-        } else {
-          login()
-        }
-      })
-    }
+    })
+  }
 
 // 初始化菜单
-    const initAdminMenu = (router, store) => {
-      // alert(to.path + '开始发起menu请求')
-      axios.get('/menu').then(resp => {
-        if (resp && resp.data.code === 200) {
-          // alert('menu请求返回200响应，开始格式化')
-          var fmtRoutes = formatRoutes(resp.data.data)
+  const initAdminMenu = (router, store) => {
+    // alert(to.path + '开始发起menu请求')
+    axios.get('/menu').then(resp => {
+      if (resp && resp.data.code === 200) {
+        // alert('menu请求返回200响应，开始格式化')
+        var fmtRoutes = formatRoutes(resp.data.data)
 
-          /*清空路由，防止路由重复加载*/
-          const newRouter = createRouter()
-          router.matcher = newRouter.matcher
+        /*清空路由，防止路由重复加载*/
+        const newRouter = createRouter()
+        router.matcher = newRouter.matcher
 
-          router.addRoutes(fmtRoutes)
-          store.commit('initAdminMenu', fmtRoutes)
-          return
-        }
-      })
-    }
-// 格式化菜单
-    const formatRoutes = (routes) => {
-      let fmtRoutes = []
-      routes.forEach(route => {
-        if (route.children) {
-          route.children = formatRoutes(route.children)
-        }
-        let fmtRoute = {
-          path: route.path,
-          component: resolve => {
-            require(['./components/admin/' + route.component + '.vue'], resolve)
-          },
-          name: route.name,
-          nameZh: route.nameZh,
-          iconCls: route.iconCls,
-          meta: {
-            requireAuth: true
-          },
-          children: route.children
-        }
-        fmtRoutes.push(fmtRoute)
-      })
-      return fmtRoutes
-    }
+        router.addRoutes(fmtRoutes)
+        store.commit('initAdminMenu', fmtRoutes)
+        return
+      }
+    })
   }
-)
+// 格式化菜单
+  const formatRoutes = (routes) => {
+    let fmtRoutes = []
+    routes.forEach(route => {
+      if (route.children) {
+        route.children = formatRoutes(route.children)
+      }
+      let fmtRoute = {
+        path: route.path,
+        component: resolve => {
+          require(['./components/admin/' + route.component + '.vue'], resolve)
+        },
+        name: route.name,
+        nameZh: route.nameZh,
+        iconCls: route.iconCls,
+        meta: {
+          requireAuth: true
+        },
+        children: route.children
+      }
+      fmtRoutes.push(fmtRoute)
+    })
+    return fmtRoutes
+  }
+
+})
 
 /* eslint-disable no-new */
 new Vue({

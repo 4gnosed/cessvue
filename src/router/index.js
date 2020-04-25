@@ -43,9 +43,6 @@ export default new Router({
           path: '/student',
           name: 'StudentIndex',
           component: StudentIndex,
-          meta: {
-            requireAuth: true
-          }
         },
         {
           path: '/enterprise',
@@ -73,6 +70,7 @@ export default new Router({
     },
     {
       path: '/admin',
+      alias: '/admin/welcome',
       name: 'Admin',
       component: AdminIndex,
       meta: {
@@ -97,6 +95,7 @@ export const createRouter = routes => new Router({
   routes: [
     {
       path: '/login',
+      alias: '/admin/login',
       name: 'Login',
       component: Login
     },
@@ -121,9 +120,6 @@ export const createRouter = routes => new Router({
           path: '/student',
           name: 'StudentIndex',
           component: StudentIndex,
-          meta: {
-            requireAuth: true
-          }
         },
         {
           path: '/enterprise',
@@ -151,6 +147,7 @@ export const createRouter = routes => new Router({
     },
     {
       path: '/admin',
+      alias: '/admin/welcome',
       name: 'Admin',
       component: AdminIndex,
       meta: {

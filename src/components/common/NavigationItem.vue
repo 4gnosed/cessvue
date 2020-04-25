@@ -2,7 +2,7 @@
   <div>
     <!--叶子项-->
     <template v-if="item.children===null">
-      <el-menu-item :key="item.id" :index="item.path" class="child_class">
+      <el-menu-item :index="item.path" class="child_class">
         <span style="font-size: 10px;float: left;">
         <i :class="item.iconCls"></i>
         {{item.nameZh}}
