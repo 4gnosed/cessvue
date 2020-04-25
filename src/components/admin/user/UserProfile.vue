@@ -5,7 +5,7 @@
       :visible.sync="dialogFormVisible">
       <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
         <el-form-item label="用户名" label-width="120px" prop="username">
-          <el-input v-model="selectedUser.username" autocomplete="off" disabled="true"></el-input>
+          <el-input v-model="selectedUser.username" autocomplete="off" disabled="disabled"></el-input>
         </el-form-item>
         <el-form-item label="真实姓名" label-width="120px" prop="name">
           <el-input v-model="selectedUser.name" autocomplete="off"></el-input>
