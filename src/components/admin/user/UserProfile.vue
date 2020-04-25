@@ -42,13 +42,6 @@
        <el-button class="common_font_size" size="mini" type="primary" @click="deleteUser()">确 定</el-button>
       </span>
     </el-dialog>
-    <el-row>
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item class="common_font_size" :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
-        <el-breadcrumb-item class="common_font_size">用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item class="common_font_size">用户信息</el-breadcrumb-item>
-      </el-breadcrumb>
-    </el-row>
     <user-registration @onSubmit="listUserDtos()"></user-registration>
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
@@ -290,7 +283,7 @@
       deleteUsers() {
         if (this.selectedUsers.length === 0) {
           this.$notify({
-            message: '为选择用户',
+            message: '未选择用户',
             type: "error"
           })
           return
@@ -313,10 +306,11 @@
                 message: '删除成功',
                 type: "success"
               })
+              this.selectedUsers = []
+              this.$refs.multipleTable.clearSelection()
             }
           })
         }
-        this.$refs.multipleTable.clearSelection()
       }
     }
   }

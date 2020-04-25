@@ -6,10 +6,11 @@
       :visible.sync="dialogFormVisible">
       <el-form v-model="selectedRole" style="text-align: left" ref="dataForm">
         <el-form-item label="角色名" label-width="120px" prop="username">
-          <el-input class="common_font_size" size="mini" v-model="selectedRole.name" autocomplete="off"></el-input>
+          <el-input size="mini" style="width: 150px" class="common_font_size" v-model="selectedRole.name"
+                    autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item class="common_font_size" size="mini" label="角色描述" label-width="120px" prop="name">
-          <el-input v-model="selectedRole.nameZh" autocomplete="off"></el-input>
+          <el-input size="mini" style="width: 150px" v-model="selectedRole.nameZh" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="权限配置" label-width="120px" prop="perms">
           <el-checkbox-group v-model="selectedPermsIds">
@@ -32,13 +33,6 @@
         <el-button class="common_font_size" size="mini" type="primary" @click="onSubmit(selectedRole)">确 定</el-button>
       </div>
     </el-dialog>
-    <el-row>
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item class="common_font_size" :to="{ path: '/admin/welcome' }">后台管理</el-breadcrumb-item>
-        <el-breadcrumb-item class="common_font_size">用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item class="common_font_size">角色配置</el-breadcrumb-item>
-      </el-breadcrumb>
-    </el-row>
     <role-create @onSubmit="listRoles()"></role-create>
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
@@ -174,12 +168,18 @@
           })
         } else {
           role.enabled = true
-          this.$alert('无法禁用超级管理员！')
+          this.$notify({
+            message: '不能禁用超级管理员',
+            type: "error"
+          })
         }
       },
       editRole(role) {
         if (role.id === 1) {
-          this.$alert('无法编辑超级管理员！')
+          this.$notify({
+            message: '无法编辑超级管理员',
+            type: "error"
+          })
           return
         }
         this.selectedRole = role
@@ -236,7 +236,10 @@
           menus: menus
         }).then(resp => {
           if (resp && resp.data.code === 200) {
-            this.$alert('修改成功')
+            this.$notify({
+              message: '修改成功',
+              type: "error"
+            })
             this.dialogFormVisible = false
             this.roles = []
             this.perms = []
