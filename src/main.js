@@ -94,8 +94,9 @@ router.beforeEach((to, from, next) => {
         }
       } else {
         Vue.prototype.$notify({
-          message: '请重新登录', type: 'error'
+          message: '请求失败，'+resp.data.message, type: 'error'
         })
+        login()
         return false
       }
     })
@@ -132,10 +133,7 @@ router.beforeEach((to, from, next) => {
       type: 'warning'
     }).then(() => {
       logout()
-      next({
-        path: 'login',
-        query: {redirect: to.fullPath}
-      })
+      login()
     })
   }
 
