@@ -5,13 +5,17 @@
         <i class="el-icon-caret-top"></i>
       </el-backtop>
     </template>
-    <el-scrollbar>
-      <div>
-        <nav-menu></nav-menu>
-        <router-view/>
-        <Footer></Footer>
-      </div>
-    </el-scrollbar>
+      <el-container style="text-align: center">
+        <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
+          <nav-menu></nav-menu>
+        </el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+        <el-footer style="height: 30px;padding: 0 ">
+          <Footer></Footer>
+        </el-footer>
+      </el-container>
   </div>
 </template>
 
