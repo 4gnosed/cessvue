@@ -34,6 +34,17 @@
       return {}
     },
     mounted() {
+      this.newMessage()
+    },
+    methods: {
+      newMessage() {
+        //有新消息则通知
+        this.$axios.get('/message/new?userId=' + this.$store.state.user.id).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '您有 ' + resp.data.data + ' 条未读消息', type: 'success'})
+          }
+        })
+      }
     }
   }
 </script>

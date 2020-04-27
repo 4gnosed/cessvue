@@ -77,6 +77,8 @@
 </template>
 
 <script>
+  import Vue from "vue";
+
   const TIME_COUNT = 60; //更改倒计时时间
   export default {
     name: 'Login',
@@ -100,7 +102,7 @@
           password: '123',
           phoneOrEmail: '',
           peCode: '',
-          rememberMe: false,
+          rememberMe: true,
           verificationCode: ''
         },
         responseResult: [],

@@ -5,17 +5,17 @@
         <i class="el-icon-caret-top"></i>
       </el-backtop>
     </template>
-      <el-container style="text-align: center">
-        <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
-          <nav-menu></nav-menu>
-        </el-header>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-        <el-footer style="height: 30px;padding: 0 ">
-          <Footer></Footer>
-        </el-footer>
-      </el-container>
+    <el-container style="text-align: center">
+      <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
+        <nav-menu></nav-menu>
+      </el-header>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+      <el-footer style="height: 30px;padding: 0 ">
+        <Footer></Footer>
+      </el-footer>
+    </el-container>
   </div>
 </template>
 
@@ -25,7 +25,20 @@
 
   export default {
     name: 'Home',
-    components: {NavMenu, Footer}
+    components: {NavMenu, Footer},
+    mounted() {
+      this.newMessage()
+    },
+    methods: {
+      newMessage() {
+        //有新消息则通知
+        this.$axios.get('/message/new?userId=' + this.$store.state.user.id).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '您有 ' + resp.data.data + ' 条未读消息', type: 'success'})
+          }
+        })
+      }
+    }
   }
 </script>
 
