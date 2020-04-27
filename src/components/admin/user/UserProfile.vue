@@ -3,7 +3,7 @@
     <el-dialog
       title="修改用户信息"
       :visible.sync="dialogFormVisible">
-      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
+      <el-form :model="selectedUser" style="text-align: left" ref="dataForm">
         <el-form-item label="用户名" label-width="120px" prop="username">
           <el-input v-model="selectedUser.username" autocomplete="off" disabled="disabled"></el-input>
         </el-form-item>

@@ -4,7 +4,7 @@
       title="修改角色信息"
       style="height: 700px"
       :visible.sync="dialogFormVisible">
-      <el-form v-model="selectedRole" style="text-align: left" ref="dataForm">
+      <el-form :model="selectedRole" style="text-align: left" ref="dataForm">
         <el-form-item label="角色名" label-width="120px" prop="username">
           <el-input size="mini" style="width: 150px" class="common_font_size" v-model="selectedRole.name"
                     autocomplete="off"></el-input>
