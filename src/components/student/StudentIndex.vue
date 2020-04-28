@@ -709,7 +709,8 @@
           <el-divider></el-divider>
           <div style="margin-bottom: 10px">
             <el-button type="primary" @click="cancel">取消</el-button>
-            <el-button type="primary" @click="saveOrUpdateResume">保存并投递简历</el-button>
+            <el-button type="primary" @click="saveOrUpdateResume">保存简历</el-button>
+            <el-button id="sendResumeButton" @click="sendResume">投递简历</el-button>
           </div>
         </div>
       </el-dialog>
@@ -1063,6 +1064,8 @@
           this.$axios.get('/resume?userId=' + this.userId).then(resp => {
             if (resp.data.code === 200) {
               this.resume = resp.data.data;
+              //控制投递简历按钮样式
+              this.isSavedResume()
             }
           })
         } else {
@@ -1149,16 +1152,16 @@
                     this.$refs['trainRefs'].validate(valid => {
                       if (valid) {
                         this.dialogVisible = false
-                        if (this.resume.id) {
+                        if (this.resume.id != '' && this.resume.id != null) {
                           this.$axios.put('/resume?userId=' + this.userId, this.resume)
                             .then(resp => {
                               if (resp.data.code === 200) {
                                 this.$notify({
-                                  message: '保存并投递成功，请等待回复',
+                                  message: '保存成功',
                                   type: 'success'
                                 })
                               } else {
-                                this.$notify.error('保存并投递失败')
+                                this.$notify.error('保存失败')
                               }
                             })
                         } else {
@@ -1167,14 +1170,15 @@
                             .then(resp => {
                               if (resp.data.code === 200) {
                                 this.$notify({
-                                  message: '保存并投递成功，请等待回复',
+                                  message: '保存成功',
                                   type: 'success'
                                 })
                               } else {
-                                this.$notify.error('保存并投递失败')
+                                this.$notify.error('保存失败')
                               }
                             })
                         }
+                        this.isSavedResume()
                       } else {
                         this.$notify.error('培训经历内容不完整')
                       }
@@ -1191,6 +1195,28 @@
             this.$notify.error('自我评价不完整')
           }
         })
+      },
+      sendResume() {
+        this.$axios.post('/resume/send?userId=' + this.userId + '&positionId=' +
+          this.selectPositionId + '&rid=' + this.resume.id).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({
+              message: '投递成功，请等待回复',
+              type: 'success'
+            })
+          } else {
+            this.$notify({message: resp.data.message, type: 'warning'})
+          }
+        })
+      },
+      isSavedResume() {
+        if (this.resume.id != '' && this.resume.id != null) {
+          document.getElementById('sendResumeButton').setAttribute("class", 'el-button el-button--primary')
+          document.getElementById('sendResumeButton').removeAttribute("disabled")
+        } else {
+          document.getElementById('sendResumeButton').setAttribute("disabled", false)
+          document.getElementById('sendResumeButton').style.backgroundColor = '#909399'
+        }
       },
       addSkill() {
         if (this.resume.experienceSkillList.length == 10) {
