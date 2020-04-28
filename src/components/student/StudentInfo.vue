@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="6">
         <el-form-item label="姓名:" prop="name">
-          <el-input disabled size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="student.name"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit" v-model="student.name"
                     placeholder="请输入学生姓名"></el-input>
         </el-form-item>
       </el-col>
@@ -23,14 +23,14 @@
             size="mini"
             type="date"
             value-format="yyyy-MM-dd"
-            style="width: 150px;"
+            style="width: 120px;"
             placeholder="出生日期">
           </el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="7">
         <el-form-item label="政治面貌:" prop="politicId">
-          <el-select v-model="student.politicId" placeholder="政治面貌" size="mini" style="width: 200px;">
+          <el-select v-model="student.politicId" placeholder="政治面貌" size="mini" style="width: 120px">
             <el-option
               disabled
               v-for="item in politics"
@@ -45,7 +45,7 @@
     <el-row>
       <el-col :span="6">
         <el-form-item label="民族:" prop="nationId">
-          <el-select v-model="student.nationId" placeholder="民族" size="mini" style="width: 150px;">
+          <el-select v-model="student.nationId" placeholder="民族" size="mini" style="width: 120px;">
             <el-option
               disabled
               v-for="item in nations"
@@ -64,25 +64,25 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="电子邮箱:" prop="email">
-          <el-input disabled size="mini" style="width: 150px" prefix-icon="el-icon-message"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-message"
                     v-model="student.email" placeholder="请输入电子邮箱"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="7">
         <el-form-item label="联系地址:" prop="address">
-          <el-input disabled size="mini" style="width: 200px" prefix-icon="el-icon-edit"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit"
                     v-model="student.address" placeholder="请输入联系地址"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="6">
+      <el-col :span="12">
         <el-form-item label="身份证号码:" prop="idCard">
-          <el-input disabled size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit"
                     v-model="student.idCard" placeholder="请输入身份证号码"></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="12">
         <el-form-item label="电话号码:" prop="phone">
           <el-input disabled size="mini" style="width: 200px" prefix-icon="el-icon-phone"
                     v-model="student.phone" placeholder="电话号码"></el-input>
@@ -92,14 +92,14 @@
     <el-row>
       <el-col :span="6">
         <el-form-item label="学号:" prop="studentId">
-          <el-input disabled size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit"
                     v-model="student.studentId" placeholder="学号"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
         <el-form-item label="学历:" prop="topDegree">
           <el-select v-model="student.topDegree" placeholder="学历" size="mini"
-                     style="width: 150px;">
+                     style="width: 120px;">
             <el-option
               disabled
               v-for="item in topDegrees"
@@ -112,13 +112,13 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="毕业院校:" prop="school">
-          <el-input disabled size="mini" style="width: 150px" prefix-icon="el-icon-edit"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit"
                     v-model="student.school" placeholder="毕业院校名称"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="所属院系:" prop="departmentId">
-          <el-select v-model="student.departmentId" placeholder="院系" size="mini" style="width: 150px;">
+          <el-select v-model="student.departmentId" placeholder="院系" size="mini" style="width: 120px;">
             <el-option
               disabled
               v-for="item in department"
@@ -131,7 +131,7 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="专业:" prop="departmentId">
-          <el-select v-model="student.specialtyId" placeholder="专业" size="mini" style="width: 150px;">
+          <el-select v-model="student.specialtyId" placeholder="专业" size="mini" style="width: 120px;">
             <el-option
               disabled
               v-for="item in specialtySelected"
@@ -145,7 +145,7 @@
       <el-col :span="6">
         <el-form-item label="学生职位:" prop="positionId">
           <el-select v-model="student.positionId" placeholder="学生职位" size="mini"
-                     style="width: 150px;">
+                     style="width: 120px;">
             <el-option
               disabled
               v-for="item in position"
@@ -158,13 +158,13 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="外语水平:" prop="languageLevel">
-          <el-input disabled size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit"
                     v-model="student.languageLevel" placeholder="请输入外语水平"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="计算机水平:" prop="computerLevel">
-          <el-input disabled size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit"
                     v-model="student.computerLevel" placeholder="请输入计算机水平"></el-input>
         </el-form-item>
       </el-col>
