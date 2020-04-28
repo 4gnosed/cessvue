@@ -47,7 +47,7 @@
                 <el-button size="mini" round class="drop_down_button">
                   {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
-                <el-dropdown-menu slot="dropdown" style="font-size: 11px;">
+                <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item @click.native="personCenter">个人中心</el-dropdown-item>
                   <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
                   <el-dropdown-item @click.native="logout">安全退出</el-dropdown-item>
@@ -142,19 +142,20 @@
         :visible.sync="messageDetailDialogVisible"
         width="70%"
         center>
-        <el-row class="el_row">
+        <el-row>
           <el-col :span="8"><span class="title_font">发件人：</span>{{messageDetail.sender}}</el-col>
           <el-col :span="8"><span class="title_font">收件人：</span>{{messageDetail.receiver}}</el-col>
           <el-col :span="8"><span class="title_font">发送时间：</span>{{messageDetail.sendTime}}</el-col>
         </el-row>
         <el-divider></el-divider>
-        <el-row class="el_row"><span class="title_font">标题：</span>{{messageDetail.title}}</el-row>
+        <el-row><span class="title_font">标题：</span>{{messageDetail.title}}</el-row>
         <el-divider></el-divider>
-        <el-row class="el_row"><span class="title_font">内容：</span>{{messageDetail.content}}</el-row>
+        <el-row><span class="title_font">内容：</span>{{messageDetail.content}}</el-row>
         <el-divider></el-divider>
         <div class="dialog_footer">
           <template v-if="activeIndex !== '3' ">
-            <el-button class="common_font_size" size="mini" type="primary" @click="readyResponseMessage">回复此消息</el-button>
+            <el-button class="common_font_size" size="mini" type="primary" @click="readyResponseMessage">回复此消息
+            </el-button>
           </template>
           <el-button class="common_font_size" size="mini" @click="messageDetailDialogVisible = false">取消</el-button>
         </div>
@@ -165,7 +166,7 @@
         width="50%"
         center>
         <el-form :model="messageResponse" ref="messageForm" :rules="messageRules">
-          <el-row class="el_row">
+          <el-row>
             <el-col :span="12">
               <el-form-item prop="sender" label="发件人：">
                 <el-input v-model="messageResponse.sender" autocomplete="off" size="mini" style="width: 100px"
@@ -179,13 +180,13 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="el_row">
+          <el-row>
             <el-form-item prop="title" label="标题：">
               <el-input v-model="messageResponse.title" autocomplete="off" size="mini" placeholder="请输入标题"
                         style="width: 400px"></el-input>
             </el-form-item>
           </el-row>
-          <el-row class="el_row">
+          <el-row>
             <el-form-item prop="content" label="内容：">
               <el-input type="textarea" :rows="8" v-model="messageResponse.content" style="width: 550px;" size="mini"
                         placeholder="请输入回复内容" maxlength="1000"></el-input>
@@ -421,5 +422,21 @@
   .drop_down_button {
     font-size: 11px;
     font-weight: bold;
+  }
+
+  .common_font_size {
+    font-size: 12px;
+  }
+
+  .title_font {
+    font-weight: bold;
+  }
+
+  .dialog_footer {
+    text-align: center;
+  }
+
+  .el-dropdown-menu__item {
+    font-size: 12px !important;
   }
 </style>

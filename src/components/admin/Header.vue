@@ -115,15 +115,15 @@
         :visible.sync="messageDetailDialogVisible"
         width="70%"
         center>
-        <el-row class="el_row">
+        <el-row>
           <el-col :span="8"><span class="title_font">发件人：</span>{{messageDetail.sender}}</el-col>
           <el-col :span="8"><span class="title_font">收件人：</span>{{messageDetail.receiver}}</el-col>
           <el-col :span="8"><span class="title_font">发送时间：</span>{{messageDetail.sendTime}}</el-col>
         </el-row>
         <el-divider></el-divider>
-        <el-row class="el_row"><span class="title_font">标题：</span>{{messageDetail.title}}</el-row>
+        <el-row><span class="title_font">标题：</span>{{messageDetail.title}}</el-row>
         <el-divider></el-divider>
-        <el-row class="el_row"><span class="title_font">内容：</span>{{messageDetail.content}}</el-row>
+        <el-row><span class="title_font">内容：</span>{{messageDetail.content}}</el-row>
         <el-divider></el-divider>
         <div class="dialog_footer">
           <template v-if="activeIndex !== '3' ">
@@ -139,7 +139,7 @@
         width="50%"
         center>
         <el-form :model="messageResponse" ref="messageForm" :rules="messageRules">
-          <el-row class="el_row">
+          <el-row>
             <el-col :span="12">
               <el-form-item prop="sender" label="发件人：">
                 <el-input v-model="messageResponse.sender" autocomplete="off" size="mini" style="width: 100px"
@@ -153,13 +153,13 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="el_row">
+          <el-row>
             <el-form-item prop="title" label="标题：">
               <el-input v-model="messageResponse.title" autocomplete="off" size="mini" placeholder="请输入标题"
                         style="width: 400px"></el-input>
             </el-form-item>
           </el-row>
-          <el-row class="el_row">
+          <el-row>
             <el-form-item prop="content" label="内容：">
               <el-input type="textarea" :rows="8" v-model="messageResponse.content" style="width: 550px;" size="mini"
                         placeholder="请输入回复内容" maxlength="1000"></el-input>
@@ -332,7 +332,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   a {
     text-decoration: none;
   }
@@ -360,6 +360,14 @@
   .drop_down_button {
     font-size: 11px;
     font-weight: bold;
+  }
+
+  .title_font {
+    font-weight: bold;
+  }
+
+  .dialog_footer {
+    text-align: center;
   }
 
 </style>

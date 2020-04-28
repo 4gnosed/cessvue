@@ -1,49 +1,44 @@
 <template>
-    <div>
-      <el-scrollbar>
-      <div style="font-size: 20px;margin-top: 20px;">
-        <span>欢迎来到CESS个人中心</span>
-      </div>
-      <el-divider></el-divider>
-        <el-page-header @back="goBack" content="个人中心" style="margin-left: 10px;"/>
-        <div>
-        <el-tabs :tab-position="tabPosition" style="height: 1000px;margin-top: 50px;margin-left: 50px;font-size: 18px">
+  <div>
+    <el-scrollbar>
+      <div>
+        <el-tabs :tab-position="tabPosition" style="height: 1000px;font-weight: bold" class="common_font_size">
           <el-tab-pane label="个人信息">
-            <el-card style="width: 1500px;margin-left: 100px">
+            <el-card style="width: 1200px;margin-left: 50px">
               <span>基本信息</span>
               <el-divider></el-divider>
               <el-form v-model="user" style="text-align: left">
                 <el-row>
                   <el-col :span="6">
                     <el-form-item label="用户名" label-width="120px" prop="username" style="width: 300px">
-                      <el-input v-model="user.username" autocomplete="off" disabled="disabled"></el-input>
+                      <el-input size="mini" v-model="user.username" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
                     <el-form-item label="角色" label-width="120px" prop="roles" style="width: 300px">
-                      <el-input v-model="user.role" autocomplete="off" disabled="disabled"></el-input>
+                      <el-input size="mini" v-model="user.role" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
                     <el-form-item label="真实姓名" label-width="120px" prop="name" style="width: 300px">
-                      <el-input v-model="user.name" autocomplete="off" disabled="disabled"></el-input>
+                      <el-input size="mini" v-model="user.name" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="6">
                     <el-form-item label="上次登录时间" label-width="120px" prop="email" style="width: 300px">
-                      <el-input v-model="user.lastLogin" autocomplete="off" disabled="disabled"></el-input>
+                      <el-input size="mini" v-model="user.lastLogin" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
                     <el-form-item label="手机号" label-width="120px" prop="phone" style="width: 300px">
-                      <el-input v-model="user.phone" autocomplete="off" disabled="disabled"></el-input>
+                      <el-input size="mini" v-model="user.phone" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
                     <el-form-item label="邮箱" label-width="120px" prop="email" style="width: 300px">
-                      <el-input v-model="user.email" autocomplete="off" disabled="disabled"></el-input>
+                      <el-input size="mini" v-model="user.email" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -224,7 +219,7 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="计算机水平:" prop="computerLevel">
-                        <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 140px" prefix-icon="el-icon-edit"
                                   v-model="student.computerLevel" placeholder="请输入计算机水平"></el-input>
                       </el-form-item>
                     </el-col>
@@ -258,8 +253,8 @@
                 </el-form>
                 <el-divider></el-divider>
                 <div>
-                  <el-button @click="resetStudent()">重 置</el-button>
-                  <el-button type="primary" @click="addOrUpdateStudent()">更 新</el-button>
+                  <el-button  class="common_font_size" size="mini" @click="resetStudent()">重 置</el-button>
+                  <el-button  class="common_font_size" size="mini" type="primary" @click="addOrUpdateStudent()">更 新</el-button>
                 </div>
               </template>
               <!--企业-->
@@ -377,7 +372,7 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="企业简介:" prop="introduction">
-                        <el-input type="textarea" size="mini" style="width: 1300px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.introduction" placeholder="企业简介"></el-input>
                       </el-form-item>
@@ -431,8 +426,8 @@
                 </el-form>
                 <el-divider></el-divider>
                 <div>
-                  <el-button @click="resetEnterprise()">重 置</el-button>
-                  <el-button type="primary" @click="addOrUpdateEnterprise()">更 新</el-button>
+                  <el-button  class="common_font_size" size="mini" @click="resetEnterprise()">重 置</el-button>
+                  <el-button  class="common_font_size" size="mini" type="primary" @click="addOrUpdateEnterprise()">更 新</el-button>
                 </div>
               </template>
               <!--教师-->
@@ -443,8 +438,8 @@
                 内容
                 <el-divider></el-divider>
                 <div>
-                  <el-button @click="resetTeacher()">重 置</el-button>
-                  <el-button type="primary" @click="addOrUpdateTeacher()">更 新</el-button>
+                  <el-button  class="common_font_size" size="mini" @click="resetTeacher()">重 置</el-button>
+                  <el-button  class="common_font_size" size="mini" type="primary" @click="addOrUpdateTeacher()">更 新</el-button>
                 </div>
               </template>
             </el-card>
@@ -582,19 +577,22 @@
                             </el-row>
                             <el-row>
                               <el-form-item label="离职原因:" prop="workoutReason">
-                                <el-input type="textarea" :rows="5" v-model="resume.experienceWork.workoutReason"
+                                <el-input size="mini" type="textarea" :rows="5"
+                                          v-model="resume.experienceWork.workoutReason"
                                           style="width: 1075px;" placeholder="请输入离职原因" maxlength="500"></el-input>
                               </el-form-item>
                             </el-row>
                             <el-row>
                               <el-form-item label="主要成绩:" prop="achievement">
-                                <el-input type="textarea" :rows="5" v-model="resume.experienceWork.achievement"
+                                <el-input size="mini" type="textarea" :rows="5"
+                                          v-model="resume.experienceWork.achievement"
                                           style="width: 1075px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
                               </el-form-item>
                             </el-row>
                             <el-row>
                               <el-form-item label="工作描述:" prop="description">
-                                <el-input type="textarea" :rows="5" v-model="resume.experienceWork.description"
+                                <el-input size="mini" type="textarea" :rows="5"
+                                          v-model="resume.experienceWork.description"
                                           style="width: 1075px;" placeholder="请输入工作描述" maxlength="500"></el-input>
                               </el-form-item>
                             </el-row>
@@ -670,7 +668,8 @@
                             <el-row>
                               <el-col :span="6">
                                 <el-form-item label="项目描述:" prop="description">
-                                  <el-input type="textarea" :rows="8" v-model="resume.experienceProject.description"
+                                  <el-input size="mini" type="textarea" :rows="8"
+                                            v-model="resume.experienceProject.description"
                                             style="width: 1075px;" placeholder="请输入项目描述" maxlength="1000"></el-input>
                                 </el-form-item>
                               </el-col>
@@ -678,7 +677,8 @@
                             <el-row>
                               <el-col :span="6">
                                 <el-form-item label="责任描述:" prop="responsibility">
-                                  <el-input type="textarea" :rows="8" v-model="resume.experienceProject.responsibility"
+                                  <el-input size="mini" type="textarea" :rows="8"
+                                            v-model="resume.experienceProject.responsibility"
                                             style="width: 1075px;" placeholder="请输入责任描述" maxlength="1000"></el-input>
                                 </el-form-item>
                               </el-col>
@@ -741,7 +741,8 @@
                             <el-row>
                               <el-col :span="6">
                                 <el-form-item label="培训描述:" prop="description">
-                                  <el-input type="textarea" :rows="16" v-model="resume.experienceTrain.description"
+                                  <el-input size="mini" type="textarea" :rows="16"
+                                            v-model="resume.experienceTrain.description"
                                             style="width: 1075px;" placeholder="请输入培训描述" maxlength="1000"></el-input>
                                 </el-form-item>
                               </el-col>
@@ -753,7 +754,7 @@
                         <div style="margin-left: 60px;margin-top: 40px;">
                           <el-row>
                             <el-col :span="1">
-                              <el-button type="mini" style="background-color: #409EFF;color: white;margin-bottom: 20px"
+                              <el-button  class="common_font_size" size="mini" type="mini" style="background-color: #409EFF;color: white;margin-bottom: 20px"
                                          icon="el-icon-plus" @click="addSkill">添加技能
                               </el-button>
                             </el-col>
@@ -763,7 +764,7 @@
                               <el-row>
                                 <el-col :span="6">
                                   <el-form-item label="技能">
-                                    <el-input v-model="skill.name" placeholder="请输入技能名称"
+                                    <el-input size="mini" v-model="skill.name" placeholder="请输入技能名称"
                                               style="width: 150px"></el-input>
                                   </el-form-item>
                                 </el-col>
@@ -781,7 +782,7 @@
                                   </el-form-item>
                                 </el-col>
                                 <el-col :span="6">
-                                  <el-button type="mini" style="background-color: #409EFF;color: white"
+                                  <el-button  class="common_font_size" size="mini" type="mini" style="background-color: #409EFF;color: white"
                                              icon="el-icon-delete" @click="deleteSkill(index)">删除
                                   </el-button>
                                 </el-col>
@@ -794,7 +795,7 @@
                         <div style="margin-left: 60px;margin-top: 40px;">
                           <el-row>
                             <el-col :span="1">
-                              <el-button type="mini" style="background-color: #409EFF;color: white;margin-bottom: 20px"
+                              <el-button  class="common_font_size" size="mini" type="mini" style="background-color: #409EFF;color: white;margin-bottom: 20px"
                                          icon="el-icon-plus" @click="addCertificate">添加证书
                               </el-button>
                             </el-col>
@@ -816,18 +817,18 @@
                                 </el-col>
                                 <el-col :span="4">
                                   <el-form-item label="证书名称">
-                                    <el-input v-model="certificate.name" placeholder="请输入证书名称"
+                                    <el-input size="mini" v-model="certificate.name" placeholder="请输入证书名称"
                                               style="width: 150px"></el-input>
                                   </el-form-item>
                                 </el-col>
                                 <el-col :span="4">
                                   <el-form-item label="成绩">
-                                    <el-input v-model="certificate.result" placeholder="请输入成绩"
+                                    <el-input size="mini" v-model="certificate.result" placeholder="请输入成绩"
                                               style="width: 150px"></el-input>
                                   </el-form-item>
                                 </el-col>
                                 <el-col :span="4">
-                                  <el-button type="mini" style="background-color: #409EFF;color: white"
+                                  <el-button  class="common_font_size" size="mini" type="mini" style="background-color: #409EFF;color: white"
                                              icon="el-icon-delete" @click="deleteCertificate(index)">删除
                                   </el-button>
                                 </el-col>
@@ -835,7 +836,7 @@
                               <el-row>
                                 <el-col>
                                   <el-form-item label="证书描述:" prop="description">
-                                    <el-input type="textarea" :rows="3" v-model="certificate.description"
+                                    <el-input size="mini" type="textarea" :rows="3" v-model="certificate.description"
                                               style="width: 1075px;" placeholder="请输入证书描述" maxlength="500"></el-input>
                                   </el-form-item>
                                 </el-col>
@@ -849,7 +850,7 @@
                           <el-row>
                             <el-col :span="6">
                               <el-form-item label="自我评价:" prop="selfEvaluation">
-                                <el-input type="textarea" :rows="16" v-model="resume.selfEvaluation"
+                                <el-input size="mini" type="textarea" :rows="16" v-model="resume.selfEvaluation"
                                           style="width: 1075px;" placeholder="请输入自我评价" maxlength="1000"></el-input>
                               </el-form-item>
                             </el-col>
@@ -861,7 +862,7 @@
                           <el-row>
                             <el-col :span="6">
                               <el-form-item label="备注:" prop="remark">
-                                <el-input type="textarea" :rows="16" v-model="resume.remark"
+                                <el-input size="mini" type="textarea" :rows="16" v-model="resume.remark"
                                           style="width: 1075px;" placeholder="请输入备注" maxlength="1000"></el-input>
                               </el-form-item>
                             </el-col>
@@ -871,12 +872,12 @@
                       <el-divider></el-divider>
                       <el-row>
                         <el-col :span="2">
-                          <el-button type="mini" style="background-color: #409EFF;color: white"
+                          <el-button  class="common_font_size" size="mini" type="mini" style="background-color: #409EFF;color: white"
                                      icon="el-icon-arrow-left" @click="last">上一步
                           </el-button>
                         </el-col>
                         <el-col :span="2">
-                        <el-button type="mini" style="background-color: #409EFF;color: white"
+                          <el-button  class="common_font_size" size="mini" type="mini" style="background-color: #409EFF;color: white"
                                      icon="el-icon-arrow-right" @click="next">下一步
                           </el-button>
                         </el-col>
@@ -898,7 +899,7 @@
                             :on-remove="handleRemove"
                             :on-progress="progressA"
                             :auto-upload="true">
-                            <el-button :disabled="uploadDataDisabled" type="mini"
+                            <el-button  class="common_font_size" size="mini" :disabled="uploadDataDisabled" type="mini"
                                        style="background-color: #409EFF;color: white" :icon="uploadDataBtnIcon">
                               上传附件
                             </el-button>
@@ -910,7 +911,7 @@
                         <el-col :span="11">&nbsp;</el-col>
                         <el-col :span="13" style="text-align: left">
                           <div style="margin-bottom: 10px">
-                            <el-button type="success" round @click="saveOrUpdateResume">保存简历</el-button>
+                            <el-button  class="common_font_size" size="mini" type="success" round @click="saveOrUpdateResume">保存简历</el-button>
                           </div>
                         </el-col>
                       </el-row>
@@ -923,32 +924,32 @@
           <el-tab-pane label="更改密码">
             <el-form :model="passForm" ref="passForm" :rules="passRules">
               <el-form-item prop="oldPassword">
-                <el-input type="oldPassword" v-model="passForm.oldPassword" prefix-icon="el-icon-lock"
+                <el-input size="mini" type="oldPassword" v-model="passForm.oldPassword" prefix-icon="el-icon-lock"
                           auto-complete="off" placeholder="请输入旧密码" show-password="show-password"
                           style="width: 450px">
                 </el-input>
               </el-form-item>
               <el-form-item prop="newPassword">
-                <el-input type="newPassword" v-model="passForm.newPassword" prefix-icon="el-icon-lock"
+                <el-input size="mini" type="newPassword" v-model="passForm.newPassword" prefix-icon="el-icon-lock"
                           auto-complete="off" placeholder="请输入新密码" show-password="show-password"
                           style="width: 450px">
                 </el-input>
               </el-form-item>
               <el-form-item prop="checkPassword">
-                <el-input type="checkPassword" v-model="passForm.checkPassword" prefix-icon="el-icon-lock"
+                <el-input size="mini" type="checkPassword" v-model="passForm.checkPassword" prefix-icon="el-icon-lock"
                           auto-complete="off" placeholder="请再次输入新密码" show-password="show-password"
                           style="width: 450px">
                 </el-input>
               </el-form-item>
               <el-form-item prop="password">
-                <el-button type="warning" @click="updatePassword">更改密码</el-button>
+                <el-button  class="common_font_size" size="mini" type="warning" @click="updatePassword">更改密码</el-button>
               </el-form-item>
             </el-form>
           </el-tab-pane>
         </el-tabs>
       </div>
-      </el-scrollbar>
-    </div>
+    </el-scrollbar>
+  </div>
 </template>
 
 <script>
@@ -1700,13 +1701,16 @@
   }
 </script>
 
-<style scoped>
-  .el-tabs__content {
-    width: 500px;
-    text-align: center
+<style>
+  .el-tabs__item {
+    font-size: 11px !important;
   }
 
-  .el-tab-pane {
-    text-align: center
+  .el-form-item__label {
+    font-size: 11px !important;
+  }
+
+  .el-radio__original{
+    font-size: 11px !important;
   }
 </style>
