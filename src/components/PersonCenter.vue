@@ -1054,7 +1054,6 @@
         stepNum: 7,
         activeInt: 0,
         active: '0',
-        tabPosition: 'left',
         baseUrl: this.$axios.defaults.baseURL,
         uploadDataDisabled: false,
         uploadDataBtnIcon: 'el-icon-upload2',

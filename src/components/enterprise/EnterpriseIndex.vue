@@ -71,6 +71,7 @@
         this.editableTabsValue = newTabName;
       },
       removeTab(targetName) {
+        alert('hhh')
         let tabs = this.editableTabs;
         let activeName = this.editableTabsValue;
         if (activeName === targetName) {

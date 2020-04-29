@@ -9,6 +9,7 @@ import StudentIndex from "../components/student/StudentIndex";
 import EnterpriseIndex from "../components/enterprise/EnterpriseIndex";
 import LeaderIndex from "../components/leader/LeaderIndex";
 import PersonCenter from "../components/PersonCenter";
+import Resume from "../components/student/Resume";
 
 Vue.use(Router)
 
@@ -64,6 +65,14 @@ export default new Router({
           path: '/personCenter',
           name: 'PersonCenter',
           component: PersonCenter,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/resume',
+          name: 'Resume',
+          component: Resume,
           meta: {
             requireAuth: true
           }

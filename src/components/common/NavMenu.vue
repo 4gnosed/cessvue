@@ -150,7 +150,12 @@
         <el-divider></el-divider>
         <el-row><span class="title_font">标题：</span>{{messageDetail.title}}</el-row>
         <el-divider></el-divider>
-        <el-row><span class="title_font">内容：</span>{{messageDetail.content}}</el-row>
+        <el-row>
+          <span class="title_font">内容：</span>
+          {{messageDetail.content}}
+          &nbsp;&nbsp;
+          <el-button type="mini" style="background-color: #FDF6EC" @click="toResume">点击查看[{{messageDetail.sender}}]的信息和简历</el-button>
+        </el-row>
         <el-divider></el-divider>
         <div class="dialog_footer">
           <template v-if="activeIndex !== '3' ">
@@ -380,6 +385,16 @@
             })
           }
         })
+      },
+      toResume() {
+        const {href} = this.$router.resolve({
+          path: '/resume',
+          //传参
+          query: {
+            fLTYROdT9onR3kUxCi9wCw: this.messageDetail.senderUid
+          }
+        })
+        window.open(href, '_blank')
       }
     }
   }
