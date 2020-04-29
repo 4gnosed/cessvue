@@ -1,34 +1,36 @@
 <template>
-  <div style="height: 1500px;margin-top: 50px">
+  <div style="height: 1000px;margin-top: 50px">
     <el-dialog
+      title="填写职位信息"
       :visible.sync="dialogVisible"
       width="80%">
-      <div>
-        <div style="margin-bottom: 20px;margin-left: -1300px">
+      <el-row>
+        <el-col :span="2">
           <el-button
-            size="middle"
+            size="mini"
             type="primary"
+            icon="el-icon-plus"
             @click="addTab(editableTabsValue)">
-            添加职位
+            增加职位
           </el-button>
+        </el-col>
+<!--        <el-col :span="12">-->
 <!--          <el-button-->
-<!--            size="middle"-->
+<!--            size="mini"-->
 <!--            type="primary"-->
-<!--            @click="submitAll()">-->
-<!--            全部提交-->
+<!--            @click="submitAll(editableTabsValue)">-->
+<!--            全部发布-->
 <!--          </el-button>-->
-        </div>
-        <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
-          <el-tab-pane class="tab"
-                       v-for="(item, index) in editableTabs"
-                       :key="item.name"
-                       :label="item.title"
-                       :name="item.name"
-          >
+<!--        </el-col>-->
+      </el-row>
+      <el-row>
+        <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab" style="margin-top: 20px">
+          <el-tab-pane class="tab" v-for="(item, index) in editableTabs" :key="item.name" :label="item.title"
+                       :name="item.name">
             <position-item></position-item>
           </el-tab-pane>
         </el-tabs>
-      </div>
+      </el-row>
     </el-dialog>
     <el-button type="primary" @click="addPosition">发布职位</el-button>
   </div>

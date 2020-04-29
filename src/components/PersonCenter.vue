@@ -2,7 +2,7 @@
   <div>
     <el-scrollbar>
       <div>
-        <el-tabs :tab-position="tabPosition" style="height: 1000px;font-weight: bold" class="common_font_size">
+        <el-tabs :tab-position="tabPosition" style="height: 1500px;font-weight: bold" class="common_font_size">
           <el-tab-pane label="个人信息">
             <el-card style="width: 1000px;margin-left: 50px">
               <span>基本信息</span>
@@ -347,7 +347,7 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="联系电话:" prop="phone">
-                        <el-input size="mini" style="width: 200px" prefix-icon="el-icon-phone"
+                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-phone"
                                   v-model="enterprise.phone" placeholder="联系电话"></el-input>
                       </el-form-item>
                     </el-col>
@@ -365,33 +365,33 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="企业官网:" prop="website">
-                        <el-input size="mini" style="width: 200px" prefix-icon="el-icon-phone"
+                        <el-input size="mini" style="width: 165px" prefix-icon="el-icon-phone"
                                   v-model="enterprise.website" placeholder="企业官网"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="6">
+                    <el-col :span="24">
                       <el-form-item label="企业简介:" prop="introduction">
-                        <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.introduction" placeholder="企业简介"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="6">
+                    <el-col :span="24">
                       <el-form-item label="产品介绍:" prop="product">
-                        <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.product" placeholder="产品介绍"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="6">
+                    <el-col :span="24">
                       <el-form-item label="企业荣誉:" prop="honor">
-                        <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.honor" placeholder="企业荣誉"></el-input>
                       </el-form-item>
@@ -400,25 +400,25 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="企业文化:" prop="culture">
-                        <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.culture" placeholder="请输入企业文化"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="6">
+                    <el-col :span="24">
                       <el-form-item label="企业展望:" prop="expectation">
-                        <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.expectation" placeholder="请输入企业展望"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="6">
+                    <el-col :span="24">
                       <el-form-item label="福利:" prop="welfare">
-                        <el-input size="mini" type="textarea" style="width: 1300px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.welfare" placeholder="请输入福利"></el-input>
                       </el-form-item>
@@ -890,7 +890,7 @@
                                      icon="el-icon-arrow-right" @click="next">下一步
                           </el-button>
                         </el-col>
-                        <el-col :span="20" >
+                        <el-col :span="20">
                           <template v-if=" this.resume.fileUrlVo.fileName!=null&&this.resume.fileUrlVo.fileName!='' ">
                             <a class="el-upload-list__item-name" :href="this.resume.fileUrlVo.path" target=" _blank"
                                style="margin-bottom: 10px">

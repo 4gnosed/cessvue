@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AppIndex from '../components/home/AppIndex'
+import AppIndex from '../components/AppIndex'
 import Login from '../components/Login'
 import Register from '../components/Register'
 import Home from '../components/Home'
