@@ -7,7 +7,7 @@
     </template>
     <el-container style="text-align: center">
       <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
-        <nav-menu></nav-menu>
+        <nav-menu v-bind:newMessageNum="newMessageNum"></nav-menu>
       </el-header>
       <el-main>
         <router-view></router-view>
@@ -26,6 +26,11 @@
   export default {
     name: 'Home',
     components: {NavMenu, Footer},
+    data() {
+      return {
+        newMessageNum: 0
+      }
+    },
     mounted() {
       this.newMessage()
     },
@@ -34,7 +39,8 @@
         //有新消息则通知
         this.$axios.get('/message/new?userId=' + this.$store.state.user.id).then(resp => {
           if (resp.data.code === 200) {
-            this.$notify({message: '您有 ' + resp.data.data + ' 条未读消息', type: 'success'})
+            this.newMessageNum = resp.data.data;
+            this.$notify({message: '您有 ' + this.newMessageNum + ' 条未读消息', type: 'success'})
           }
         })
       }

@@ -13,10 +13,10 @@
           </div>
         </el-col>
         <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
-          <div class="el_menu_else_item">
-            <i @click="showMessages()" class="el-icon-s-comment el_menu_else_item" style="font-size: 18px">
-              <el-badge is-dot></el-badge>
-            </i>
+          <div style="margin-top: 6px">
+            <el-badge :value="newMessageNum" :max="99">
+              <i @click="showMessages()" class="el-icon-bell el_menu_message_item" style="font-size: 20px"></i>
+            </el-badge>
           </div>
         </el-col>
         <el-col :xs="4" :sm="4" :md="2" :lg="2" :xl="2">
@@ -59,7 +59,7 @@
         <template v-if="activeIndex === '1' ">
           <el-table :data="messages" @selection-change="readyTagReadMessages" ref="messageRefs" height="500"
                     stripe class="common_font_size">
-            <el-table-column type="selection" width="30px"></el-table-column>
+            <el-table-column type="selection" width="34px"></el-table-column>
             <el-table-column sortable prop="sender" label="发件人" width="80"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
             <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
@@ -79,7 +79,7 @@
         </template>
         <template v-if="activeIndex === '2' ">
           <el-table :data="readedMessages" height="500" stripe class="common_font_size">
-            <el-table-column type="selection" width="30px"></el-table-column>
+            <el-table-column type="selection" width="34px"></el-table-column>
             <el-table-column sortable prop="sender" label="发件人" width="80px"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
             <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
@@ -95,7 +95,7 @@
         </template>
         <template v-if="activeIndex === '3' ">
           <el-table :data="sendedMessages" height="500" stripe class="common_font_size">
-            <el-table-column type="selection" width="30px"></el-table-column>
+            <el-table-column type="selection" width="34px"></el-table-column>
             <el-table-column sortable prop="sender" label="发件人" width="80px"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
             <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
@@ -182,6 +182,12 @@
 
   export default {
     name: 'Header',
+    props: {
+      newMessageNum: {
+        type: String,
+        required: true
+      }
+    },
     data() {
       return {
         user: this.$store.state.user,
@@ -348,8 +354,8 @@
   .el_menu_else_item {
     font-size: 11px;
     font-weight: bold;
-    line-height: 30px;
-    height: 30px;
+    line-height: 34px;
+    height: 34px;
   }
 
   .title_item {
@@ -370,4 +376,10 @@
     text-align: center;
   }
 
+  .el-badge__content {
+    font-size: 2px;
+    height: 12px;
+    line-height: 12px;
+    padding: 0 3px;
+  }
 </style>

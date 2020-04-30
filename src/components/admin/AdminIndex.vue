@@ -6,7 +6,7 @@
       </el-backtop>
     </template>
     <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
-      <Header></Header>
+      <Header v-bind:newMessageNum="newMessageNum"></Header>
     </el-header>
     <el-container>
       <el-aside style="width: 200px">
@@ -31,7 +31,9 @@
     name: 'AdminIndex',
     components: {Footer, AdminMenu, Header},
     data() {
-      return {}
+      return {
+        newMessageNum: 0
+      }
     },
     mounted() {
       this.newMessage()
@@ -41,7 +43,8 @@
         //有新消息则通知
         this.$axios.get('/message/new?userId=' + this.$store.state.user.id).then(resp => {
           if (resp.data.code === 200) {
-            this.$notify({message: '您有 ' + resp.data.data + ' 条未读消息', type: 'success'})
+            this.newMessageNum = resp.data.data;
+            this.$notify({message: '您有 ' + this.newMessageNum + ' 条未读消息', type: 'success'})
           }
         })
       }
