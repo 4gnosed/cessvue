@@ -184,7 +184,7 @@
     name: 'Header',
     props: {
       newMessageNum: {
-        type: String,
+        type: Number,
         required: true
       }
     },

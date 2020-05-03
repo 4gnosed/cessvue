@@ -153,10 +153,11 @@
         <el-row>
           <span class="title_font">内容：</span>
           {{messageDetail.content}}
-          &nbsp;&nbsp;
-          <el-button type="mini" style="background-color: #FDF6EC" @click="toResume">
-            点击查看[{{messageDetail.sender}}]的信息和简历
-          </el-button>
+          <template v-if="messageDetailSenderRoleId === this.$store.state.studentId">
+            <el-button type="mini" style="background-color: #FDF6EC" @click="toResume">
+              点击查看[{{messageDetail.sender}}]的信息和简历
+            </el-button>
+          </template>
         </el-row>
         <el-divider></el-divider>
         <div class="dialog_footer">
@@ -239,6 +240,7 @@
         responseDialogVisible: false,
         selectedMegs: [],
         messageDetail: '',
+        messageDetailSenderRoleId: '',
         messageResponse: {
           id: '',
           sender: '',
@@ -283,7 +285,6 @@
         this.$router.replace('/personCenter')
       },
       showMessages() {
-        alert('消息数：' + this.newMessageNum)
         //获取信息
         this.$axios.get('/message?userId=' + this.user.id).then(resp => {
           if (resp.data.code === 200) {
@@ -310,18 +311,28 @@
         })
       },
       showMessage(message) {
+        this.getSenderRoleId(message)
         this.messageDetailDialogVisible = true
         this.messageDetail = message
         this.selectedMegs.push(message)
         this.sendRead()
       },
       showReadMessage(message) {
+        this.getSenderRoleId(message)
         this.messageDetailDialogVisible = true
         this.messageDetail = message
       },
       showSendMessage(message) {
         this.messageDetailDialogVisible = true
         this.messageDetail = message
+      },
+      getSenderRoleId(message) {
+        //获取发送者的角色
+        this.$axios.get('/userRole?userId=' + message.senderUid).then(resp => {
+          if (resp.data.code === 200) {
+            this.messageDetailSenderRoleId = resp.data.data
+          }
+        })
       },
       changeIndex(index) {
         this.activeIndex = index

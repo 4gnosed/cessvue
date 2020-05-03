@@ -453,12 +453,12 @@
             let msg = '设置用户 [' + userEnterprise.user.username + '] , 企业 [' + userEnterprise.enterprise.name + ']'
             if (value) {
               this.$notify({
-                message: msg + '审核通过',
+                message: msg + '审核通过,已通知该企业',
                 type: 'success'
               })
             } else {
               this.$notify({
-                message: msg + '审核不通过',
+                message: msg + '审核不通过,已通知该企业',
                 type: 'warning'
               })
             }
