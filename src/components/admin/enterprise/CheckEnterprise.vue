@@ -11,10 +11,11 @@
         element-loading-spinner="el-icon-loading"
         element-loading-background="RGB(239,239,239)"
         style="width: 100%"
+        height="550px"
         class="common_font_size">
         <el-table-column
           label="用户信息"
-          align="center">
+          align="left">
           <el-table-column
             type="selection"
             width="55">
@@ -41,12 +42,21 @@
           </el-table-column>
         </el-table-column>
         <el-table-column
-          align="center"
+          align="left"
           label="企业信息">
           <el-table-column
             prop="enterprise.name"
-            align="left"
             label="企业名称"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="enterprise.talkDate"
+            label="宣讲日期"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="enterprise.talkTime.name"
+            label="宣讲时间"
             width="120">
           </el-table-column>
           <el-table-column
@@ -156,7 +166,7 @@
         </el-table-column>
         <el-table-column
           fixed="right"
-          width="200"
+          width="80"
           label="审核状态">
           <template slot-scope="scope">
             <el-switch
@@ -165,6 +175,23 @@
               inactive-color="#ff4949"
               @change="(value) => commitStatusChange(scope.row)">
             </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          width="130"
+          sortable
+          align="center"
+          label="安排宣讲地点">
+          <template slot-scope="scope">
+            <template v-if="scope.row.enterprise.place.name === null">
+              <el-button round class="common_font_size" size="mini" type="primary" @click="distributePlace(scope.row)">
+                未安排
+              </el-button>
+            </template>
+            <template v-else>
+              {{scope.row.enterprise.place.name}}
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -178,6 +205,187 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="placeDialogVisible"
+      width="80%">
+      <div slot="title">
+        安排[<span style="font-weight: bold">{{this.selectedEnterprise.name}}</span>]宣讲会地点
+        <br/><br/>
+        时间：{{this.selectedEnterprise.talkDate}}&nbsp;&nbsp;&nbsp;&nbsp;{{this.selectedEnterprise.talkTime.name}}
+      </div>
+      <div>
+        <el-table
+          :data="placeList"
+          border
+          highlight-current-row="highlight-current-row"
+          height="400px">
+          <el-table-column
+            type="index"
+            label="序号"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            sortable
+            label="地点"
+            align="center">
+          </el-table-column>
+          <el-table-column
+            label="时间段"
+            align="center">
+            <el-table-column
+              align="center"
+              width="170px"
+              label="8:00-10:00">
+              <template slot-scope="scope">
+                <template v-if="scope.row.time1">
+                  <el-switch
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time1"
+                    @change="(value) => changeTalkTime(scope.row,1)">
+                    >
+                  </el-switch>
+                </template>
+                <template v-else>
+                  <el-switch
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time1"
+                    @change="(value) => changeTalkTime(scope.row,1)">
+                    >
+                  </el-switch>
+                </template>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="170px"
+              label="10:00-12:00">
+              <template slot-scope="scope">
+                <template v-if="scope.row.time2">
+                  <el-switch
+                    disabled
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time2"
+                    @change="(value) => changeTalkTime(scope.row,2)">
+                    >
+                  </el-switch>
+                </template>
+                <template v-else>
+                  <el-switch
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time2"
+                    @change="(value) => changeTalkTime(scope.row,2)">
+                    >
+                  </el-switch>
+                </template>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="170px"
+              label="14:00-16:00">
+              <template slot-scope="scope">
+                <template v-if="scope.row.time3">
+                  <el-switch
+                    disabled
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time3"
+                    @change="(value) => changeTalkTime(scope.row,3)">
+                    >
+                  </el-switch>
+                </template>
+                <template v-else>
+                  <el-switch
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time3"
+                    @change="(value) => changeTalkTime(scope.row,3)">
+                    >
+                  </el-switch>
+                </template>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="170px"
+              label="16:00-18:00">
+              <template slot-scope="scope">
+                <template v-if="scope.row.time4">
+                  <el-switch
+                    disabled
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time4"
+                    @change="(value) => changeTalkTime(scope.row,4)">
+                    >
+                  </el-switch>
+                </template>
+                <template v-else>
+                  <el-switch
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time4"
+                    @change="(value) => changeTalkTime(scope.row,4)">
+                    >
+                  </el-switch>
+                </template>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="170px"
+              label="19:00-21:00">
+              <template slot-scope="scope">
+                <template v-if="scope.row.time5">
+                  <el-switch
+                    disabled
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time5"
+                    @change="(value) => changeTalkTime(scope.row,5)">
+                    >
+                  </el-switch>
+                </template>
+                <template v-else>
+                  <el-switch
+                    active-text="已占用"
+                    inactive-text="未占用"
+                    active-color="#E6A23C"
+                    inactive-color="#13ce66"
+                    v-model="scope.row.time5"
+                    @change="(value) => changeTalkTime(scope.row,5)">
+                    >
+                  </el-switch>
+                </template>
+              </template>
+            </el-table-column>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -196,6 +404,15 @@
         position: [],
         politics: [],
         loading: false,
+        placeDialogVisible: false,
+        selectedEnterprise: {
+          talkDate: '',
+          talkTime: '',
+          place: {
+            name: ''
+          }
+        },
+        placeList: []
       }
     },
     mounted() {
@@ -222,17 +439,33 @@
       },
       commitStatusChange(userEnterprise) {
         let value = userEnterprise.enabled
+        //审核之前安排宣讲会地点
+        if (userEnterprise.enterprise.place.name === null) {
+          this.$notify({
+            message: '请先安排宣讲会地点',
+            type: 'warning'
+          })
+          userEnterprise.enabled = false
+          return
+        }
         this.$axios.put('/userEnterprise/status?enabled=' + value + '&id=' + userEnterprise.id).then(resp => {
           if (resp && resp.data.code === 200) {
             let msg = '设置用户 [' + userEnterprise.user.username + '] , 企业 [' + userEnterprise.enterprise.name + ']'
-            this.$notify({
-              message: msg + '审核通过',
-              type: 'success'
-            })
+            if (value) {
+              this.$notify({
+                message: msg + '审核通过',
+                type: 'success'
+              })
+            } else {
+              this.$notify({
+                message: msg + '审核不通过',
+                type: 'warning'
+              })
+            }
           } else {
             this.$notify({
-              message: msg + ' 审核不通过',
-              type: 'success'
+              message: msg + ' 设置失败',
+              type: 'error'
             })
           }
         })
@@ -243,7 +476,48 @@
         } else {
           return '已关闭'
         }
-      }
+      },
+      distributePlace(userEnterprise) {
+        let msg = '设置用户 [' + userEnterprise.user.username + '] , 企业 [' + userEnterprise.enterprise.name + ']'
+        this.placeDialogVisible = true
+        this.selectedEnterprise = userEnterprise.enterprise
+        //获取所有地点，并结合该企业宣讲日期，判断当天被占用的时间段
+        this.$axios.get('/place?talkDate=' + this.selectedEnterprise.talkDate).then(resp => {
+          if (resp.data.code === 200) {
+            this.placeList = resp.data.data
+          }
+        })
+      },
+      changeTalkTime(place, time) {
+        let talkTimeId = 0
+        if (time === 1) {
+          talkTimeId = 1
+        } else if (time === 2) {
+          talkTimeId = 2
+        } else if (time === 3) {
+          talkTimeId = 3
+        } else if (time === 4) {
+          talkTimeId = 4
+        } else if (time === 5) {
+          talkTimeId = 5
+        }
+        this.$axios.post('/enterprisePlace?eid=' + this.selectedEnterprise.id +
+          '&pid=' + place.id + '&talkTimeId=' + talkTimeId).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({
+              message: '安排成功，请尽快审核',
+              type: 'success'
+            })
+            this.selectedEnterprise.place.name = place.name
+          } else {
+            this.$notify({
+              message: resp.data.message,
+              type: 'error'
+            })
+          }
+          this.placeDialogVisible = false
+        })
+      },
     }
   }
 </script>

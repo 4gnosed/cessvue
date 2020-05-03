@@ -2,7 +2,7 @@
   <div>
     <el-scrollbar>
       <div>
-        <el-tabs :tab-position="tabPosition" style="height: 1500px;font-weight: bold" class="common_font_size">
+        <el-tabs :tab-position="tabPosition" style="height: 1700px;font-weight: bold" class="common_font_size">
           <el-tab-pane label="个人信息">
             <el-card style="width: 1000px;margin-left: 50px">
               <span>基本信息</span>
@@ -45,7 +45,7 @@
               </el-form>
               <!--判断用户角色，展示不同角色的详细信息-->
               <!--学生-->
-              <template v-if="user.roleId==2">
+              <template v-if="user.roleId==this.$store.state.studentId">
                 <el-divider></el-divider>
                 <span>学生详细信息</span>
                 <template v-if="isAuthenticate==1">
@@ -259,21 +259,48 @@
                 </div>
               </template>
               <!--企业-->
-              <template v-if="user.roleId==3">
-                <el-divider></el-divider>
-                <span>企业详细信息</span>
-                <template v-if="isAuthenticate==1">
-                  <el-divider></el-divider>
-                  <el-alert
-                    title="（请完善详细信息）"
-                    description="填写信息并等待认证，若已经填写则可以再次填写更新"
-                    type="warning"
-                    center
-                    show-icon>
-                  </el-alert>
-                </template>
+              <template v-if="user.roleId==this.$store.state.enterpriseId">
                 <el-divider></el-divider>
                 <el-form :model="enterprise" :rules="entRules" ref="entForm">
+                  <el-row style="text-align: center">
+                    <el-col :span="6">
+                      <el-form-item label="宣讲日期:" prop="talkDate">
+                        <el-date-picker
+                          v-model="enterprise.talkDate"
+                          size="mini"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          style="width: 140px;"
+                          placeholder="宣讲日期">
+                        </el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="时间段:" prop="talkTime">
+                        <el-select v-model="enterprise.talkTimeId" placeholder="宣讲时间" size="mini" style="width: 120px;">
+                          <el-option
+                            v-for="item in times"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-divider></el-divider>
+                  <span>企业详细信息</span>
+                  <template v-if="isAuthenticate==1">
+                    <el-divider></el-divider>
+                    <el-alert
+                      title="（请完善详细信息）"
+                      description="填写信息并等待认证，若已经填写则可以再次填写更新"
+                      type="warning"
+                      center
+                      show-icon>
+                    </el-alert>
+                  </template>
+                  <el-divider></el-divider>
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="企业名称:" prop="name">
@@ -288,7 +315,7 @@
                           size="mini"
                           type="date"
                           value-format="yyyy-MM-dd"
-                          style="width: 120px;"
+                          style="width: 140px;"
                           placeholder="createTime">
                         </el-date-picker>
                       </el-form-item>
@@ -433,7 +460,7 @@
                 </div>
               </template>
               <!--教师-->
-              <template v-if="user.roleId==5">
+              <template v-if="user.roleId==this.$store.state.leaderId">
                 <el-divider></el-divider>
                 <span>教师详细信息</span>
                 <el-divider></el-divider>
@@ -447,7 +474,7 @@
               </template>
             </el-card>
           </el-tab-pane>
-          <template v-if="this.$store.state.user.roleId == 2">
+          <template v-if="this.$store.state.user.roleId == this.$store.state.studentId">
             <el-tab-pane label="标准简历">
               <div style="text-align: center">
                 <div style="height: 970px">
@@ -1020,6 +1047,8 @@
           endDate: ""
         },
         enterprise: {
+          talkDate: '',
+          talkTimeId: '',
           id: '',
           name: '',
           createTime: '',
@@ -1042,6 +1071,7 @@
           expectation: '',
           welfare: '',
         },
+        times: [],
         finances: [],
         scales: [],
         natures: [],
@@ -1409,6 +1439,16 @@
         } else {
           this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
         }
+        if (!window.sessionStorage.getItem("times")) {
+          this.$axios.get('/time').then(resp => {
+            if (resp.data.code === 200) {
+              this.times = resp.data.data;
+              window.sessionStorage.setItem("times", JSON.stringify(this.times));
+            }
+          })
+        } else {
+          this.times = JSON.parse(window.sessionStorage.getItem("times"));
+        }
       },
       initCommonData() {
         if (!window.sessionStorage.getItem("scales")) {
@@ -1440,7 +1480,11 @@
             if (valid) {
               this.$axios.put("/content/student", this.student).then(resp => {
                 if (resp.data.code === 200) {
-                  this.initStudent();
+                  // this.initStudent();
+                  this.$notify({
+                    message: '更新成功',
+                    type: 'success'
+                  })
                 }
               })
             }
@@ -1493,7 +1537,11 @@
             if (valid) {
               this.$axios.put("/enterprise", this.enterprise).then(resp => {
                 if (resp.data.code === 200) {
-                  this.initEnterprise();
+                  // this.initEnterprise();
+                  this.$notify({
+                    message: '更新成功',
+                    type: 'success'
+                  })
                 }
               })
             }
