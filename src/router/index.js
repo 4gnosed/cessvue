@@ -10,6 +10,7 @@ import EnterpriseIndex from "../components/enterprise/EnterpriseIndex";
 import LeaderIndex from "../components/leader/LeaderIndex";
 import PersonCenter from "../components/PersonCenter";
 import Resume from "../components/student/Resume";
+import EnterpriseInfo from "../components/enterprise/EnterpriseInfo";
 
 Vue.use(Router)
 
@@ -73,6 +74,14 @@ export default new Router({
           path: '/resume',
           name: 'Resume',
           component: Resume,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/infoEnterprise',
+          name: 'EnterpriseInfo',
+          component: EnterpriseInfo,
           meta: {
             requireAuth: true
           }
@@ -150,6 +159,22 @@ export const createRouter = routes => new Router({
           path: '/personCenter',
           name: 'PersonCenter',
           component: PersonCenter,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/resume',
+          name: 'Resume',
+          component: Resume,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/infoEnterprise',
+          name: 'EnterpriseInfo',
+          component: EnterpriseInfo,
           meta: {
             requireAuth: true
           }

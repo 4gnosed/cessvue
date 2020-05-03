@@ -158,6 +158,11 @@
               点击查看[{{messageDetail.sender}}]的信息和简历
             </el-button>
           </template>
+          <template v-if="messageDetailSenderRoleId === this.$store.state.enterpriseId">
+            <el-button type="mini" style="background-color: #FDF6EC" @click="toEnterprise">
+              点击查看[{{messageDetailEnterprise.name}}]的企业信息
+            </el-button>
+          </template>
         </el-row>
         <el-divider></el-divider>
         <div class="dialog_footer">
@@ -241,6 +246,7 @@
         selectedMegs: [],
         messageDetail: '',
         messageDetailSenderRoleId: '',
+        messageDetailEnterprise: '',
         messageResponse: {
           id: '',
           sender: '',
@@ -311,14 +317,14 @@
         })
       },
       showMessage(message) {
-        this.getSenderRoleId(message)
+        this.getSenderInfo(message)
         this.messageDetailDialogVisible = true
         this.messageDetail = message
         this.selectedMegs.push(message)
         this.sendRead()
       },
       showReadMessage(message) {
-        this.getSenderRoleId(message)
+        this.getSenderInfo(message)
         this.messageDetailDialogVisible = true
         this.messageDetail = message
       },
@@ -326,11 +332,20 @@
         this.messageDetailDialogVisible = true
         this.messageDetail = message
       },
-      getSenderRoleId(message) {
+      getSenderInfo(message) {
         //获取发送者的角色
-        this.$axios.get('/userRole?userId=' + message.senderUid).then(resp => {
+        let userId = message.senderUid;
+        this.$axios.get('/userRole?userId=' + userId).then(resp => {
           if (resp.data.code === 200) {
             this.messageDetailSenderRoleId = resp.data.data
+            //如果是企业，获取其信息
+            if (this.messageDetailSenderRoleId === this.$store.state.enterpriseId) {
+              this.$axios.get('/enterprise/getOne?userId=' + userId).then(resp => {
+                if (resp.data.code === 200) {
+                  this.messageDetailEnterprise = resp.data.data
+                }
+              })
+            }
           }
         })
       },
@@ -401,6 +416,7 @@
               if (resp.data.code === 200) {
                 this.$notify({message: '发送成功', type: 'success'})
                 this.$refs['messageForm'].resetFields()
+                this.responseDialogVisible=false
               }
             })
           }
@@ -412,6 +428,16 @@
           //传参
           query: {
             fLTYROdT9onR3kUxCi9wCw: this.messageDetail.senderUid
+          }
+        })
+        window.open(href, '_blank')
+      },
+      toEnterprise(){
+        const {href} = this.$router.resolve({
+          path: '/infoEnterprise',
+          //传参
+          query: {
+            UT93oOdkwCTY9RnxRwfLCi: this.messageDetailEnterprise.id
           }
         })
         window.open(href, '_blank')

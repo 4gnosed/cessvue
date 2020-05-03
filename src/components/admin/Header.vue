@@ -329,6 +329,7 @@
               if (resp.data.code === 200) {
                 this.$notify({message: '发送成功', type: 'success'})
                 this.$refs['messageForm'].resetFields()
+                this.responseDialogVisible=false
               }
             })
           }

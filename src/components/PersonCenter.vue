@@ -4,7 +4,7 @@
       <div>
         <el-tabs :tab-position="tabPosition" style="height: 1700px;font-weight: bold" class="common_font_size">
           <el-tab-pane label="个人信息">
-            <el-card style="width: 1000px;margin-left: 50px">
+            <el-card style="margin-left: 50px">
               <span>基本信息</span>
               <el-divider></el-divider>
               <el-form v-model="user" style="text-align: left">

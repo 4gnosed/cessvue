@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 1500px;margin-top: 50px">
+  <div style="height: 1800px;margin-top: 50px">
     <div>
       <el-input size="mini" placeholder="搜索职位、公司、关键词 " prefix-icon="el-icon-search"
                 clearable
@@ -191,6 +191,10 @@
                 <div style="margin-left: 18px;margin-right: 18px">{{position.address}}</div>
                 <el-divider></el-divider>
                 <span style="font-weight: bold;margin-left: 18px">工商信息</span>
+                <a style="font-weight: bold;float: right;margin-right: 18px">
+                  <router-link target="_blank" :to="{path:'/infoEnterprise',query:{UT93oOdkwCTY9RnxRwfLCi:enterprise.id}}">查看更多
+                  </router-link>
+                </a>
                 <el-row>
                   <el-col>
                     <div style="margin-left: 18px;margin-right: 18px">
@@ -1259,8 +1263,8 @@
         this.resume.experienceSkillList.splice(index, 1)
       },
       addCertificate() {
-        if (this.resume.experienceCertificateList.length == 3) {
-          this.$notify({message: '填写证书上限3个', type: 'warning'});
+        if (this.resume.experienceCertificateList.length == 4) {
+          this.$notify({message: '填写证书上限4个', type: 'warning'});
           return
         }
         this.resume.experienceCertificateList.push({
@@ -1272,6 +1276,9 @@
       },
       deleteCertificate(index) {
         this.resume.experienceCertificateList.splice(index, 1)
+      },
+      toEnterprise(eid) {
+        alert(eid)
       }
     },
     filters: {
@@ -1334,6 +1341,6 @@
   }
 
   .dialog_height {
-    height: 600px;
+    height: 700px;
   }
 </style>
