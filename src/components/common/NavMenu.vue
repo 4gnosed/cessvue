@@ -15,12 +15,12 @@
           </el-menu-item>
         </el-col>
         <el-col :xs="6" :sm="7" :md="7" :lg="5" :xl="4">
-          <div class="el_menu_else_item title_item">
+          <div class="el_menu_else_item title_item" @click="toIndex">
             高校就业服务系统
           </div>
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="7" :xl="5" class="hidden-md-and-down">
-          <div class="el_menu_else_item title_item" style="border-left: #D2D3D6 solid 2px">
+          <div class="el_menu_else_item title_item" style="border-left: #D2D3D6 solid 2px" @click="toIndex">
             Collage Employment Service System
           </div>
         </el-col>
@@ -280,15 +280,15 @@
             const newRouter = createRouter()
             this.$router.matcher = newRouter.matcher
 
-            _this.$router.replace('/home')
+            _this.$router.push('/home')
           }
         })
       },
       login() {
-        this.$router.replace('/login')
+        this.$router.push('/login')
       },
       personCenter() {
-        this.$router.replace('/personCenter')
+        this.$router.push('/personCenter')
       },
       showMessages() {
         //获取信息
@@ -441,6 +441,9 @@
           }
         })
         window.open(href, '_blank')
+      },
+      toIndex(){
+        this.$router.push('/index')
       }
     }
   }

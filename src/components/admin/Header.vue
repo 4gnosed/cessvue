@@ -8,7 +8,7 @@
       style="width: 100%">
       <el-row style="color: #fff">
         <el-col :xs="18" :sm="18" :md="20" :lg="21" :xl="21">
-          <div class="el_menu_else_item title_item">
+          <div class="el_menu_else_item title_item" @click="backIndex">
             高校就业服务后台管理系统
           </div>
         </el-col>
@@ -220,7 +220,7 @@
     },
     methods: {
       backIndex() {
-        this.$router.replace('/index')
+        this.$router.push('/index')
       },
       showMessages() {
         //获取信息
@@ -329,7 +329,7 @@
               if (resp.data.code === 200) {
                 this.$notify({message: '发送成功', type: 'success'})
                 this.$refs['messageForm'].resetFields()
-                this.responseDialogVisible=false
+                this.responseDialogVisible = false
               }
             })
           }
