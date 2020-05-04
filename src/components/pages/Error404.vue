@@ -1,21 +1,23 @@
 <template>
-    <div class="error-page">
-      <div style="padding:100px 500px 0px 0px">
-        <img src="../../assets/img/icon/404.png" class="error-tag">
-      </div>
-    </div>
+  <div class="error-page" @click="toIndex">
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'Error404'
+  export default {
+    name: 'Error404',
+    methods: {
+      toIndex() {
+        this.$router.replace('/index')
+      }
     }
+
+  }
 </script>
 
 <style scoped>
   .error-page {
-    background:url("../../assets/img/bg/bg2.jpg") no-repeat;
-    background-position: center;
+    background: url("../../assets/img/404.jpg") no-repeat;
     margin: 0;
     height: 100%;
     width: 100%;

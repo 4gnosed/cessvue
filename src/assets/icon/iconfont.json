@@ -1,0 +1,72 @@
+{
+  "id": "1782167",
+  "name": "firstIcon",
+  "font_family": "iconfont",
+  "css_prefix_text": "el-icon-iconfont-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12175548",
+      "name": "已发送",
+      "font_class": "yifasong",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "376371",
+      "name": "未读",
+      "font_class": "noread",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "376395",
+      "name": "已读",
+      "font_class": "read",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "11474243",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e6f3",
+      "unicode_decimal": 59123
+    },
+    {
+      "icon_id": "11474335",
+      "name": "QRcode",
+      "font_class": "QRcode",
+      "unicode": "e704",
+      "unicode_decimal": 59140
+    },
+    {
+      "icon_id": "11487984",
+      "name": "ashbin",
+      "font_class": "ashbin",
+      "unicode": "e744",
+      "unicode_decimal": 59204
+    },
+    {
+      "icon_id": "11488222",
+      "name": "add-account",
+      "font_class": "add-account",
+      "unicode": "e776",
+      "unicode_decimal": 59254
+    },
+    {
+      "icon_id": "11488266",
+      "name": "hot-fill",
+      "font_class": "hot-fill",
+      "unicode": "e781",
+      "unicode_decimal": 59265
+    },
+    {
+      "icon_id": "13119213",
+      "name": "new",
+      "font_class": "new",
+      "unicode": "e7d4",
+      "unicode_decimal": 59348
+    }
+  ]
+}

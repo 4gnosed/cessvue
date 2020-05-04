@@ -102,6 +102,10 @@ export default new Router({
       meta: {
         requireAuth: true
       }
+    },
+    {
+      path: '*',
+      component: () => import('../components/pages/Error404')
     }
   ]
 })
@@ -195,6 +199,10 @@ export const createRouter = routes => new Router({
       meta: {
         requireAuth: true
       }
+    },
+    {
+      path: '*',
+      component: () => import('../components/pages/Error404')
     }
   ]
 })
