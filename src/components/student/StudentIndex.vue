@@ -1,21 +1,25 @@
 <template>
-  <div style="height: 1800px;margin-top: 50px">
-    <div>
-      <el-input size="mini" placeholder="搜索职位、公司、关键词 " prefix-icon="el-icon-search"
-                clearable
-                @clear="initPositions"
-                style="width: 400px;margin-right: 10px" v-model="searchValue.keywords"
-                @keydown.enter.native="initPositions" :disabled="showAdvanceSearchView"></el-input>
-      <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary" @click="searchPositions"
-                 :disabled="showAdvanceSearchView">
-        搜索
-      </el-button>
-      <el-button class="common_font_size" size="mini" type="primary"
-                 @click="showAdvanceSearchView = !showAdvanceSearchView">
-        <i :class="showAdvanceSearchView?'fa fa-angle-double-up':'fa fa-angle-double-down'"
-           aria-hidden="true"></i>
-        高级搜索
-      </el-button>
+  <div style="height: 1800px;">
+    <div style="background-color: #00c2b3;height: 150px">
+      <div style="line-height: 80px">
+        <el-input size="small" placeholder="搜索职位、公司、关键词 " prefix-icon="el-icon-search"
+                  clearable
+                  @clear="initPositions"
+                  style="width: 400px;margin-right: 10px" v-model="searchValue.keywords"
+                  @keydown.enter.native="initPositions" :disabled="showAdvanceSearchView"></el-input>
+      </div>
+      <div style="margin-top: 10px">
+        <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary" @click="searchPositions"
+                   :disabled="showAdvanceSearchView">
+          搜索
+        </el-button>
+        <el-button class="common_font_size" size="mini" type="primary"
+                   @click="showAdvanceSearchView = !showAdvanceSearchView">
+          <i :class="showAdvanceSearchView?'fa fa-angle-double-up':'fa fa-angle-double-down'"
+             aria-hidden="true"></i>
+          高级搜索
+        </el-button>
+      </div>
     </div>
     <transition name="slide-fade">
       <div v-show="showAdvanceSearchView" class="common_font_size"
