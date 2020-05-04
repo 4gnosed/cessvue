@@ -527,6 +527,7 @@
   }
 
   .el-badge__content {
+    background-color: red;
     font-size: 2px;
     height: 12px;
     line-height: 12px;
