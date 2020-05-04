@@ -14,20 +14,21 @@
             增加职位
           </el-button>
         </el-col>
-<!--        <el-col :span="12">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="primary"-->
-<!--            @click="submitAll(editableTabsValue)">-->
-<!--            全部发布-->
-<!--          </el-button>-->
-<!--        </el-col>-->
+        <el-col :span="2" style="margin-left: 10px">
+          <el-button
+            size="mini"
+            type="primary"
+            icon="el-icon-minus"
+            @click="removeTab(editableTabsValue)">
+            移出职位
+          </el-button>
+        </el-col>
       </el-row>
       <el-row>
-        <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab" style="margin-top: 20px">
+        <el-tabs v-model="editableTabsValue" type="card" style="margin-top: 20px">
           <el-tab-pane class="tab" v-for="(item, index) in editableTabs" :key="item.name" :label="item.title"
                        :name="item.name">
-            <position-item></position-item>
+            <position-item v-bind:positionId=-1></position-item>
           </el-tab-pane>
         </el-tabs>
       </el-row>
@@ -71,7 +72,6 @@
         this.editableTabsValue = newTabName;
       },
       removeTab(targetName) {
-        alert('hhh')
         let tabs = this.editableTabs;
         let activeName = this.editableTabsValue;
         if (activeName === targetName) {
@@ -87,9 +87,6 @@
 
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-      },
-      submitAll() {
-        // positionItem.methods.sayHello()
       }
     }
   }

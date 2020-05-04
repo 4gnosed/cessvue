@@ -239,7 +239,7 @@
         }
       },
       getPosition() {
-        if (this.positionId != null) {
+        if (this.positionId != null && this.positionId != -1) {
           this.$axios.get('/positions/getById?positionId=' + this.positionId).then(resp => {
             if (resp.data.code === 200) {
               this.position = resp.data.data
