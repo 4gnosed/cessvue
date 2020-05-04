@@ -458,7 +458,6 @@
           index++
         }
         let s = path.substr(0, index);
-        alert(s)
         return s
       }
     }
