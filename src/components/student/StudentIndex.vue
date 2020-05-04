@@ -93,6 +93,9 @@
     </transition>
     <div class="position_card">
       <!--        <el-card id="el_card" class="position_item" shadow="hover" style="height: 100px"-->
+      <div style="text-align: right;margin-bottom: 4px">
+        <el-button icon="el-icon-sort" class="common_font_size" size="mini" @click="sortByUpdateTime">时间排序</el-button>
+      </div>
       <el-collapse accordion>
         <div v-for="(position,index) in positions" :key="position.id">
           <template v-for="enterprise in enterprises" v-if="enterprise.id === position.enterpriseId">
@@ -753,6 +756,7 @@
     name: "student",
     data() {
       return {
+        ascSort: true,
         showAdvanceSearchView: false,
         searchValue: {
           keywords: null,
@@ -1280,6 +1284,47 @@
       },
       deleteCertificate(index) {
         this.resume.experienceCertificateList.splice(index, 1)
+      },
+      sortByUpdateTime() {
+        this.ascSort = !this.ascSort
+        // console.log(this.ascSort)
+        // let arr = this.positions
+        if (this.ascSort) {
+          //按最旧时间
+          this.positions.sort(this.asc('updateTime'))
+        } else {
+          //按最新时间
+          this.positions.sort(this.desc('updateTime'))
+        }
+        // arr.forEach((pos) => {
+        //   console.log(pos.name + ' ' + pos.updateTime + ' ' + typeof pos.updateTime)
+        // })
+      },
+      asc(property) {
+        return function (a, b) {
+          let value1 = a[property];
+          let value2 = b[property];
+          if (value1 > value2) {
+            return 1
+          } else if (value2 > value1) {
+            return -1
+          } else {
+            return 0
+          }
+        }
+      },
+      desc(property) {
+        return function (a, b) {
+          let value1 = a[property];
+          let value2 = b[property];
+          if (value2 > value1) {
+            return 1
+          } else if (value1 > value2) {
+            return -1
+          } else {
+            return 0
+          }
+        }
       }
     },
     filters: {
