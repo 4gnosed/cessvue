@@ -112,8 +112,11 @@
                     <el-col :span="4">
                       <div class="grid-content"></div>
                     </el-col>
-                    <el-col :span="10">
+                    <el-col :span="6">
                       <div class="grid-content">{{enterprise.name}}</div>
+                    </el-col>
+                    <el-col :span="4">
+                      <div class="grid-content">更新时间：{{position.updateTime}}</div>
                     </el-col>
                   </el-row>
                   <el-row class="mid_el_row">
@@ -192,7 +195,8 @@
                 <el-divider></el-divider>
                 <span style="font-weight: bold;margin-left: 18px">工商信息</span>
                 <a style="font-weight: bold;float: right;margin-right: 18px">
-                  <router-link target="_blank" :to="{path:'/infoEnterprise',query:{UT93oOdkwCTY9RnxRwfLCi:enterprise.id}}">查看更多
+                  <router-link target="_blank"
+                               :to="{path:'/infoEnterprise',query:{UT93oOdkwCTY9RnxRwfLCi:enterprise.id}}">查看更多
                   </router-link>
                 </a>
                 <el-row>
@@ -1276,9 +1280,6 @@
       },
       deleteCertificate(index) {
         this.resume.experienceCertificateList.splice(index, 1)
-      },
-      toEnterprise(eid) {
-        alert(eid)
       }
     },
     filters: {
