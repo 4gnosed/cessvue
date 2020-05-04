@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%">
     <el-menu
-      :default-active="$route.path"
+      :default-active="activePath"
       router
       mode="horizontal"
       background-color="#303643"
@@ -416,7 +416,7 @@
               if (resp.data.code === 200) {
                 this.$notify({message: '发送成功', type: 'success'})
                 this.$refs['messageForm'].resetFields()
-                this.responseDialogVisible=false
+                this.responseDialogVisible = false
               }
             })
           }
@@ -432,7 +432,7 @@
         })
         window.open(href, '_blank')
       },
-      toEnterprise(){
+      toEnterprise() {
         const {href} = this.$router.resolve({
           path: '/infoEnterprise',
           //传参
@@ -442,8 +442,24 @@
         })
         window.open(href, '_blank')
       },
-      toIndex(){
+      toIndex() {
         this.$router.push('/index')
+      }
+    },
+    computed: {
+      // 根据路由父路径激活菜单
+      activePath() {
+        let path = this.$route.path
+        let index = 1
+        for (; index < path.length;) {
+          if (path[index] === '/') {
+            break;
+          }
+          index++
+        }
+        let s = path.substr(0, index);
+        alert(s)
+        return s
       }
     }
   }
