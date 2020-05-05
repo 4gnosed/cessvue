@@ -729,8 +729,15 @@
 <script>
   export default {
     name: "Resume",
+    // props: {
+    //   userId: {
+    //     type: String,
+    //     required: false
+    //   }
+    // },
     data() {
       return {
+        userId: '',
         stepNum: 7,
         activeInt: 0,
         active: '0',
@@ -843,15 +850,26 @@
     created() {
       this.getSenderUid()
       this.initStudentData()
-      this.initStudent()
-      this.initResumeData()
+      this.initStudentAndResume()
     },
     mounted() {
     },
     methods: {
+      getUserId(val) {
+        this.userId = val
+        // console.log('接收参数 ：' + val)
+        this.senderUid = this.userId
+        this.initStudentAndResume()
+      },
       getSenderUid() {
         // 取到路由带过来的参数
-        this.senderUid = this.$route.query.fLTYROdT9onR3kUxCi9wCw;
+        this.senderUid = this.$route.query.fLTYROdT9onR3kUxCi9wCw
+      },
+      initStudentAndResume() {
+        if (typeof this.senderUid !== 'undefined') {
+          this.initStudent()
+          this.initResumeData()
+        }
       },
       initStudent() {
         this.$axios.get('/content/student/getOne?userId=' + this.senderUid).then(resp => {
@@ -1020,6 +1038,7 @@
   .el-input.is-disabled .el-input__inner {
     background-color: #FFF !important;
   }
+
   .el-textarea.is-disabled .el-textarea__inner {
     background-color: #FFF !important;
   }

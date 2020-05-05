@@ -172,7 +172,7 @@
     mounted() {
       this.initData()
       this.getEnterprise()
-      this.getuserPostionsResumeVos()
+      this.getUserPostionsResumeVos()
     },
     methods: {
       addPosition() {
@@ -322,16 +322,18 @@
         })
         window.open(href, '_blank')
       },
-      getuserPostionsResumeVos() {
+      getUserPostionsResumeVos() {
         this.$axios.get('/resume/getUserPostionsResumeVos?userId=' + this.user.id).then(resp => {
           if (resp.data.code === 200) {
             this.userPostionsResumeVos = resp.data.data
+            window.sessionStorage.setItem("userPostionsResumeVos", JSON.stringify(this.userPostionsResumeVos));
             this.getAllStateCurrentPostionsVos()
             this.alterCurrentStateVos(1)
           }
         })
       },
       selectRow(row, column, event) {
+        window.sessionStorage.setItem("userPostionsResumeVo", JSON.stringify(row));
         this.index = row.index
       },
       getAllStateCurrentPostionsVos() {
