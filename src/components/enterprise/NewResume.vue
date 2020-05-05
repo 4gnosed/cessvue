@@ -1,6 +1,20 @@
 <template>
   <div>
     <div>
+      <el-row style="margin-bottom: 8px">
+        <el-col span="12" style="text-align: left">
+          <el-button class="common_font_size" size="mini"
+                     style="background-color: #E6A23C;color: white"
+                     icon="el-icon-arrow-left" @click="">淘汰
+          </el-button>
+        </el-col>
+        <el-col span="12" style="text-align: right">
+          <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
+                        color: white" @click="">邀请面试
+            <i class="el-icon-arrow-right el-icon--right"></i>
+          </el-button>
+        </el-col>
+      </el-row>
       <el-collapse v-model="activeItem">
         <el-collapse-item name="preview">
           <div slot="title" style="width: 100%;font-size: 20px;">

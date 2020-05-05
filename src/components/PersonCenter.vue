@@ -912,9 +912,9 @@
                           </el-button>
                         </el-col>
                         <el-col :span="2">
-                          <el-button class="common_font_size" size="mini" type="mini"
-                                     style="background-color: #409EFF;color: white"
-                                     icon="el-icon-arrow-right" @click="next">下一步
+                          <el-button class="common_font_size" size="mini" style="background-color: #409EFF;
+                        color: white"@click="next">下一步
+                            <i class="el-icon-arrow-right el-icon--right"></i>
                           </el-button>
                         </el-col>
                         <el-col :span="20">

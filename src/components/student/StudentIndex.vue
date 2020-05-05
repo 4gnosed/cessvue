@@ -708,9 +708,9 @@
                      style="margin-top: 12px;background-color: #409EFF;color: white"
                      icon="el-icon-arrow-left" @click="last">上一步
           </el-button>
-          <el-button class="common_font_size" size="mini"
-                     style="margin-top: 12px;background-color: #409EFF;color: white"
-                     icon="el-icon-arrow-right" @click="next">下一步
+          <el-button class="common_font_size" size="mini" style="background-color: #409EFF;
+                        color: white"@click="next">下一步
+            <i class="el-icon-arrow-right el-icon--right"></i>
           </el-button>
         </div>
         <div slot="footer" class="dialog-footer">
