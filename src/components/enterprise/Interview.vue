@@ -1,13 +1,14 @@
 <template>
-    <div>
-      面试
-    </div>
+  <div>
+    面试{{index}}
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "Interview"
-    }
+  export default {
+    name: "Interview",
+    props: ['index']
+  }
 </script>
 
 <style scoped>

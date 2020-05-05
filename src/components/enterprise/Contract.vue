@@ -1,12 +1,13 @@
 <template>
   <div>
-    三方合同
+    三方合同{{index}}
   </div>
 </template>
 
 <script>
   export default {
-    name: "Contact"
+    name: "Contact",
+    props: ['index']
   }
 </script>
 

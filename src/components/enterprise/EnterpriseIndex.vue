@@ -26,15 +26,28 @@
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
-            <el-menu-item index="/enterprise/newResume">新简历（100）</el-menu-item>
-            <el-menu-item index="/enterprise/interview">面试（15）</el-menu-item>
-            <el-menu-item index="/enterprise/offer">Offer（12）</el-menu-item>
-            <el-menu-item index="/enterprise/contract">三方签约（10）</el-menu-item>
-            <el-menu-item index="/enterprise/employed">待入职（5）</el-menu-item>
-            <el-menu-item index="/enterprise/talentPool">人才储备库（100）</el-menu-item>
+            <el-menu-item index="/enterprise/newResume"
+                          @click="alterCurrentStateVos(1)">新简历（{{currentStateVos1.length}}）
+            </el-menu-item>
+            <el-menu-item index="/enterprise/interview"
+                          @click="alterCurrentStateVos(2)">面试中（{{currentStateVos2.length}}）
+            </el-menu-item>
+            <el-menu-item index="/enterprise/offer"
+                          @click="alterCurrentStateVos(3)">Offer沟通中（{{currentStateVos3.length}}）
+            </el-menu-item>
+            <el-menu-item index="/enterprise/contract"
+                          @click="alterCurrentStateVos(4)">三方签约中（{{currentStateVos4.length}}）
+            </el-menu-item>
+            <el-menu-item index="/enterprise/employed"
+                          @click="alterCurrentStateVos(5)">待入职（{{currentStateVos5.length}}）
+            </el-menu-item>
+            <el-menu-item index="/enterprise/talentPool"
+                          @click="alterCurrentStateVos(6)">人才储备库（{{currentStateVos6.length}}）
+            </el-menu-item>
             <div style="float: right;line-height: 60px;margin-right: 10px">
-              <el-select v-model="selectPositionId" filterable placeholder="按职位查看" size="mini"
-                         clearable @change="changePosition">
+              <el-select v-model="selectedPositionId" filterable placeholder="按职位查看" size="mini"
+                         @change="getAllStateCurrentPostionsVos"
+                         clearable>
                 <el-option
                   v-for="item in positions"
                   :key="item.id"
@@ -45,9 +58,35 @@
             </div>
           </el-menu>
         </el-header>
-        <el-main style="height: 1600px">
-          <router-view/>
-        </el-main>
+        <el-container>
+          <el-aside width="300px">
+            <el-table
+              :data="currentStateVos"
+              @row-click="selectRow"
+              border
+              highlight-current-row
+              max-height="1000px"
+              style="width: 100%;margin-top: 20px">
+              <el-table-column
+                prop="student.name"
+                align="center"
+                label="姓名"
+                sortable
+                width="100px">
+              </el-table-column>
+              <el-table-column
+                prop="positions.name"
+                align="center"
+                label="职位"
+                sortable
+                width="200px">
+              </el-table-column>
+            </el-table>
+          </el-aside>
+          <el-main>
+            <router-view :index="index"/>
+          </el-main>
+        </el-container>
       </el-container>
     </div>
     <div>
@@ -97,6 +136,7 @@
     components: {PositionItem},
     data() {
       return {
+        user: this.$store.state.user,
         dialogVisible: false,
         editableTabsValue: '1',
         editableTabs: [{
@@ -116,15 +156,23 @@
         positions: [],
         finances: [],
         levels: [],
-        total: 0,
-        page: 1,
-        size: 10,
-        selectPositionId: ''
+        selectedPositionId: '',
+        index: '',
+        userPostionsResumeVos: [],
+        allStateCurrentPostionsVos: [],
+        currentStateVos: [],
+        currentStateVos1: [],
+        currentStateVos2: [],
+        currentStateVos3: [],
+        currentStateVos4: [],
+        currentStateVos5: [],
+        currentStateVos6: []
       }
     },
     mounted() {
       this.initData()
       this.getEnterprise()
+      this.getuserPostionsResumeVos()
     },
     methods: {
       addPosition() {
@@ -257,21 +305,12 @@
         })
       },
       getPositions() {
-        let url = '/positions/getByEid?page=' + this.page + '&size=' + this.size + '&eid=' + this.enterprise.id
+        let url = '/positions/getAllByUid?userId=' + this.$store.state.user.id
         this.$axios.get(url).then(resp => {
           if (resp.data.code === 200) {
-            this.positions = resp.data.data.data;
-            this.total = resp.data.data.total;
+            this.positions = resp.data.data;
           }
         })
-      },
-      sizeChange(currentSize) {
-        this.size = currentSize;
-        this.initPositions();
-      },
-      currentChange(currentPage) {
-        this.page = currentPage;
-        this.initPositions();
       },
       toEnterprise() {
         const {href} = this.$router.resolve({
@@ -283,8 +322,84 @@
         })
         window.open(href, '_blank')
       },
-      changePosition() {
-        console.log('pid:' + this.selectPositionId)
+      getuserPostionsResumeVos() {
+        this.$axios.get('/resume/getUserPostionsResumeVos?userId=' + this.user.id).then(resp => {
+          if (resp.data.code === 200) {
+            this.userPostionsResumeVos = resp.data.data
+            this.getAllStateCurrentPostionsVos()
+            this.alterCurrentStateVos(1)
+          }
+        })
+      },
+      selectRow(row, column, event) {
+        this.index = row.index
+      },
+      getAllStateCurrentPostionsVos() {
+        // console.log(this.selectedPositionId)
+        //根据选中的职位id，过滤出当前allStateCurrentPostionsVos数组
+        this.allStateCurrentPostionsVos = []
+
+        //未选中职位下，显示所有职位的数组元素
+        if (this.selectedPositionId === '') {
+          this.allStateCurrentPostionsVos = this.userPostionsResumeVos
+        } else {
+          this.userPostionsResumeVos.forEach((vo, index) => {
+            if (vo.positions.id === this.selectedPositionId) {
+              this.allStateCurrentPostionsVos.push(vo)
+            }
+          })
+        }
+        //根据简历状态划分状态数目的数组
+        this.classifyCurrentStateVos()
+      },
+      alterCurrentStateVos(stateId) {
+        //根据简历状态选择当前表格的数据
+        switch (stateId) {
+          case 1:
+            this.currentStateVos = this.currentStateVos1;
+            break;
+          case 2:
+            this.currentStateVos = this.currentStateVos2;
+            break;
+          case 3:
+            this.currentStateVos = this.currentStateVos3;
+            break;
+          case 4:
+            this.currentStateVos = this.currentStateVos4;
+            break;
+          case 5:
+            this.currentStateVos = this.currentStateVos5;
+            break;
+          case 6:
+            this.currentStateVos = this.currentStateVos6;
+            break;
+        }
+      },
+      classifyCurrentStateVos() {
+        //根据简历状态划分状态数目的数组
+        this.allStateCurrentPostionsVos.forEach((vo, index) => {
+          let stateId = vo.resume.stateId;
+          switch (stateId) {
+            case 1:
+              this.currentStateVos1.push(vo);
+              break;
+            case 2:
+              this.currentStateVos2.push(vo);
+              break;
+            case 3:
+              this.currentStateVos3.push(vo);
+              break;
+            case 4:
+              this.currentStateVos4.push(vo);
+              break;
+            case 5:
+              this.currentStateVos5.push(vo);
+              break;
+            case 6:
+              this.currentStateVos6.push(vo);
+              break;
+          }
+        })
       }
     }
   }

@@ -1,73 +1,42 @@
 <template>
-  <el-container>
-    <el-aside width="300px">
-      <el-table
-        :data="userPostionsResumeVos"
-        @row-click="selectResume"
-        border
-        highlight-current-row
-        max-height="1000px"
-        style="width: 100%;">
-        <el-table-column
-          prop="student.name"
-          align="center"
-          label="姓名"
-          sortable
-          width="100px">
-        </el-table-column>
-        <el-table-column
-          prop="positions.name"
-          align="center"
-          label="职位"
-          sortable
-          width="200px">
-        </el-table-column>
-      </el-table>
-    </el-aside>
-    <el-main>
-      <div>
-        <el-collapse v-model="preview" accordion>
-          <el-collapse-item name="preview">
-            <div slot="title" style="font-size: 16px;margin-left: 600px">
-              <i class="header-icon el-icon-view"></i>&nbsp;简历预览
-            </div>
-            <div>
-              {{selectedResume.name}}
-            </div>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-      <div>简历详情</div>
-    </el-main>
-  </el-container>
+  <div>
+    <div>
+      <el-collapse v-model="preview" accordion>
+        <el-collapse-item name="preview">
+          <div slot="title" style="width: 100%;font-size: 20px;">
+            <el-row>
+              <el-col :span="8">&nbsp;</el-col>
+              <el-col :span="8">
+                <i class="header-icon el-icon-view"></i>
+                &nbsp;简历预览
+              </el-col>
+              <el-col :span="8"></el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
+    <div>简历详情</div>
+    <div>{{index}}</div>
+  </div>
 </template>
 
 <script>
   export default {
     name: "NewResume",
+    props: ['index'],
+    // watch: {
+    //   index: function (index) {
+    //   }
+    // },
     data() {
       return {
-        user: this.$store.state.user,
-        preview: 'preview',
-        selectedResume: '',
-        userPostionsResumeVos: []
+        preview: 'preview'
       }
     },
     mounted() {
-      this.getuserPostionsResumeVos()
     },
-    methods: {
-      getuserPostionsResumeVos() {
-        this.$axios.get('/resume/getUserPostionsResumeVos?userId=' + this.user.id).then(resp => {
-          if (resp.data.code === 200) {
-            this.userPostionsResumeVos = resp.data.data
-          }
-        })
-      },
-      selectResume(row, column, event) {
-        this.selectedResume = row.resume
-      }
-    }
+    methods: {}
   }
 </script>
 
