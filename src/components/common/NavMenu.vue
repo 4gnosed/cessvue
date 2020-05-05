@@ -234,7 +234,7 @@
         navList: [
           {name: '/index', navItem: '首页'},
           {name: '/student', navItem: '求职'},
-          {name: '/enterprise', navItem: '招聘'},
+          {name: '/enterprise/newResume', navItem: '招聘'},
           {name: '/leader', navItem: '数据分析'},
           {name: '/admin', navItem: '后台管理'}
         ],
@@ -457,7 +457,10 @@
           }
           index++
         }
-        let s = path.substr(0, index);
+        let s = path.substr(0, index)
+        if (s.startsWith('/enterprise')) {
+          s = s + '/newResume'
+        }
         return s
       }
     }

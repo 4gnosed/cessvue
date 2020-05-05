@@ -11,6 +11,12 @@ import LeaderIndex from "../components/leader/LeaderIndex";
 import PersonCenter from "../components/PersonCenter";
 import Resume from "../components/student/Resume";
 import EnterpriseInfo from "../components/enterprise/EnterpriseInfo";
+import NewResume from "../components/enterprise/NewResume";
+import Interview from "../components/enterprise/Interview";
+import Offer from "../components/enterprise/Offer";
+import Contract from "../components/enterprise/Contract";
+import Employed from "../components/enterprise/Employed";
+import TalentPool from "../components/enterprise/TalentPool";
 
 Vue.use(Router)
 
@@ -52,7 +58,57 @@ export default new Router({
           component: EnterpriseIndex,
           meta: {
             requireAuth: true
-          }
+          },
+          children: [
+            {
+              path: '/enterprise/newResume',
+              name: 'NewResume',
+              component: NewResume,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/interview',
+              name: 'Interview',
+              component: Interview,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/offer',
+              name: 'Offer',
+              component: Offer,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/contract',
+              name: 'Contract',
+              component: Contract,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/employed',
+              name: 'Employed',
+              component: Employed,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/talentPool',
+              name: 'TalentPool',
+              component: TalentPool,
+              meta: {
+                requireAuth: true
+              }
+            }
+          ]
         },
         {
           path: '/leader',
@@ -149,7 +205,57 @@ export const createRouter = routes => new Router({
           component: EnterpriseIndex,
           meta: {
             requireAuth: true
-          }
+          },
+          children: [
+            {
+              path: '/enterprise/newResume',
+              name: 'NewResume',
+              component: NewResume,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/interview',
+              name: 'Interview',
+              component: Interview,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/offer',
+              name: 'Offer',
+              component: Offer,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/contract',
+              name: 'Contract',
+              component: Contract,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/employed',
+              name: 'Employed',
+              component: Employed,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/talentPool',
+              name: 'TalentPool',
+              component: TalentPool,
+              meta: {
+                requireAuth: true
+              }
+            }
+          ]
         },
         {
           path: '/leader',
