@@ -61,29 +61,110 @@
         <el-container>
           <el-aside width="300px">
             <el-table
+              ref="voTableRef"
               :data="currentStateVos"
               @row-click="selectRow"
+              @current-change="currentRow"
               border
               highlight-current-row
               max-height="1000px"
               style="width: 100%;margin-top: 20px">
               <el-table-column
+                type="index"
+                align="center"
+                sortable
+                width="30px"
+                :index="indexMethod">
+              </el-table-column>
+              <el-table-column
                 prop="student.name"
                 align="center"
                 label="姓名"
                 sortable
-                width="100px">
+                width="90px">
               </el-table-column>
               <el-table-column
                 prop="positions.name"
                 align="center"
                 label="职位"
                 sortable
-                width="200px">
+                width="180px">
               </el-table-column>
             </el-table>
           </el-aside>
           <el-main>
+            <el-row style="margin-bottom: 8px">
+              <el-col :span="12" style="text-align: left">
+                <template v-if="currentSate === 1">
+                  <el-button class="common_font_size" size="mini"
+                             style="background-color: #E6A23C;color: white"
+                             icon="el-icon-arrow-left" @click="eliminate(1)">淘汰
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 2">
+                  <el-button class="common_font_size" size="mini"
+                             style="background-color: #E6A23C;color: white"
+                             icon="el-icon-arrow-left" @click="eliminate(2)">淘汰
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 3">
+                  <el-button class="common_font_size" size="mini"
+                             style="background-color: #E6A23C;color: white"
+                             icon="el-icon-arrow-left" @click="eliminate(3)">淘汰
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 4">
+                  <el-button class="common_font_size" size="mini"
+                             style="background-color: #E6A23C;color: white"
+                             icon="el-icon-arrow-left" @click="eliminate(4)">淘汰
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 5">
+                  <el-button class="common_font_size" size="mini"
+                             style="background-color: #E6A23C;color: white"
+                             icon="el-icon-arrow-left" @click="eliminate(5)">淘汰
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 6">
+                  <el-button class="common_font_size" size="mini"
+                             style="background-color: #67C23A;color: white"
+                             icon="el-icon-arrow-left" @click="moveToNewResume">移至新简历
+                  </el-button>
+                </template>
+              </el-col>
+              <el-col :span="12" style="text-align: right">
+                <template v-if="currentSate === 1">
+                  <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
+                        color: white" @click="inviteInterview">邀请面试
+                    <i class="el-icon-arrow-right el-icon--right"></i>
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 2">
+                  <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
+                        color: white" @click="offerCommunicate">offer沟通
+                    <i class="el-icon-arrow-right el-icon--right"></i>
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 3">
+                  <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
+                        color: white" @click="applyTriple">申请三方
+                    <i class="el-icon-arrow-right el-icon--right"></i>
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 4">
+                  <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
+                        color: white" @click="confirmContract">确定签约
+                    <i class="el-icon-arrow-right el-icon--right"></i>
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 6">
+                  <el-button class="common_font_size" size="mini" style="background-color: #F56C6C;
+                        color: white" @click="deleteResume">永久删除
+                    <i class="el-icon-arrow-right el-icon--right"></i>
+                  </el-button>
+                </template>
+              </el-col>
+            </el-row>
             <router-view :index="index"/>
           </el-main>
         </el-container>
@@ -166,7 +247,136 @@
         currentStateVos3: [],
         currentStateVos4: [],
         currentStateVos5: [],
-        currentStateVos6: []
+        currentStateVos6: [],
+        currentSate: '',
+        currentIndex: '',
+        currentVo: {
+          index: '',
+          user: {
+            id: '',
+            username: '',
+            password: '',
+            salt: '',
+            lastLogin: '',
+            enabled: '',
+            name: '',
+            phone: '',
+            email: '',
+            roleId: '',
+            role: '',
+            rememberMe: '',
+          },
+          student: {
+            userId: '',
+            id: '',
+            studentId: '',
+            name: '',
+            gender: '',
+            birthday: '',
+            idCard: '',
+            nationId: '',
+            nation: '',
+            nativePlace: '',
+            politicId: '',
+            politics: '',
+            email: '',
+            phone: '',
+            address: '',
+            topDegree: '',
+            school: '',
+            departmentId: '',
+            department: '',
+            specialtyId: '',
+            specialty: '',
+            positionId: '',
+            position: '',
+            languageLevel: '',
+            computerLevel: '',
+            beginDate: '',
+            endDate: '',
+          },
+          resume: {
+            stateId: '',
+            id: '',
+            selfEvaluation: '',
+            remark: '',
+            avatarPath: '',
+            filePath: '',
+            experienceCertificateList: '',
+            id: '',
+            getDate: '',
+            name: '',
+            result: '',
+            description: '',
+            experienceProject: {
+              id: '',
+              beginDate: '',
+              endDate: '',
+              name: '',
+              tool: '',
+              software: '',
+              hardware: '',
+              number: '',
+              description: '',
+              responsibility: '',
+            },
+            experienceSkillList: {
+              id: '',
+              name: '',
+              levelId: '',
+            },
+            experienceTrain: {
+              id: '',
+              beginDate: '',
+              endDate: '',
+              organization: '',
+              address: '',
+              certificate: '',
+              description: '',
+            },
+            experienceWork: {
+              id: '',
+              beginDate: '',
+              endDate: '',
+              enterpriseName: '',
+              industry: '',
+              department: '',
+              position: '',
+              nature: '',
+              scaleId: '',
+              natureId: '',
+              departmentNumber: '',
+              leader: '',
+              witness: '',
+              witnessPhone: '',
+              workoutReason: '',
+              achievement: '',
+              description: '',
+            },
+            fileUrlVo: {
+              ipPort: '',
+              filePath: '',
+              path: '',
+              fileName: '',
+            }
+          },
+          positions: {
+            userId: '',
+            enterpriseId: '',
+            id: '',
+            name: '',
+            address: '',
+            salaryId: '',
+            degreeId: '',
+            experienceId: '',
+            description: '',
+            natureId: '',
+            number: '',
+            keyword: '',
+            updateTime: '',
+            enabled: '',
+          }
+        }
       }
     },
     mounted() {
@@ -175,6 +385,28 @@
       this.getUserPostionsResumeVos()
     },
     methods: {
+      activeCurrentSate() {
+        let path = this.$route.path;
+        if (path.startsWith('/enterprise/newResume')) {
+          this.currentSate = 1
+          this.alterCurrentStateVos(1)
+        } else if (path.startsWith('/enterprise/interview')) {
+          this.currentSate = 2
+          this.alterCurrentStateVos(2)
+        } else if (path.startsWith('/enterprise/offer')) {
+          this.currentSate = 3
+          this.alterCurrentStateVos(3)
+        } else if (path.startsWith('/enterprise/contract')) {
+          this.currentSate = 4
+          this.alterCurrentStateVos(4)
+        } else if (path.startsWith('/enterprise/employed')) {
+          this.currentSate = 5
+          this.alterCurrentStateVos(5)
+        } else if (path.startsWith('/enterprise/talentPool')) {
+          this.currentSate = 6
+          this.alterCurrentStateVos(6)
+        }
+      },
       addPosition() {
         this.dialogVisible = true
       },
@@ -326,15 +558,10 @@
         this.$axios.get('/resume/getUserPostionsResumeVos?userId=' + this.user.id).then(resp => {
           if (resp.data.code === 200) {
             this.userPostionsResumeVos = resp.data.data
-            window.sessionStorage.setItem("userPostionsResumeVos", JSON.stringify(this.userPostionsResumeVos));
             this.getAllStateCurrentPostionsVos()
-            this.alterCurrentStateVos(1)
+            this.activeCurrentSate()
           }
         })
-      },
-      selectRow(row, column, event) {
-        window.sessionStorage.setItem("userPostionsResumeVo", JSON.stringify(row));
-        this.index = row.index
       },
       getAllStateCurrentPostionsVos() {
         // console.log(this.selectedPositionId)
@@ -355,27 +582,34 @@
         this.classifyCurrentStateVos()
       },
       alterCurrentStateVos(stateId) {
-        //根据简历状态选择当前表格的数据
+        //根据简历状态选择当前表格的数据，并更改操作简历按钮
         switch (stateId) {
           case 1:
             this.currentStateVos = this.currentStateVos1;
+            this.currentSate = 1;
             break;
           case 2:
             this.currentStateVos = this.currentStateVos2;
+            this.currentSate = 2;
             break;
           case 3:
             this.currentStateVos = this.currentStateVos3;
+            this.currentSate = 3;
             break;
           case 4:
             this.currentStateVos = this.currentStateVos4;
+            this.currentSate = 4;
             break;
           case 5:
             this.currentStateVos = this.currentStateVos5;
+            this.currentSate = 5;
             break;
           case 6:
             this.currentStateVos = this.currentStateVos6;
+            this.currentSate = 6;
             break;
         }
+        this.setCurrent(0)
       },
       classifyCurrentStateVos() {
         //根据简历状态划分状态数目的数组
@@ -400,6 +634,163 @@
             case 6:
               this.currentStateVos6.push(vo);
               break;
+          }
+        })
+      },
+      indexMethod(index) {
+        return index++
+      },
+      getCurrentIndex() {
+        //获取当前currentVo所在的当前状态数组中位置的下标
+        for (let i = 0; i < this.currentStateVos.length; i++) {
+          if (this.currentStateVos[i].index === this.currentVo.index) {
+            this.currentIndex = i
+            break
+          }
+        }
+      },
+      selectRow(row, column, event) {
+        this.index = row.index
+      },
+      currentRow(currentRow, oldCurrentRow) {
+        if (currentRow === null) {
+          return
+        }
+        this.currentVo = currentRow
+        this.getCurrentIndex()
+        window.sessionStorage.setItem("currentVo", JSON.stringify(this.currentVo))
+        this.index = currentRow.index
+        // console.log('行号:' + this.currentIndex + '---id:' + this.currentVo.index + '-' + this.currentVo.student.name + '-' + this.currentVo.positions.name)
+      },
+      setCurrent(currentIndex) {
+        this.currentIndex = currentIndex
+        if (this.currentStateVos.length > 0) {
+          this.$refs['voTableRef'].setCurrentRow(this.currentStateVos[currentIndex])
+        }
+      },
+      nextCurrent() {
+        if (this.currentStateVos.length == 0) {
+          return
+        }
+        this.setCurrent(this.currentIndex)
+      },
+      eliminate(stateId) {
+        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id +
+          '&stateId=' + 6).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '移入人才库成功', type: 'success'})
+            //本地处理数据，避免重新请求
+            switch (stateId) {
+              case 1:
+                this.currentStateVos6.push(this.currentStateVos1[this.currentIndex]);
+                this.currentStateVos1.splice(this.currentIndex, 1);
+                this.currentStateVos = this.currentStateVos1;
+                break;
+              case 2:
+                this.currentStateVos6.push(this.currentStateVos2[this.currentIndex]);
+                this.currentStateVos2.splice(this.currentIndex, 1);
+                this.currentStateVos = this.currentStateVos2;
+                break;
+              case 3:
+                this.currentStateVos6.push(this.currentStateVos3[this.currentIndex]);
+                this.currentStateVos3.splice(this.currentIndex, 1);
+                this.currentStateVos = this.currentStateVos3;
+                break;
+              case 4:
+                this.currentStateVos6.push(this.currentStateVos4[this.currentIndex]);
+                this.currentStateVos4.splice(this.currentIndex, 1);
+                this.currentStateVos = this.currentStateVos4;
+                break;
+              case 5:
+                this.currentStateVos6.push(this.currentStateVos5[this.currentIndex]);
+                this.currentStateVos5.splice(this.currentIndex, 1);
+                this.currentStateVos = this.currentStateVos5;
+                break;
+            }
+            this.nextCurrent()
+          }
+        })
+      },
+      inviteInterview() {
+        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id +
+          '&stateId=' + 2).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '邀请面试成功', type: 'success'})
+            //本地处理数据，避免重新请求
+            this.currentStateVos2.push(this.currentStateVos1[this.currentIndex])
+            this.currentStateVos1.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos1
+            this.nextCurrent()
+          }
+        })
+      },
+      offerCommunicate() {
+        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id +
+          '&stateId=' + 3).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '开始offer沟通', type: 'success'})
+            //本地处理数据，避免重新请求
+            this.currentStateVos3.push(this.currentStateVos2[this.currentIndex])
+            this.currentStateVos2.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos2
+            this.nextCurrent()
+          }
+        })
+      },
+      applyTriple() {
+        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id +
+          '&stateId=' + 4).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '申请成功，请等待回复', type: 'success'})
+            //本地处理数据，避免重新请求
+            this.currentStateVos4.push(this.currentStateVos3[this.currentIndex])
+            this.currentStateVos3.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos3
+            this.nextCurrent()
+          }
+        })
+      },
+      confirmContract() {
+        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id +
+          '&stateId=' + 5).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '签约成功', type: 'success'})
+            //本地处理数据，避免重新请求
+            this.currentStateVos5.push(this.currentStateVos4[this.currentIndex])
+            this.currentStateVos4.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos4
+            this.nextCurrent()
+          }
+        })
+      },
+      deleteResume() {
+        this.$axios.delete('/resume/state/delete?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '永久删除成功', type: 'success'})
+            //本地处理数据，避免重新请求
+            this.currentStateVos6.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos6
+            this.nextCurrent()
+          }
+        })
+      },
+      moveToNewResume() {
+        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id +
+          '&stateId=' + 1).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '移至新简历成功', type: 'success'})
+            //本地处理数据，避免重新请求
+            this.currentStateVos1.push(this.currentStateVos6[this.currentIndex])
+            this.currentStateVos6.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos6
+            this.nextCurrent()
           }
         })
       }
