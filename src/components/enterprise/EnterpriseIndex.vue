@@ -540,7 +540,8 @@
         let url = '/positions/getAllByUid?userId=' + this.$store.state.user.id
         this.$axios.get(url).then(resp => {
           if (resp.data.code === 200) {
-            this.positions = resp.data.data;
+            this.positions = resp.data.data
+            window.sessionStorage.setItem("positionList", JSON.stringify(this.positions))
           }
         })
       },
@@ -580,6 +581,8 @@
         }
         //根据简历状态划分状态数目的数组
         this.classifyCurrentStateVos()
+
+        this.activeCurrentSate()
       },
       alterCurrentStateVos(stateId) {
         //根据简历状态选择当前表格的数据，并更改操作简历按钮
@@ -611,7 +614,17 @@
         }
         this.setCurrent(0)
       },
+      initCurrentStateVos() {
+        this.currentStateVos1 = []
+        this.currentStateVos2 = []
+        this.currentStateVos3 = []
+        this.currentStateVos4 = []
+        this.currentStateVos5 = []
+        this.currentStateVos6 = []
+      },
       classifyCurrentStateVos() {
+        //初始化各个状态的数组
+        this.initCurrentStateVos()
         //根据简历状态划分状态数目的数组
         this.allStateCurrentPostionsVos.forEach((vo, index) => {
           let stateId = vo.resume.stateId;

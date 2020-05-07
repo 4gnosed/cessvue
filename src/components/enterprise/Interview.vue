@@ -168,7 +168,6 @@
         }
         this.vo = ''
         this.vo = JSON.parse(window.sessionStorage.getItem("currentVo"))
-        this.initDate()
         this.getScoreSheet()
       }
     },
@@ -198,13 +197,14 @@
     },
     mounted() {
       this.initDate()
-      this.getStudent()
+      this.getVo()
       this.getScoreSheet()
     },
     methods: {
-      getStudent() {
+      getVo() {
         this.vo = ''
         this.vo = JSON.parse(window.sessionStorage.getItem("currentVo"))
+        this.getScoreSheet()
       },
       initDate() {
         if (!window.sessionStorage.getItem("specialty")) {
@@ -275,6 +275,7 @@
         }
       },
       getScoreSheet() {
+        this.emptyScoreSheet()
         this.$axios.get('/scoreSheet?rid=' + this.vo.resume.id + '&pid=' + this.vo.positions.id).then(resp => {
           if (resp.data.code === 200) {
             if (resp.data.data != null) {
@@ -283,6 +284,14 @@
           }
         })
       },
+      emptyScoreSheet() {
+        this.scoreSheet.id = '',
+          this.scoreSheet.totalScore = 0,
+          this.scoreSheet.advice = '',
+          this.scoreSheet.interviewer = '',
+          this.scoreSheet.idate = '',
+          this.scoreSheet.itemList = ''
+      }
     }
   }
 </script>
