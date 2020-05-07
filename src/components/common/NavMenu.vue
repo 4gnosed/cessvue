@@ -450,6 +450,9 @@
       // 根据路由父路径激活菜单
       activePath() {
         let path = this.$route.path
+        if(path.startsWith('/infoEnterprise')){
+          return '/student'
+        }
         let index = 1
         for (; index < path.length;) {
           if (path[index] === '/') {
