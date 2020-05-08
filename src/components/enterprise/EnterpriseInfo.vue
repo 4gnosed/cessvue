@@ -5,7 +5,7 @@
         <el-col :span="3">&nbsp;</el-col>
         <el-col :span="5" style="font-size: 26px;text-align: left;">{{enterprise.name}}</el-col>
         <el-col :span="8">&nbsp;</el-col>
-        <el-col :span="8" style="font-size: 32px;text-align: left">{{positions.length}}</el-col>
+        <el-col :span="8" style="font-size: 32px;text-align: left" @click.native="activeTab">{{positions.length}}</el-col>
       </el-row>
       <el-row>
         <el-col :span="3">&nbsp;</el-col>
@@ -17,11 +17,11 @@
           {{enterprise.industry}}
         </el-col>
         <el-col :span="8">&nbsp;</el-col>
-        <el-col :span="8" style="font-size: 16px;text-align: left">在招职位</el-col>
+        <el-col :span="8" style="font-size: 16px;text-align: left" @click.native="activeTab">在招职位</el-col>
       </el-row>
     </div>
-    <el-tabs type="border-card">
-      <el-tab-pane style="text-align: left!important;">
+    <el-tabs type="border-card" v-model="activeName">
+      <el-tab-pane style="text-align: left!important;" name="1">
         <span slot="label"><i class="el-icon-office-building"></i>企业信息</span>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px">公司介绍</span>
@@ -103,7 +103,7 @@
           <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{enterprise.expectation}}</div>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="2">
         <span slot="label"><i class="el-icon-menu"></i>在招职位</span>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px">校园宣讲会</span>
@@ -731,6 +731,7 @@
     name: "EnterpriseInfo",
     data() {
       return {
+        activeName: '1',
         positionDialogVisible: false,
         positionId: '',
         enterprise: {
@@ -1246,6 +1247,9 @@
       alterPosition(positionId) {
         this.positionDialogVisible = true
         this.positionId = positionId
+      },
+      activeTab() {
+        this.activeName = '2'
       }
     },
     filters: {
