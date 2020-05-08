@@ -157,6 +157,9 @@
             <el-button type="mini" style="background-color: #FDF6EC" @click="toResume">
               点击查看[{{messageDetail.sender}}]的信息和简历
             </el-button>
+            <el-button type="mini" style="background-color: #FDF6EC" @click="toEnterpriseIndex">
+              去招聘页面处理简历
+            </el-button>
           </template>
           <template v-if="messageDetailSenderRoleId === this.$store.state.enterpriseId">
             <el-button type="mini" style="background-color: #FDF6EC" @click="toEnterprise">
@@ -442,6 +445,12 @@
         })
         window.open(href, '_blank')
       },
+      toEnterpriseIndex() {
+        const {href} = this.$router.resolve({
+          path: '/enterprise/newResume'
+        })
+        window.open(href, '_blank')
+      },
       toIndex() {
         this.$router.push('/index')
       }
@@ -450,7 +459,7 @@
       // 根据路由父路径激活菜单
       activePath() {
         let path = this.$route.path
-        if(path.startsWith('/infoEnterprise')){
+        if (path.startsWith('/infoEnterprise')) {
           return '/student'
         }
         let index = 1

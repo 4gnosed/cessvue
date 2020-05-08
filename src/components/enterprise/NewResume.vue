@@ -17,21 +17,21 @@
             <el-row>
               <el-col :span="8">&nbsp;</el-col>
               <el-col :span="8" style="text-align: left">
-                {{userPostionsResumeVo.student.name}}（应聘：{{userPostionsResumeVo.positions.name}}）
+                {{userPositionsResumeVo.student.name}}（应聘：{{userPositionsResumeVo.positions.name}}）
               </el-col>
               <el-col :span="8"></el-col>
             </el-row>
             <el-row>
               <el-col :span="8">&nbsp;</el-col>
-              <el-col :span="8" style="text-align: left">{{userPostionsResumeVo.student.school}}&nbsp;&nbsp;/&nbsp;&nbsp;{{userPostionsResumeVo.student.topDegree}}
+              <el-col :span="8" style="text-align: left">{{userPositionsResumeVo.student.school}}&nbsp;&nbsp;/&nbsp;&nbsp;{{userPositionsResumeVo.student.topDegree}}
               </el-col>
               <el-col :span="8"></el-col>
             </el-row>
             <el-row>
               <el-col :span="8">&nbsp;</el-col>
-              <el-col :span="5" style="text-align: left">邮箱：{{userPostionsResumeVo.student.email}}
+              <el-col :span="5" style="text-align: left">邮箱：{{userPositionsResumeVo.student.email}}
               </el-col>
-              <el-col :span="5" style="text-align: left">手机号码：{{userPostionsResumeVo.student.phone}}
+              <el-col :span="5" style="text-align: left">手机号码：{{userPositionsResumeVo.student.phone}}
               </el-col>
               <el-col :span="6"></el-col>
             </el-row>
@@ -49,7 +49,7 @@
             </el-row>
           </div>
           <div>
-            <!--            <resume v-bind:userId="userPostionsResumeVo.user.id.toString()"></resume>-->
+            <!--            <resume v-bind:userId="userPositionsResumeVo.user.id.toString()"></resume>-->
             <resume ref="resumeRef"></resume>
           </div>
         </el-collapse-item>
@@ -71,18 +71,18 @@
         if (index === null) {
           return
         }
-        this.userPostionsResumeVo = ''
-        this.userPostionsResumeVo = JSON.parse(window.sessionStorage.getItem("currentVo"));
+        this.userPositionsResumeVo = ''
+        this.userPositionsResumeVo = JSON.parse(window.sessionStorage.getItem("currentVo"));
         this.initResume()
       }
     },
     mounted() {
-      this.getUserPostionsResumeVo()
+      this.getuserPositionsResumeVo()
     },
     data() {
       return {
         activeItem: 'preview',
-        userPostionsResumeVo: {
+        userPositionsResumeVo: {
           index: '',
           user: {
             id: '',
@@ -212,14 +212,14 @@
       }
     },
     methods: {
-      getUserPostionsResumeVo() {
-        this.userPostionsResumeVo = ''
-        this.userPostionsResumeVo = JSON.parse(window.sessionStorage.getItem("currentVo"));
+      getuserPositionsResumeVo() {
+        this.userPositionsResumeVo = ''
+        this.userPositionsResumeVo = JSON.parse(window.sessionStorage.getItem("currentVo"));
         this.initResume()
       },
       initResume() {
-        this.$refs['resumeRef'].getUserId(this.userPostionsResumeVo.user.id)
-        // console.log('传参：' + this.userPostionsResumeVo.user.id)
+        this.$refs['resumeRef'].getUserId(this.userPositionsResumeVo.user.id)
+        // console.log('传参：' + this.userPositionsResumeVo.user.id)
       }
     }
   }

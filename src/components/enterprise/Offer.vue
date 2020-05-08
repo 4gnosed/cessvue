@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <span>offer沟通</span>
+      <span>与[ {{vo.student.name}} ]沟通offer的情况</span>
       <el-divider></el-divider>
       <el-form :model="sheetOffer" ref="sheetOfferRef" :rules="sheetOfferRules">
         <el-row>
@@ -97,6 +97,7 @@
       return {
         vo: '',
         sheetOffer: {
+          id: '',
           department: '',
           positionsId: '',
           newPositionsId: '',

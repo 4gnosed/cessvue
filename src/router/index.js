@@ -17,6 +17,7 @@ import Offer from "../components/enterprise/Offer";
 import Contract from "../components/enterprise/Contract";
 import Employed from "../components/enterprise/Employed";
 import TalentPool from "../components/enterprise/TalentPool";
+import Examination from "../components/enterprise/Examination";
 
 Vue.use(Router)
 
@@ -64,6 +65,14 @@ export default new Router({
               path: '/enterprise/newResume',
               name: 'NewResume',
               component: NewResume,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/examination',
+              name: 'Examination',
+              component: Examination,
               meta: {
                 requireAuth: true
               }
@@ -219,6 +228,14 @@ export const createRouter = routes => new Router({
               path: '/enterprise/interview',
               name: 'Interview',
               component: Interview,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/enterprise/examination',
+              name: 'Examination',
+              component: Examination,
               meta: {
                 requireAuth: true
               }

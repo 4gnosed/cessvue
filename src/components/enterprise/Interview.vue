@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <span>面试评分表</span>
+      <span>[ {{vo.student.name}} ]的面试评分表</span>
       <el-divider></el-divider>
       <el-form :model="vo">
         <el-row>
@@ -127,22 +127,22 @@
           </el-form-item>
         </el-row>
         <el-row>
-          <el-col :span="14">&nbsp;</el-col>
-          <el-col :span="4">
+          <el-col :span="11">&nbsp;</el-col>
+          <el-col :span="6">
             <el-form-item label="面试人:" prop="interviewer">
               <el-input size="mini" v-model="scoreSheet.interviewer" placeholder="请输入面试人"
                         style="width: 120px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="1">&nbsp;</el-col>
-          <el-col :span="5">
+          <el-col :span="6">
             <el-form-item label="填写日期:" prop="idate">
               <el-date-picker
                 v-model="scoreSheet.idate"
                 size="mini"
                 type="date"
                 value-format="yyyy-MM-dd"
-                style="width: 150px;"
+                style="width: 130px;"
                 placeholder="填写日期">
               </el-date-picker>
             </el-form-item>

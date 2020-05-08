@@ -2,10 +2,11 @@
   <div>
     <el-scrollbar>
       <div>
-        <el-tabs :tab-position="tabPosition" style="height: 1700px;font-weight: bold" class="common_font_size">
-          <el-tab-pane label="个人信息">
-            <el-card style="margin-left: 50px">
-              <span>基本信息</span>
+        <el-tabs v-model="activeTab" :tab-position="tabPosition" style="height: 1300px;"
+                 class="common_font_size">
+          <el-tab-pane name="1" label="个人信息" style="text-align: center">
+            <el-card>
+              <span style="font-size: 14px!important;font-weight: bold;">基本信息</span>
               <el-divider></el-divider>
               <el-form v-model="user" style="text-align: left">
                 <el-row>
@@ -47,7 +48,7 @@
               <!--学生-->
               <template v-if="user.roleId==this.$store.state.studentId">
                 <el-divider></el-divider>
-                <span>学生详细信息</span>
+                <span style="font-size: 14px!important;font-weight: bold;">学生详细信息</span>
                 <template v-if="isAuthenticate==1">
                   <el-divider></el-divider>
                   <el-alert
@@ -289,7 +290,7 @@
                     </el-col>
                   </el-row>
                   <el-divider></el-divider>
-                  <span>企业详细信息</span>
+                  <span style="font-size: 14px!important;font-weight: bold;">企业详细信息</span>
                   <template v-if="isAuthenticate==1">
                     <el-divider></el-divider>
                     <el-alert
@@ -462,7 +463,7 @@
               <!--教师-->
               <template v-if="user.roleId==this.$store.state.leaderId">
                 <el-divider></el-divider>
-                <span>教师详细信息</span>
+                <span style="font-size: 14px!important;font-weight: bold;">教师详细信息</span>
                 <el-divider></el-divider>
                 内容
                 <el-divider></el-divider>
@@ -475,85 +476,337 @@
             </el-card>
           </el-tab-pane>
           <template v-if="this.$store.state.user.roleId == this.$store.state.studentId">
-            <el-tab-pane label="标准简历">
-              <div style="text-align: center">
-                <div style="height: 970px">
-                  <el-form :model="resume" ref="resumeRefs" :rules="resumeRules">
-                    <el-tabs :tab-position="tabPosition" v-model="active" style="height: 970px;"
-                             @tab-click="changeActive">
-                      <el-tab-pane label="工作经验" name="0">
-                        <div style="margin-left: 60px;margin-top: 40px">
-                          <el-form :model="resume.experienceWork" ref="workRefs" :rules="workRules">
+            <el-tab-pane name="2" label="标准简历">
+              <el-card style="height: 1300px">
+                <span style="font-size: 14px!important;font-weight: bold;">标准简历</span>
+                <el-divider></el-divider>
+                <el-form :model="resume" ref="resumeRefs" :rules="resumeRules">
+                  <el-tabs :tab-position="tabPosition" v-model="active" style="height: 1300px;"
+                           @tab-click="changeActive">
+                    <el-tab-pane label="工作经验" name="0">
+                      <div style="margin-left: 60px;margin-top: 40px">
+                        <el-form :model="resume.experienceWork" ref="workRefs" :rules="workRules">
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="开始日期:" prop="beginDate">
+                                <el-date-picker
+                                  v-model="resume.experienceWork.beginDate"
+                                  size="mini"
+                                  type="date"
+                                  value-format="yyyy-MM-dd"
+                                  style="width: 120px;"
+                                  placeholder="开始日期">
+                                </el-date-picker>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="结束日期:" prop="endDate">
+                                <el-date-picker
+                                  v-model="resume.experienceWork.endDate"
+                                  size="mini"
+                                  type="date"
+                                  value-format="yyyy-MM-dd"
+                                  style="width: 120px;"
+                                  placeholder="结束日期">
+                                </el-date-picker>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="企业名称:" prop="enterpriseName">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.enterpriseName"
+                                          placeholder="请输入企业名称"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="所属行业:" prop="enterpriseName">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.industry"
+                                          placeholder="请输入所属行业"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="部门:" prop="department">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.department"
+                                          placeholder="请输入部门名称"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="实习职位:" prop="position">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.position"
+                                          placeholder="请输入实习职位"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="企业性质:" prop="nature">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.nature"
+                                          placeholder="请输入企业性质"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="企业规模:" prop="scaleId">
+                                <el-select v-model="resume.experienceWork.scaleId" placeholder="企业规模" size="mini"
+                                           style="width: 120px;">
+                                  <el-option
+                                    v-for="item in scales"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                                  </el-option>
+                                </el-select>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="工作性质:" prop="natureId">
+                                <el-select v-model="resume.experienceWork.natureId" placeholder="工作性质" size="mini"
+                                           style="width: 120px;">
+                                  <el-option
+                                    v-for="item in natures"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                                  </el-option>
+                                </el-select>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="部门人数:" prop="departmentNumber">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.departmentNumber"
+                                          placeholder="请输入部门人数"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="主管:" prop="leader">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.leader"
+                                          placeholder="请输入主管姓名"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="证明人:" prop="witness">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.witness"
+                                          placeholder="请输入证明人姓名"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="证明人联系电话:" prop="witnessPhone">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceWork.witnessPhone"
+                                          placeholder="请输入证明人联系电话"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-form-item label="离职原因:" prop="workoutReason">
+                              <el-input size="mini" type="textarea" :rows="5"
+                                        v-model="resume.experienceWork.workoutReason"
+                                        style="width: 1075px;" placeholder="请输入离职原因" maxlength="500"></el-input>
+                            </el-form-item>
+                          </el-row>
+                          <el-row>
+                            <el-form-item label="主要成绩:" prop="achievement">
+                              <el-input size="mini" type="textarea" :rows="5"
+                                        v-model="resume.experienceWork.achievement"
+                                        style="width: 1075px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
+                            </el-form-item>
+                          </el-row>
+                          <el-row>
+                            <el-form-item label="工作描述:" prop="description">
+                              <el-input size="mini" type="textarea" :rows="5"
+                                        v-model="resume.experienceWork.description"
+                                        style="width: 1075px;" placeholder="请输入工作描述" maxlength="500"></el-input>
+                            </el-form-item>
+                          </el-row>
+                        </el-form>
+                      </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="项目经验" name="1">
+                      <div style="margin-left: 60px;margin-top: 40px">
+                        <el-form :model="resume.experienceProject" ref="projectRefs" :rules="projectRules">
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="开始日期:" prop="beginDate">
+                                <el-date-picker
+                                  v-model="resume.experienceProject.beginDate"
+                                  size="mini"
+                                  type="date"
+                                  value-format="yyyy-MM-dd"
+                                  style="width: 120px;"
+                                  placeholder="开始日期">
+                                </el-date-picker>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="结束日期:" prop="endDate">
+                                <el-date-picker
+                                  v-model="resume.experienceProject.endDate"
+                                  size="mini"
+                                  type="date"
+                                  value-format="yyyy-MM-dd"
+                                  style="width: 120px;"
+                                  placeholder="结束日期">
+                                </el-date-picker>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="项目名称:" prop="name">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceProject.name"
+                                          placeholder="请输入项目名称"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="开发工具:" prop="tool">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceProject.tool"
+                                          placeholder="请输入开发工具"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="软件环境:" prop="software">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceProject.software"
+                                          placeholder="请输入软件环境"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="硬件环境:" prop="hardware">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceProject.hardware"
+                                          placeholder="请输入硬件环境"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="项目人数:" prop="number">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceProject.number"
+                                          placeholder="请输入number"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="项目描述:" prop="description">
+                                <el-input size="mini" type="textarea" :rows="8"
+                                          v-model="resume.experienceProject.description"
+                                          style="width: 1075px;" placeholder="请输入项目描述" maxlength="1000"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="责任描述:" prop="responsibility">
+                                <el-input size="mini" type="textarea" :rows="8"
+                                          v-model="resume.experienceProject.responsibility"
+                                          style="width: 1075px;" placeholder="请输入责任描述" maxlength="1000"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                        </el-form>
+                      </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="培训经历" name="2">
+                      <div style="margin-left: 60px;margin-top: 40px">
+                        <el-form :model="resume.experienceTrain" ref="trainRefs" :rules="trainRules">
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="开始日期:" prop="beginDate">
+                                <el-date-picker
+                                  v-model="resume.experienceTrain.beginDate"
+                                  size="mini"
+                                  type="date"
+                                  value-format="yyyy-MM-dd"
+                                  style="width: 120px;"
+                                  placeholder="开始日期">
+                                </el-date-picker>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="结束日期:" prop="endDate">
+                                <el-date-picker
+                                  v-model="resume.experienceTrain.endDate"
+                                  size="mini"
+                                  type="date"
+                                  value-format="yyyy-MM-dd"
+                                  style="width: 120px;"
+                                  placeholder="结束日期">
+                                </el-date-picker>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="培训机构:" prop="organization">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceTrain.organization"
+                                          placeholder="请输入培训机构名称"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="培训地址:" prop="address">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceTrain.address"
+                                          placeholder="请输入培训地址"></el-input>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                              <el-form-item label="获得证书:" prop="certificate">
+                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                          v-model="resume.experienceTrain.certificate"
+                                          placeholder="请输入获得证书"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <el-form-item label="培训描述:" prop="description">
+                                <el-input size="mini" type="textarea" :rows="16"
+                                          v-model="resume.experienceTrain.description"
+                                          style="width: 1075px;" placeholder="请输入培训描述" maxlength="1000"></el-input>
+                              </el-form-item>
+                            </el-col>
+                          </el-row>
+                        </el-form>
+                      </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="技能掌握" name="3">
+                      <div style="margin-left: 60px;margin-top: 40px;">
+                        <el-row>
+                          <el-col :span="1">
+                            <el-button class="common_font_size" size="mini" type="mini"
+                                       style="background-color: #409EFF;color: white;margin-bottom: 20px"
+                                       icon="el-icon-plus" @click="addSkill">添加技能
+                            </el-button>
+                          </el-col>
+                        </el-row>
+                        <el-form ref="skillRefs">
+                          <div v-for="(skill,index) in resume.experienceSkillList">
                             <el-row>
                               <el-col :span="6">
-                                <el-form-item label="开始日期:" prop="beginDate">
-                                  <el-date-picker
-                                    v-model="resume.experienceWork.beginDate"
-                                    size="mini"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    style="width: 120px;"
-                                    placeholder="开始日期">
-                                  </el-date-picker>
+                                <el-form-item label="技能">
+                                  <el-input size="mini" v-model="skill.name" placeholder="请输入技能名称"
+                                            style="width: 120px"></el-input>
                                 </el-form-item>
                               </el-col>
                               <el-col :span="6">
-                                <el-form-item label="结束日期:" prop="endDate">
-                                  <el-date-picker
-                                    v-model="resume.experienceWork.endDate"
-                                    size="mini"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    style="width: 120px;"
-                                    placeholder="结束日期">
-                                  </el-date-picker>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="企业名称:" prop="enterpriseName">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.enterpriseName"
-                                            placeholder="请输入企业名称"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="所属行业:" prop="enterpriseName">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.industry"
-                                            placeholder="请输入所属行业"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="部门:" prop="department">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.department"
-                                            placeholder="请输入部门名称"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="实习职位:" prop="position">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.position"
-                                            placeholder="请输入实习职位"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="企业性质:" prop="nature">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.nature"
-                                            placeholder="请输入企业性质"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="企业规模:" prop="scaleId">
-                                  <el-select v-model="resume.experienceWork.scaleId" placeholder="企业规模" size="mini"
+                                <el-form-item label="掌握程度">
+                                  <el-select v-model="skill.levelId" placeholder="掌握程度" size="mini"
                                              style="width: 120px;">
                                     <el-option
-                                      v-for="item in scales"
+                                      v-for="item in levels"
                                       :key="item.id"
                                       :label="item.name"
                                       :value="item.id">
@@ -562,426 +815,430 @@
                                 </el-form-item>
                               </el-col>
                               <el-col :span="6">
-                                <el-form-item label="工作性质:" prop="natureId">
-                                  <el-select v-model="resume.experienceWork.natureId" placeholder="工作性质" size="mini"
-                                             style="width: 120px;">
-                                    <el-option
-                                      v-for="item in natures"
-                                      :key="item.id"
-                                      :label="item.name"
-                                      :value="item.id">
-                                    </el-option>
-                                  </el-select>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="部门人数:" prop="departmentNumber">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.departmentNumber"
-                                            placeholder="请输入部门人数"></el-input>
-                                </el-form-item>
+                                <el-button class="common_font_size" size="mini" type="mini"
+                                           style="background-color: #409EFF;color: white"
+                                           icon="el-icon-delete" @click="deleteSkill(index)">删除
+                                </el-button>
                               </el-col>
                             </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="主管:" prop="leader">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.leader"
-                                            placeholder="请输入主管姓名"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="证明人:" prop="witness">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.witness"
-                                            placeholder="请输入证明人姓名"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="证明人联系电话:" prop="witnessPhone">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceWork.witnessPhone"
-                                            placeholder="请输入证明人联系电话"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-form-item label="离职原因:" prop="workoutReason">
-                                <el-input size="mini" type="textarea" :rows="5"
-                                          v-model="resume.experienceWork.workoutReason"
-                                          style="width: 1075px;" placeholder="请输入离职原因" maxlength="500"></el-input>
-                              </el-form-item>
-                            </el-row>
-                            <el-row>
-                              <el-form-item label="主要成绩:" prop="achievement">
-                                <el-input size="mini" type="textarea" :rows="5"
-                                          v-model="resume.experienceWork.achievement"
-                                          style="width: 1075px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
-                              </el-form-item>
-                            </el-row>
-                            <el-row>
-                              <el-form-item label="工作描述:" prop="description">
-                                <el-input size="mini" type="textarea" :rows="5"
-                                          v-model="resume.experienceWork.description"
-                                          style="width: 1075px;" placeholder="请输入工作描述" maxlength="500"></el-input>
-                              </el-form-item>
-                            </el-row>
-                          </el-form>
-                        </div>
-                      </el-tab-pane>
-                      <el-tab-pane label="项目经验" name="1">
-                        <div style="margin-left: 60px;margin-top: 40px">
-                          <el-form :model="resume.experienceProject" ref="projectRefs" :rules="projectRules">
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="开始日期:" prop="beginDate">
-                                  <el-date-picker
-                                    v-model="resume.experienceProject.beginDate"
-                                    size="mini"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    style="width: 120px;"
-                                    placeholder="开始日期">
-                                  </el-date-picker>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="结束日期:" prop="endDate">
-                                  <el-date-picker
-                                    v-model="resume.experienceProject.endDate"
-                                    size="mini"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    style="width: 120px;"
-                                    placeholder="结束日期">
-                                  </el-date-picker>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="项目名称:" prop="name">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceProject.name"
-                                            placeholder="请输入项目名称"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="开发工具:" prop="tool">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceProject.tool"
-                                            placeholder="请输入开发工具"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="软件环境:" prop="software">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceProject.software"
-                                            placeholder="请输入软件环境"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="硬件环境:" prop="hardware">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceProject.hardware"
-                                            placeholder="请输入硬件环境"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="项目人数:" prop="number">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceProject.number"
-                                            placeholder="请输入number"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="项目描述:" prop="description">
-                                  <el-input size="mini" type="textarea" :rows="8"
-                                            v-model="resume.experienceProject.description"
-                                            style="width: 1075px;" placeholder="请输入项目描述" maxlength="1000"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="责任描述:" prop="responsibility">
-                                  <el-input size="mini" type="textarea" :rows="8"
-                                            v-model="resume.experienceProject.responsibility"
-                                            style="width: 1075px;" placeholder="请输入责任描述" maxlength="1000"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                          </el-form>
-                        </div>
-                      </el-tab-pane>
-                      <el-tab-pane label="培训经历" name="2">
-                        <div style="margin-left: 60px;margin-top: 40px">
-                          <el-form :model="resume.experienceTrain" ref="trainRefs" :rules="trainRules">
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="开始日期:" prop="beginDate">
-                                  <el-date-picker
-                                    v-model="resume.experienceTrain.beginDate"
-                                    size="mini"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    style="width: 120px;"
-                                    placeholder="开始日期">
-                                  </el-date-picker>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="结束日期:" prop="endDate">
-                                  <el-date-picker
-                                    v-model="resume.experienceTrain.endDate"
-                                    size="mini"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    style="width: 120px;"
-                                    placeholder="结束日期">
-                                  </el-date-picker>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="培训机构:" prop="organization">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceTrain.organization"
-                                            placeholder="请输入培训机构名称"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="培训地址:" prop="address">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceTrain.address"
-                                            placeholder="请输入培训地址"></el-input>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="6">
-                                <el-form-item label="获得证书:" prop="certificate">
-                                  <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
-                                            v-model="resume.experienceTrain.certificate"
-                                            placeholder="请输入获得证书"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                            <el-row>
-                              <el-col :span="6">
-                                <el-form-item label="培训描述:" prop="description">
-                                  <el-input size="mini" type="textarea" :rows="16"
-                                            v-model="resume.experienceTrain.description"
-                                            style="width: 1075px;" placeholder="请输入培训描述" maxlength="1000"></el-input>
-                                </el-form-item>
-                              </el-col>
-                            </el-row>
-                          </el-form>
-                        </div>
-                      </el-tab-pane>
-                      <el-tab-pane label="技能掌握" name="3">
-                        <div style="margin-left: 60px;margin-top: 40px;">
-                          <el-row>
-                            <el-col :span="1">
-                              <el-button class="common_font_size" size="mini" type="mini"
-                                         style="background-color: #409EFF;color: white;margin-bottom: 20px"
-                                         icon="el-icon-plus" @click="addSkill">添加技能
-                              </el-button>
-                            </el-col>
-                          </el-row>
-                          <el-form ref="skillRefs">
-                            <div v-for="(skill,index) in resume.experienceSkillList">
-                              <el-row>
-                                <el-col :span="6">
-                                  <el-form-item label="技能">
-                                    <el-input size="mini" v-model="skill.name" placeholder="请输入技能名称"
-                                              style="width: 120px"></el-input>
-                                  </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                  <el-form-item label="掌握程度">
-                                    <el-select v-model="skill.levelId" placeholder="掌握程度" size="mini"
-                                               style="width: 120px;">
-                                      <el-option
-                                        v-for="item in levels"
-                                        :key="item.id"
-                                        :label="item.name"
-                                        :value="item.id">
-                                      </el-option>
-                                    </el-select>
-                                  </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                  <el-button class="common_font_size" size="mini" type="mini"
-                                             style="background-color: #409EFF;color: white"
-                                             icon="el-icon-delete" @click="deleteSkill(index)">删除
-                                  </el-button>
-                                </el-col>
-                              </el-row>
-                            </div>
-                          </el-form>
-                        </div>
-                      </el-tab-pane>
-                      <el-tab-pane label="获得证书" name="4">
-                        <div style="margin-left: 60px;margin-top: 40px;">
-                          <el-row>
-                            <el-col :span="1">
-                              <el-button class="common_font_size" size="mini" type="mini"
-                                         style="background-color: #409EFF;color: white;margin-bottom: 20px"
-                                         icon="el-icon-plus" @click="addCertificate">添加证书
-                              </el-button>
-                            </el-col>
-                          </el-row>
-                          <el-form ref="CertificateRefs">
-                            <div v-for="(certificate,index) in resume.experienceCertificateList">
-                              <el-row>
-                                <el-col :span="4">
-                                  <el-form-item label="获得日期">
-                                    <el-date-picker
-                                      v-model="certificate.getDate"
-                                      size="mini"
-                                      type="date"
-                                      value-format="yyyy-MM-dd"
-                                      style="width: 120px;"
-                                      placeholder="获得日期">
-                                    </el-date-picker>
-                                  </el-form-item>
-                                </el-col>
-                                <el-col :span="4">
-                                  <el-form-item label="证书名称">
-                                    <el-input size="mini" v-model="certificate.name" placeholder="请输入证书名称"
-                                              style="width: 120px"></el-input>
-                                  </el-form-item>
-                                </el-col>
-                                <el-col :span="4">
-                                  <el-form-item label="成绩">
-                                    <el-input size="mini" v-model="certificate.result" placeholder="请输入成绩"
-                                              style="width: 120px"></el-input>
-                                  </el-form-item>
-                                </el-col>
-                                <el-col :span="4">
-                                  <el-button class="common_font_size" size="mini" type="mini"
-                                             style="background-color: #409EFF;color: white"
-                                             icon="el-icon-delete" @click="deleteCertificate(index)">删除
-                                  </el-button>
-                                </el-col>
-                              </el-row>
-                              <el-row>
-                                <el-col>
-                                  <el-form-item label="证书描述:" prop="description">
-                                    <el-input size="mini" type="textarea" :rows="3" v-model="certificate.description"
-                                              style="width: 1075px;" placeholder="请输入证书描述" maxlength="500"></el-input>
-                                  </el-form-item>
-                                </el-col>
-                              </el-row>
-                            </div>
-                          </el-form>
-                        </div>
-                      </el-tab-pane>
-                      <el-tab-pane label="自我评价" name="5">
-                        <div style="margin-left: 60px;margin-top: 40px">
-                          <el-row>
-                            <el-col :span="6">
-                              <el-form-item label="自我评价:" prop="selfEvaluation">
-                                <el-input size="mini" type="textarea" :rows="16" v-model="resume.selfEvaluation"
-                                          style="width: 1075px;" placeholder="请输入自我评价" maxlength="1000"></el-input>
-                              </el-form-item>
-                            </el-col>
-                          </el-row>
-                        </div>
-                      </el-tab-pane>
-                      <el-tab-pane label="备注" name="6">
-                        <div style="margin-left: 60px;margin-top: 40px">
-                          <el-row>
-                            <el-col :span="6">
-                              <el-form-item label="备注:" prop="remark">
-                                <el-input size="mini" type="textarea" :rows="16" v-model="resume.remark"
-                                          style="width: 1075px;" placeholder="请输入备注" maxlength="1000"></el-input>
-                              </el-form-item>
-                            </el-col>
-                          </el-row>
-                        </div>
-                      </el-tab-pane>
-                      <el-divider></el-divider>
-                      <el-row>
-                        <el-col :span="2">
-                          <el-button class="common_font_size" size="mini" type="mini"
-                                     style="background-color: #409EFF;color: white"
-                                     icon="el-icon-arrow-left" @click="last">上一步
-                          </el-button>
-                        </el-col>
-                        <el-col :span="2">
-                          <el-button class="common_font_size" size="mini" style="background-color: #409EFF;
-                        color: white"@click="next">下一步
-                            <i class="el-icon-arrow-right el-icon--right"></i>
-                          </el-button>
-                        </el-col>
-                        <el-col :span="20">
-                          <template v-if=" this.resume.fileUrlVo.fileName!=null&&this.resume.fileUrlVo.fileName!='' ">
-                            <a class="el-upload-list__item-name" :href="this.resume.fileUrlVo.path" target=" _blank"
-                               style="margin-bottom: 10px">
-                              <i class="el-icon-document"></i>
-                              {{this.resume.fileUrlVo.fileName}}
-                            </a>
-                          </template>
-                          <el-upload
-                            ref="upload"
-                            action="void"
-                            multiple
-                            :multiple="false"
-                            :http-request="customUpload"
-                            :on-remove="handleRemove"
-                            :on-progress="progressA"
-                            :auto-upload="true">
-                            <el-button class="common_font_size" size="mini" :disabled="uploadDataDisabled" type="mini"
-                                       style="background-color: #409EFF;color: white" :icon="uploadDataBtnIcon">
-                              上传附件
-                            </el-button>
-                          </el-upload>
-                        </el-col>
-                      </el-row>
-                      <el-divider></el-divider>
-                      <el-row>
-                        <el-col :span="11">&nbsp;</el-col>
-                        <el-col :span="13" style="text-align: left">
-                          <div style="margin-bottom: 10px">
-                            <el-button class="common_font_size" size="middle" type="success" round
-                                       @click="saveOrUpdateResume">保存简历
-                            </el-button>
                           </div>
-                        </el-col>
-                      </el-row>
-                    </el-tabs>
-                  </el-form>
+                        </el-form>
+                      </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="获得证书" name="4">
+                      <div style="margin-left: 60px;margin-top: 40px;">
+                        <el-row>
+                          <el-col :span="1">
+                            <el-button class="common_font_size" size="mini" type="mini"
+                                       style="background-color: #409EFF;color: white;margin-bottom: 20px"
+                                       icon="el-icon-plus" @click="addCertificate">添加证书
+                            </el-button>
+                          </el-col>
+                        </el-row>
+                        <el-form ref="CertificateRefs">
+                          <div v-for="(certificate,index) in resume.experienceCertificateList">
+                            <el-row>
+                              <el-col :span="4">
+                                <el-form-item label="获得日期">
+                                  <el-date-picker
+                                    v-model="certificate.getDate"
+                                    size="mini"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    style="width: 120px;"
+                                    placeholder="获得日期">
+                                  </el-date-picker>
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="4">
+                                <el-form-item label="证书名称">
+                                  <el-input size="mini" v-model="certificate.name" placeholder="请输入证书名称"
+                                            style="width: 120px"></el-input>
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="4">
+                                <el-form-item label="成绩">
+                                  <el-input size="mini" v-model="certificate.result" placeholder="请输入成绩"
+                                            style="width: 120px"></el-input>
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="4">
+                                <el-button class="common_font_size" size="mini" type="mini"
+                                           style="background-color: #409EFF;color: white"
+                                           icon="el-icon-delete" @click="deleteCertificate(index)">删除
+                                </el-button>
+                              </el-col>
+                            </el-row>
+                            <el-row>
+                              <el-col>
+                                <el-form-item label="证书描述:" prop="description">
+                                  <el-input size="mini" type="textarea" :rows="3" v-model="certificate.description"
+                                            style="width: 1075px;" placeholder="请输入证书描述" maxlength="500"></el-input>
+                                </el-form-item>
+                              </el-col>
+                            </el-row>
+                          </div>
+                        </el-form>
+                      </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="自我评价" name="5">
+                      <div style="margin-left: 60px;margin-top: 40px">
+                        <el-row>
+                          <el-col :span="6">
+                            <el-form-item label="自我评价:" prop="selfEvaluation">
+                              <el-input size="mini" type="textarea" :rows="16" v-model="resume.selfEvaluation"
+                                        style="width: 1075px;" placeholder="请输入自我评价" maxlength="1000"></el-input>
+                            </el-form-item>
+                          </el-col>
+                        </el-row>
+                      </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="备注" name="6">
+                      <div style="margin-left: 60px;margin-top: 40px">
+                        <el-row>
+                          <el-col :span="6">
+                            <el-form-item label="备注:" prop="remark">
+                              <el-input size="mini" type="textarea" :rows="16" v-model="resume.remark"
+                                        style="width: 1075px;" placeholder="请输入备注" maxlength="1000"></el-input>
+                            </el-form-item>
+                          </el-col>
+                        </el-row>
+                      </div>
+                    </el-tab-pane>
+                    <el-divider></el-divider>
+                    <el-row>
+                      <el-col :span="2">
+                        <el-button class="common_font_size" size="mini" type="mini"
+                                   style="background-color: #409EFF;color: white"
+                                   icon="el-icon-arrow-left" @click="last">上一步
+                        </el-button>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button class="common_font_size" size="mini" style="background-color: #409EFF;
+                        color: white" @click="next">下一步
+                          <i class="el-icon-arrow-right el-icon--right"></i>
+                        </el-button>
+                      </el-col>
+                      <el-col :span="20">
+                        <template v-if=" this.resume.fileUrlVo.fileName!=null&&this.resume.fileUrlVo.fileName!='' ">
+                          <a class="el-upload-list__item-name" :href="this.resume.fileUrlVo.path" target=" _blank"
+                             style="margin-bottom: 10px">
+                            <i class="el-icon-document"></i>
+                            {{this.resume.fileUrlVo.fileName}}
+                          </a>
+                        </template>
+                        <el-upload
+                          ref="upload"
+                          action="void"
+                          multiple
+                          :multiple="false"
+                          :http-request="customUpload"
+                          :on-remove="handleRemove"
+                          :on-progress="progressA"
+                          :auto-upload="true">
+                          <el-button class="common_font_size" size="mini" :disabled="uploadDataDisabled" type="mini"
+                                     style="background-color: #409EFF;color: white" :icon="uploadDataBtnIcon">
+                            上传附件
+                          </el-button>
+                        </el-upload>
+                      </el-col>
+                    </el-row>
+                    <el-divider></el-divider>
+                    <el-row>
+                      <el-col :span="11">&nbsp;</el-col>
+                      <el-col :span="13" style="text-align: left">
+                        <div style="margin-bottom: 10px">
+                          <el-button class="common_font_size" size="middle" type="success" round
+                                     @click="saveOrUpdateResume">保存简历
+                          </el-button>
+                        </div>
+                      </el-col>
+                    </el-row>
+                  </el-tabs>
+                </el-form>
+              </el-card>
+            </el-tab-pane>
+            <el-tab-pane name="3" label="应聘进度">
+              <el-card>
+                <span style="font-size: 14px!important;font-weight: bold;">应聘进度</span>
+<!--                <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"-->
+                <!--                           @click="nextState">下一步-->
+                <!--                </el-button>-->
+                <el-divider></el-divider>
+                <div style="float: left">
+                  <span style="font-size: 14px!important;">选择职位：</span>
+                  <el-select v-model="selectedPositionId" filterable size="mini" @change="getCurrentPositions">
+                    <el-option
+                      v-for="item in resumePositionsList"
+                      :key="item.positions.id"
+                      :label="item.positions.name"
+                      :value="item.positions.id">
+                    </el-option>
+                  </el-select>
                 </div>
-              </div>
+                <div style="float: left;margin-top: 40px">
+                  <el-steps align-center :active="activeState" finish-status="success" style="width: 1050px">
+                    <template v-if="activeState === 0">
+                      <el-step title="简历筛选" description="简历筛选中"></el-step>
+                      <el-step title="笔试" description=" "></el-step>
+                      <el-step title="面试" description=" "></el-step>
+                      <el-step title="offer沟通" description=" "></el-step>
+                      <el-step title="三方签约" description=" "></el-step>
+                      <el-step title="待入职" description=" "></el-step>
+                    </template>
+                    <template v-else>
+                      <el-step title="简历筛选" description="恭喜您的简历通过筛选！请做好笔试准备"></el-step>
+                      <template v-if="activeState === 1">
+                        <el-step title="笔试" description="笔试中"></el-step>
+                        <el-step title="面试"></el-step>
+                        <el-step title="offer沟通"></el-step>
+                        <el-step title="三方签约"></el-step>
+                        <el-step title="待入职"></el-step>
+                      </template>
+                      <template v-else>
+                        <el-step title="笔试" description="恭喜您通过笔试！请做好面试准备"></el-step>
+                        <template v-if="activeState === 2">
+                          <el-step title="面试" description="面试中"></el-step>
+                          <el-step title="offer沟通"></el-step>
+                          <el-step title="三方签约"></el-step>
+                          <el-step title="待入职"></el-step>
+                        </template>
+                        <template v-else>
+                          <el-step title="面试" description="恭喜您通过面试！请与企业有效沟通"></el-step>
+                          <template v-if="activeState === 3">
+                            <el-step title="offer沟通" description="offer沟通中"></el-step>
+                            <el-step title="三方签约"></el-step>
+                            <el-step title="待入职"></el-step>
+                          </template>
+                          <template v-else>
+                            <el-step title="offer沟通" description="若您对这个offer满意，可申请签约！"></el-step>
+                            <template v-if="activeState === 4">
+                              <el-step title="三方签约" description="三方签约中"></el-step>
+                              <el-step title="待入职"></el-step>
+                            </template>
+                            <template v-else>
+                              <el-step title="三方签约" description="恭喜您签约成功！"></el-step>
+                              <template v-if="activeState === 5">
+                                <el-step title="待入职"></el-step>
+                              </template>
+                              <template v-if="activeState === 6">
+                                <el-step title="待入职" description="恭喜您签约成功，请做好入职准备！"></el-step>
+                              </template>
+                            </template>
+                          </template>
+                        </template>
+                      </template>
+                    </template>
+                  </el-steps>
+                </div>
+                <div style="margin-top: 200px">
+                  <template v-if="activeState === 3">
+                    <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
+                               @click="applyContract">申请签约
+                    </el-button>
+                  </template>
+                  <template v-if="activeState === 4">
+                    <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
+                               @click="confirmContract">确认签约
+                    </el-button>
+                  </template>
+                </div>
+                <div style="float: left;margin-top: 40px;width: 100%">
+                  <el-collapse>
+                    <template v-for="enterprise in enterprises" v-if="enterprise.id === selectedPosition.enterpriseId">
+                      <el-collapse-item class="minHeight">
+                        <template slot="title">
+                          <div style="width: 100%;padding-left: 20px;text-align: left;">
+                            <el-row class="top_el_row">
+                              <el-col :span="5">
+                                <div class="grid-content">{{selectedPosition.name}}</div>
+                              </el-col>
+                              <el-col :span="1">
+                                <div class="grid-content"></div>
+                              </el-col>
+                              <el-col :span="4">
+                                <div class="grid-content">[{{selectedPosition.address | addrEllipsis}}]</div>
+                              </el-col>
+                              <el-col :span="4">
+                                <div class="grid-content"></div>
+                              </el-col>
+                              <el-col :span="6">
+                                <div class="grid-content">{{enterprise.name}}</div>
+                              </el-col>
+                              <el-col :span="4">
+                                <div class="grid-content">更新时间：{{selectedPosition.updateTime}}</div>
+                              </el-col>
+                            </el-row>
+                            <el-row class="mid_el_row">
+                              <el-col :span="2">
+                                <div class="grid-content">
+                                  <template v-for="salary in salaries" v-if="salary.id === selectedPosition.salaryId">
+                                    <span style="color: #fc703e;font-size: 14px!important;">{{salary.name}}</span>
+                                  </template>
+                                </div>
+                              </el-col>
+                              <el-col :span="2">
+                                <div class="grid-content">
+                                  <template v-for="experience in experiences"
+                                            v-if="experience.id === selectedPosition.experienceId">
+                                    {{experience.name}}
+                                  </template>
+                                </div>
+                              </el-col>
+                              <el-col :span="2">
+                                <div class="grid-content">
+                                  <div class="grid-content">
+                                    <template v-for="degree in degrees" v-if="degree.id === selectedPosition.degreeId">
+                                      {{degree.name}}
+                                    </template>
+                                  </div>
+                                </div>
+                              </el-col>
+                              <el-col :span="2">
+                                <div class="grid-content">
+                                  {{enterprise.boss}}
+                                </div>
+                              </el-col>
+                              <el-col :span="6">
+                                <div class="grid-content"></div>
+                              </el-col>
+                              <el-col :span="3">
+                                <div class="grid-content">
+                                  {{enterprise.industry}}
+                                </div>
+                              </el-col>
+                              <el-col :span="3">
+                                {{enterprise.nature}}
+                              </el-col>
+                              <el-col :span="4">
+                                <div class="grid-content">
+                                  <div class="grid-content">
+                                    <template v-for="scale in scales" v-if="scale.id === enterprise.scaleId">
+                                      {{scale.name}}
+                                    </template>
+                                  </div>
+                                </div>
+                              </el-col>
+                            </el-row>
+                            <el-row class="bot_el_row">
+                              <el-col :span="14">
+                                <div class="grid-content">{{selectedPosition.keyword}}</div>
+                              </el-col>
+                              <el-col :span="10">
+                                <div class="grid-content">{{enterprise.welfare | welEllipsis}}</div>
+                              </el-col>
+                            </el-row>
+                          </div>
+                        </template>
+                        <div style="font-size: 12px;margin-top: 10px;text-align: left">
+                          <span style="font-weight: bold;margin-left: 18px">职位描述</span>
+                          <div style="margin-left: 18px;margin-right: 18px"
+                               v-html="keepTextStyle(selectedPosition.description)"></div>
+                          <el-divider></el-divider>
+                          <span style="font-weight: bold;margin-left: 18px">公司介绍</span>
+                          <div style="margin-left: 18px;margin-right: 18px"
+                               v-html="keepTextStyle(enterprise.introduction)"></div>
+                          <el-divider></el-divider>
+                          <span style="font-weight: bold;margin-left: 18px">招聘人数</span>
+                          <div style="margin-left: 18px;margin-right: 18px">{{selectedPosition.number}}</div>
+                          <el-divider></el-divider>
+                          <span style="font-weight: bold;margin-left: 18px">工作地址</span>
+                          <div style="margin-left: 18px;margin-right: 18px">{{selectedPosition.address}}</div>
+                          <el-divider></el-divider>
+                          <span style="font-weight: bold;margin-left: 18px">工商信息</span>
+                          <a style="font-weight: bold;float: right;margin-right: 18px">
+                            <router-link target="_blank"
+                                         :to="{path:'/infoEnterprise',query:{UT93oOdkwCTY9RnxRwfLCi:enterprise.id}}">
+                              查看更多
+                            </router-link>
+                          </a>
+                          <el-row>
+                            <el-col>
+                              <div style="margin-left: 18px;margin-right: 18px">
+                                {{enterprise.name}}
+                              </div>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <div style="margin-left: 18px;margin-right: 18px">
+                                <label style="color: #8D92B6">法人代表：</label>
+                                {{enterprise.boss}}
+                              </div>
+                            </el-col>
+                            <el-col :span="6">
+                              <div style="margin-left: 18px;margin-right: 18px">
+                                <label style="color: #8D92B6">官方网站：</label>
+                                {{enterprise.website}}
+                              </div>
+                            </el-col>
+                            <el-col :span="6">
+                              <div style="margin-left: 18px;margin-right: 18px">
+                                <label style="color: #8D92B6">联系方式：</label>
+                                {{enterprise.phone}}
+                              </div>
+                            </el-col>
+                            <el-col :span="6">
+                              <div style="margin-left: 18px;margin-right: 18px">
+                                <label style="color: #8D92B6">邮箱：</label>
+                                {{enterprise.email}}
+                              </div>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="6">
+                              <div style="margin-left: 18px;margin-right: 18px">
+                                <label style="color: #8D92B6">成立时间：</label>
+                                {{enterprise.createTime}}
+                              </div>
+                            </el-col>
+                            <el-col :span="18">
+                              <div style="margin-left: 18px;margin-right: 18px">
+                                <label style="color: #8D92B6">福利：</label>
+                                {{enterprise.welfare}}
+                              </div>
+                            </el-col>
+                          </el-row>
+                          <el-row>
+                            <el-col :span="4"></el-col>
+                          </el-row>
+                        </div>
+                      </el-collapse-item>
+                    </template>
+                  </el-collapse>
+                </div>
+              </el-card>
             </el-tab-pane>
           </template>
-          <el-tab-pane label="更改密码">
-            <el-form :model="passForm" ref="passForm" :rules="passRules">
-              <el-form-item prop="oldPassword">
-                <el-input size="mini" type="oldPassword" v-model="passForm.oldPassword" prefix-icon="el-icon-lock"
-                          auto-complete="off" placeholder="请输入旧密码" show-password="show-password"
-                          style="width: 450px">
-                </el-input>
-              </el-form-item>
-              <el-form-item prop="newPassword">
-                <el-input size="mini" type="newPassword" v-model="passForm.newPassword" prefix-icon="el-icon-lock"
-                          auto-complete="off" placeholder="请输入新密码" show-password="show-password"
-                          style="width: 450px">
-                </el-input>
-              </el-form-item>
-              <el-form-item prop="checkPassword">
-                <el-input size="mini" type="checkPassword" v-model="passForm.checkPassword" prefix-icon="el-icon-lock"
-                          auto-complete="off" placeholder="请再次输入新密码" show-password="show-password"
-                          style="width: 450px">
-                </el-input>
-              </el-form-item>
-              <el-form-item prop="password">
-                <el-button class="common_font_size" size="mini" type="warning" @click="updatePassword">更改密码</el-button>
-              </el-form-item>
-            </el-form>
+          <el-tab-pane name="4" label="更改密码" style="text-align: center">
+            <el-card>
+              <span style="font-size: 14px!important;font-weight: bold;">更改密码</span>
+              <el-divider></el-divider>
+              <el-form :model="passForm" ref="passForm" :rules="passRules">
+                <el-form-item prop="oldPassword">
+                  <el-input size="mini" type="oldPassword" v-model="passForm.oldPassword" prefix-icon="el-icon-lock"
+                            auto-complete="off" placeholder="请输入旧密码" show-password="show-password"
+                            style="width: 450px">
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="newPassword">
+                  <el-input size="mini" type="newPassword" v-model="passForm.newPassword" prefix-icon="el-icon-lock"
+                            auto-complete="off" placeholder="请输入新密码" show-password="show-password"
+                            style="width: 450px">
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="checkPassword">
+                  <el-input size="mini" type="checkPassword" v-model="passForm.checkPassword" prefix-icon="el-icon-lock"
+                            auto-complete="off" placeholder="请再次输入新密码" show-password="show-password"
+                            style="width: 450px">
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                  <el-button class="common_font_size" size="mini" type="warning" @click="updatePassword">更改密码
+                  </el-button>
+                </el-form-item>
+              </el-form>
+            </el-card>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -1015,8 +1272,14 @@
         }
       }
       return {
+        selectedPositionId: '',
+        selectedPosition: '',
+        resumePositionsList: [],
+        enterprises: [],
         isAuthenticate: 0,
+        activeState: 0,
         tabPosition: 'left',
+        activeTab: '3',
         user: this.$store.state.user,
         nations: [],
         department: [],
@@ -1288,7 +1551,7 @@
         this.initStudent()
         this.initResumeData()
       } else if (this.user.roleId == 3) {
-        this.initEnterpriseData()
+        // this.initEnterpriseData()
         this.initEnterprise()
       } else if (this.user.roleId == 5) {
 
@@ -1296,6 +1559,49 @@
       this.initCommonData()
     },
     methods: {
+      applyContract() {
+
+      },
+      confirmContract() {
+
+      },
+      nextState() {
+        if (this.activeState++ > 5) this.activeState = 0
+      },
+      initResumePositionsList() {
+        this.$axios.get('/resume/getResumePositionsList?rid=' + this.resume.id).then(resp => {
+          if (resp.data.code === 200) {
+            if (resp.data.data !== null) {
+              this.resumePositionsList = resp.data.data;
+              //默认选中第一个职位
+              this.selectedPosition = this.resumePositionsList[0].positions
+              this.selectedPositionId = this.selectedPosition.id
+              this.activeState = this.resumePositionsList[0].stateId - 1
+            }
+          }
+        })
+        //用于展示职位所处企业的信息
+        if (!window.sessionStorage.getItem("enterprises")) {
+          this.$axios.get('/enterprise').then(resp => {
+            if (resp.data.code === 200) {
+              this.enterprises = resp.data.data;
+              window.sessionStorage.setItem("enterprises", JSON.stringify(this.enterprises));
+            }
+          })
+        } else {
+          this.enterprises = JSON.parse(window.sessionStorage.getItem("enterprises"));
+        }
+      },
+      getCurrentPositions() {
+        let length = this.resumePositionsList.length
+        for (let i = 0; i < length; i++) {
+          if (this.resumePositionsList[i].positions.id === this.selectedPositionId) {
+            this.selectedPosition = this.resumePositionsList[i].positions;
+            this.activeState = this.resumePositionsList[i].stateId - 1
+            break;
+          }
+        }
+      },
       goBack() {
         this.$router.go(-1)
       },
@@ -1451,6 +1757,36 @@
         }
       },
       initCommonData() {
+        if (!window.sessionStorage.getItem("salaries")) {
+          this.$axios.get('/salary').then(resp => {
+            if (resp.data.code === 200) {
+              this.salaries = resp.data.data;
+              window.sessionStorage.setItem("salaries", JSON.stringify(this.salaries));
+            }
+          })
+        } else {
+          this.salaries = JSON.parse(window.sessionStorage.getItem("salaries"));
+        }
+        if (!window.sessionStorage.getItem("degrees")) {
+          this.$axios.get('/degree').then(resp => {
+            if (resp.data.code === 200) {
+              this.degrees = resp.data.data;
+              window.sessionStorage.setItem("degrees", JSON.stringify(this.degrees));
+            }
+          })
+        } else {
+          this.degrees = JSON.parse(window.sessionStorage.getItem("degrees"));
+        }
+        if (!window.sessionStorage.getItem("experiences")) {
+          this.$axios.get('/experience').then(resp => {
+            if (resp.data.code === 200) {
+              this.experiences = resp.data.data;
+              window.sessionStorage.setItem("experiences", JSON.stringify(this.experiences));
+            }
+          })
+        } else {
+          this.experiences = JSON.parse(window.sessionStorage.getItem("experiences"));
+        }
         if (!window.sessionStorage.getItem("scales")) {
           this.$axios.get('/scale').then(resp => {
             if (resp.data.code === 200) {
@@ -1461,6 +1797,40 @@
         } else {
           this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
         }
+        if (!window.sessionStorage.getItem("scales")) {
+          this.$axios.get('/scale').then(resp => {
+            if (resp.data.code === 200) {
+              this.scales = resp.data.data;
+              window.sessionStorage.setItem("scales", JSON.stringify(this.scales));
+            }
+          })
+        } else {
+          this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
+        }
+        if (!window.sessionStorage.getItem("finances")) {
+          this.$axios.get('/finance').then(resp => {
+            if (resp.data.code === 200) {
+              this.finances = resp.data.data;
+              window.sessionStorage.setItem("finances", JSON.stringify(this.finances));
+            }
+          })
+        } else {
+          this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
+        }
+        if (!window.sessionStorage.getItem("times")) {
+          this.$axios.get('/time').then(resp => {
+            if (resp.data.code === 200) {
+              this.times = resp.data.data;
+              window.sessionStorage.setItem("times", JSON.stringify(this.times));
+            }
+          })
+        } else {
+          this.times = JSON.parse(window.sessionStorage.getItem("times"));
+        }
+      }
+      ,
+      keepTextStyle(text) {
+        return text.replace(/\n/g, "<br/>")
       },
       changeDepartment(departmentId) {
         let selectedSpecialty = []
@@ -1615,6 +1985,7 @@
         this.$axios.get('/resume?userId=' + this.user.id).then(resp => {
           if (resp.data.code === 200) {
             this.resume = resp.data.data;
+            this.initResumePositionsList()
           }
         })
       },
@@ -1754,11 +2125,27 @@
       deleteCertificate(index) {
         this.resume.experienceCertificateList.splice(index, 1)
       }
+    },
+    filters: {
+      addrEllipsis(value) {
+        if (!value) return "";
+        if (value.length > 10) {
+          return value.slice(0, 10) + "...";
+        }
+        return value;
+      },
+      welEllipsis(value) {
+        if (!value) return "";
+        if (value.length > 32) {
+          return value.slice(0, 32) + "...";
+        }
+        return value;
+      }
     }
   }
 </script>
 
-<style>
+<style scoped>
   .el-tabs__item {
     font-size: 11px !important;
   }
@@ -1770,4 +2157,42 @@
   .el-radio__original {
     font-size: 11px !important;
   }
+
+  .el-step__description {
+    font-size: 11px !important;
+  }
+
+  .position_item {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .minHeight >>> .el-collapse-item__header {
+    min-height: 130px !important;
+  }
+
+  .top_el_row {
+    height: 40px;
+    font-size: 14px !important;
+  }
+
+  .mid_el_row {
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .bot_el_row {
+    font-size: 12px;
+    border-top: 2px solid #F6F6F8;
+  }
+
+  .grid-content {
+    height: 40px;
+  }
+
+  .top_el_row[data-v-5eac995b] {
+    font-size: 12px;
+    color: #00c2b3;
+  }
+
 </style>

@@ -29,24 +29,27 @@
             <el-menu-item index="/enterprise/newResume"
                           @click="alterCurrentStateVos(1)">新简历（{{currentStateVos1.length}}）
             </el-menu-item>
+            <el-menu-item index="/enterprise/examination"
+                          @click="alterCurrentStateVos(2)">笔试中（{{currentStateVos2.length}}）
+            </el-menu-item>
             <el-menu-item index="/enterprise/interview"
-                          @click="alterCurrentStateVos(2)">面试中（{{currentStateVos2.length}}）
+                          @click="alterCurrentStateVos(3)">面试中（{{currentStateVos3.length}}）
             </el-menu-item>
             <el-menu-item index="/enterprise/offer"
-                          @click="alterCurrentStateVos(3)">Offer沟通中（{{currentStateVos3.length}}）
+                          @click="alterCurrentStateVos(4)">Offer沟通中（{{currentStateVos4.length}}）
             </el-menu-item>
             <el-menu-item index="/enterprise/contract"
-                          @click="alterCurrentStateVos(4)">三方签约中（{{currentStateVos4.length}}）
+                          @click="alterCurrentStateVos(5)">三方签约中（{{currentStateVos5.length}}）
             </el-menu-item>
             <el-menu-item index="/enterprise/employed"
-                          @click="alterCurrentStateVos(5)">待入职（{{currentStateVos5.length}}）
+                          @click="alterCurrentStateVos(6)">待入职（{{currentStateVos6.length}}）
             </el-menu-item>
             <el-menu-item index="/enterprise/talentPool"
-                          @click="alterCurrentStateVos(6)">人才储备库（{{currentStateVos6.length}}）
+                          @click="alterCurrentStateVos(7)">人才储备库（{{currentStateVos7.length}}）
             </el-menu-item>
             <div style="float: right;line-height: 60px;margin-right: 10px">
               <el-select v-model="selectedPositionId" filterable placeholder="按职位查看" size="mini"
-                         @change="getAllStateCurrentPostionsVos"
+                         @change="getAllStateCurrentPositionsVos"
                          clearable>
                 <el-option
                   v-for="item in positions"
@@ -127,6 +130,12 @@
                 </template>
                 <template v-if="currentSate === 6">
                   <el-button class="common_font_size" size="mini"
+                             style="background-color: #E6A23C;color: white"
+                             icon="el-icon-arrow-left" @click="eliminate(6)">淘汰
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 7">
+                  <el-button class="common_font_size" size="mini"
                              style="background-color: #67C23A;color: white"
                              icon="el-icon-arrow-left" @click="moveToNewResume">移至新简历
                   </el-button>
@@ -135,29 +144,35 @@
               <el-col :span="12" style="text-align: right">
                 <template v-if="currentSate === 1">
                   <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
-                        color: white" @click="inviteInterview">邀请面试
+                        color: white" @click="inviteExamination">邀请笔试
                     <i class="el-icon-arrow-right el-icon--right"></i>
                   </el-button>
                 </template>
                 <template v-if="currentSate === 2">
                   <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
-                        color: white" @click="offerCommunicate">offer沟通
+                        color: white" @click="inviteInterview">邀请面试
                     <i class="el-icon-arrow-right el-icon--right"></i>
                   </el-button>
                 </template>
                 <template v-if="currentSate === 3">
                   <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
-                        color: white" @click="applyTriple">申请三方
+                        color: white" @click="offerCommunicate">offer沟通
                     <i class="el-icon-arrow-right el-icon--right"></i>
                   </el-button>
                 </template>
                 <template v-if="currentSate === 4">
                   <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
+                        color: white" @click="applyTriple">申请三方
+                    <i class="el-icon-arrow-right el-icon--right"></i>
+                  </el-button>
+                </template>
+                <template v-if="currentSate === 5">
+                  <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
                         color: white" @click="confirmContract">确定签约
                     <i class="el-icon-arrow-right el-icon--right"></i>
                   </el-button>
                 </template>
-                <template v-if="currentSate === 6">
+                <template v-if="currentSate === 7">
                   <el-button class="common_font_size" size="mini" style="background-color: #F56C6C;
                         color: white" @click="deleteResume">永久删除
                     <i class="el-icon-arrow-right el-icon--right"></i>
@@ -239,8 +254,8 @@
         levels: [],
         selectedPositionId: '',
         index: '',
-        userPostionsResumeVos: [],
-        allStateCurrentPostionsVos: [],
+        userPositionsResumeVos: [],
+        allStateCurrentPositionsVos: [],
         currentStateVos: [],
         currentStateVos1: [],
         currentStateVos2: [],
@@ -248,6 +263,7 @@
         currentStateVos4: [],
         currentStateVos5: [],
         currentStateVos6: [],
+        currentStateVos7: [],
         currentSate: '',
         currentIndex: '',
         currentVo: {
@@ -382,7 +398,7 @@
     mounted() {
       this.initData()
       this.getEnterprise()
-      this.getUserPostionsResumeVos()
+      this.getUserPositionsResumeVos()
     },
     methods: {
       activeCurrentSate() {
@@ -390,21 +406,24 @@
         if (path.startsWith('/enterprise/newResume')) {
           this.currentSate = 1
           this.alterCurrentStateVos(1)
-        } else if (path.startsWith('/enterprise/interview')) {
+        } else if (path.startsWith('/enterprise/examination')) {
           this.currentSate = 2
           this.alterCurrentStateVos(2)
-        } else if (path.startsWith('/enterprise/offer')) {
+        } else if (path.startsWith('/enterprise/interview')) {
           this.currentSate = 3
           this.alterCurrentStateVos(3)
-        } else if (path.startsWith('/enterprise/contract')) {
+        } else if (path.startsWith('/enterprise/offer')) {
           this.currentSate = 4
           this.alterCurrentStateVos(4)
-        } else if (path.startsWith('/enterprise/employed')) {
+        } else if (path.startsWith('/enterprise/contract')) {
           this.currentSate = 5
           this.alterCurrentStateVos(5)
-        } else if (path.startsWith('/enterprise/talentPool')) {
+        } else if (path.startsWith('/enterprise/employed')) {
           this.currentSate = 6
           this.alterCurrentStateVos(6)
+        } else if (path.startsWith('/enterprise/talentPool')) {
+          this.currentSate = 7
+          this.alterCurrentStateVos(7)
         }
       },
       addPosition() {
@@ -555,27 +574,27 @@
         })
         window.open(href, '_blank')
       },
-      getUserPostionsResumeVos() {
-        this.$axios.get('/resume/getUserPostionsResumeVos?userId=' + this.user.id).then(resp => {
+      getUserPositionsResumeVos() {
+        this.$axios.get('/resume/getUserPositionsResumeVos?userId=' + this.user.id).then(resp => {
           if (resp.data.code === 200) {
-            this.userPostionsResumeVos = resp.data.data
-            this.getAllStateCurrentPostionsVos()
+            this.userPositionsResumeVos = resp.data.data
+            this.getAllStateCurrentPositionsVos()
             this.activeCurrentSate()
           }
         })
       },
-      getAllStateCurrentPostionsVos() {
+      getAllStateCurrentPositionsVos() {
         // console.log(this.selectedPositionId)
-        //根据选中的职位id，过滤出当前allStateCurrentPostionsVos数组
-        this.allStateCurrentPostionsVos = []
+        //根据选中的职位id，过滤出当前allStateCurrentPositionsVos数组
+        this.allStateCurrentPositionsVos = []
 
         //未选中职位下，显示所有职位的数组元素
         if (this.selectedPositionId === '') {
-          this.allStateCurrentPostionsVos = this.userPostionsResumeVos
+          this.allStateCurrentPositionsVos = this.userPositionsResumeVos
         } else {
-          this.userPostionsResumeVos.forEach((vo, index) => {
+          this.userPositionsResumeVos.forEach((vo, index) => {
             if (vo.positions.id === this.selectedPositionId) {
-              this.allStateCurrentPostionsVos.push(vo)
+              this.allStateCurrentPositionsVos.push(vo)
             }
           })
         }
@@ -611,6 +630,10 @@
             this.currentStateVos = this.currentStateVos6;
             this.currentSate = 6;
             break;
+          case 7:
+            this.currentStateVos = this.currentStateVos7;
+            this.currentSate = 7;
+            break;
         }
         this.setCurrent(0)
       },
@@ -621,12 +644,13 @@
         this.currentStateVos4 = []
         this.currentStateVos5 = []
         this.currentStateVos6 = []
+        this.currentStateVos7 = []
       },
       classifyCurrentStateVos() {
         //初始化各个状态的数组
         this.initCurrentStateVos()
         //根据简历状态划分状态数目的数组
-        this.allStateCurrentPostionsVos.forEach((vo, index) => {
+        this.allStateCurrentPositionsVos.forEach((vo, index) => {
           let stateId = vo.resume.stateId;
           switch (stateId) {
             case 1:
@@ -646,6 +670,9 @@
               break;
             case 6:
               this.currentStateVos6.push(vo);
+              break;
+            case 7:
+              this.currentStateVos7.push(vo);
               break;
           }
         })
@@ -688,49 +715,82 @@
         this.setCurrent(this.currentIndex)
       },
       eliminate(stateId) {
+        //本地处理数据，避免重新请求
+        switch (stateId) {
+          case 1:
+            if (this.currentStateVos1.length === 0) {
+              break;
+            }
+            this.sendEliminate()
+            this.currentStateVos7.push(this.currentStateVos1[this.currentIndex]);
+            this.currentStateVos1.splice(this.currentIndex, 1);
+            this.currentStateVos = this.currentStateVos1;
+            this.nextCurrent()
+            break;
+          case 2:
+            if (this.currentStateVos2.length === 0) {
+              break;
+            }
+            this.currentStateVos7.push(this.currentStateVos2[this.currentIndex]);
+            this.currentStateVos2.splice(this.currentIndex, 1);
+            this.currentStateVos = this.currentStateVos2;
+            this.nextCurrent()
+            break;
+          case 3:
+            if (this.currentStateVos3.length === 0) {
+              break;
+            }
+            this.currentStateVos7.push(this.currentStateVos3[this.currentIndex]);
+            this.currentStateVos3.splice(this.currentIndex, 1);
+            this.currentStateVos = this.currentStateVos3;
+            break;
+          case 4:
+            if (this.currentStateVos4.length === 0) {
+              break;
+            }
+            this.currentStateVos7.push(this.currentStateVos4[this.currentIndex]);
+            this.currentStateVos4.splice(this.currentIndex, 1);
+            this.currentStateVos = this.currentStateVos4;
+            this.nextCurrent()
+            break;
+          case 5:
+            if (this.currentStateVos5.length === 0) {
+              break;
+            }
+            this.currentStateVos7.push(this.currentStateVos5[this.currentIndex]);
+            this.currentStateVos5.splice(this.currentIndex, 1);
+            this.currentStateVos = this.currentStateVos5;
+            this.nextCurrent()
+            break;
+          case 6:
+            if (this.currentStateVos6.length === 0) {
+              break;
+            }
+            this.currentStateVos7.push(this.currentStateVos6[this.currentIndex]);
+            this.currentStateVos6.splice(this.currentIndex, 1);
+            this.currentStateVos = this.currentStateVos6;
+            this.nextCurrent()
+            break;
+        }
+      },
+      sendEliminate() {
         this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
           '&pid=' + this.currentVo.positions.id +
-          '&stateId=' + 6).then(resp => {
+          '&stateId=' + 7).then(resp => {
           if (resp.data.code === 200) {
             this.$notify({message: '移入人才库成功', type: 'success'})
-            //本地处理数据，避免重新请求
-            switch (stateId) {
-              case 1:
-                this.currentStateVos6.push(this.currentStateVos1[this.currentIndex]);
-                this.currentStateVos1.splice(this.currentIndex, 1);
-                this.currentStateVos = this.currentStateVos1;
-                break;
-              case 2:
-                this.currentStateVos6.push(this.currentStateVos2[this.currentIndex]);
-                this.currentStateVos2.splice(this.currentIndex, 1);
-                this.currentStateVos = this.currentStateVos2;
-                break;
-              case 3:
-                this.currentStateVos6.push(this.currentStateVos3[this.currentIndex]);
-                this.currentStateVos3.splice(this.currentIndex, 1);
-                this.currentStateVos = this.currentStateVos3;
-                break;
-              case 4:
-                this.currentStateVos6.push(this.currentStateVos4[this.currentIndex]);
-                this.currentStateVos4.splice(this.currentIndex, 1);
-                this.currentStateVos = this.currentStateVos4;
-                break;
-              case 5:
-                this.currentStateVos6.push(this.currentStateVos5[this.currentIndex]);
-                this.currentStateVos5.splice(this.currentIndex, 1);
-                this.currentStateVos = this.currentStateVos5;
-                break;
-            }
-            this.nextCurrent()
           }
         })
       },
-      inviteInterview() {
+      inviteExamination() {
+        if (this.currentStateVos1.length === 0) {
+          return;
+        }
         this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
           '&pid=' + this.currentVo.positions.id +
           '&stateId=' + 2).then(resp => {
           if (resp.data.code === 200) {
-            this.$notify({message: '邀请面试成功', type: 'success'})
+            this.$notify({message: '邀请笔试成功', type: 'success'})
             //本地处理数据，避免重新请求
             this.currentStateVos2.push(this.currentStateVos1[this.currentIndex])
             this.currentStateVos1.splice(this.currentIndex, 1)
@@ -739,12 +799,15 @@
           }
         })
       },
-      offerCommunicate() {
+      inviteInterview() {
+        if (this.currentStateVos2.length === 0) {
+          return;
+        }
         this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
           '&pid=' + this.currentVo.positions.id +
           '&stateId=' + 3).then(resp => {
           if (resp.data.code === 200) {
-            this.$notify({message: '开始offer沟通', type: 'success'})
+            this.$notify({message: '邀请面试成功', type: 'success'})
             //本地处理数据，避免重新请求
             this.currentStateVos3.push(this.currentStateVos2[this.currentIndex])
             this.currentStateVos2.splice(this.currentIndex, 1)
@@ -753,12 +816,15 @@
           }
         })
       },
-      applyTriple() {
+      offerCommunicate() {
+        if (this.currentStateVos3.length === 0) {
+          return;
+        }
         this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
           '&pid=' + this.currentVo.positions.id +
           '&stateId=' + 4).then(resp => {
           if (resp.data.code === 200) {
-            this.$notify({message: '申请成功，请等待回复', type: 'success'})
+            this.$notify({message: '开始offer沟通', type: 'success'})
             //本地处理数据，避免重新请求
             this.currentStateVos4.push(this.currentStateVos3[this.currentIndex])
             this.currentStateVos3.splice(this.currentIndex, 1)
@@ -767,16 +833,36 @@
           }
         })
       },
-      confirmContract() {
+      applyTriple() {
+        if (this.currentStateVos4.length === 0) {
+          return;
+        }
         this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
           '&pid=' + this.currentVo.positions.id +
           '&stateId=' + 5).then(resp => {
           if (resp.data.code === 200) {
-            this.$notify({message: '签约成功', type: 'success'})
+            this.$notify({message: '申请成功，请等待回复', type: 'success'})
             //本地处理数据，避免重新请求
             this.currentStateVos5.push(this.currentStateVos4[this.currentIndex])
             this.currentStateVos4.splice(this.currentIndex, 1)
             this.currentStateVos = this.currentStateVos4
+            this.nextCurrent()
+          }
+        })
+      },
+      confirmContract() {
+        if (this.currentStateVos5.length === 0) {
+          return;
+        }
+        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+          '&pid=' + this.currentVo.positions.id +
+          '&stateId=' + 6).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({message: '签约成功', type: 'success'})
+            //本地处理数据，避免重新请求
+            this.currentStateVos6.push(this.currentStateVos5[this.currentIndex])
+            this.currentStateVos5.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos5
             this.nextCurrent()
           }
         })
@@ -787,22 +873,25 @@
           if (resp.data.code === 200) {
             this.$notify({message: '永久删除成功', type: 'success'})
             //本地处理数据，避免重新请求
-            this.currentStateVos6.splice(this.currentIndex, 1)
-            this.currentStateVos = this.currentStateVos6
+            this.currentStateVos7.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos7
             this.nextCurrent()
           }
         })
       },
       moveToNewResume() {
+        if (this.currentStateVos7.length === 0) {
+          return;
+        }
         this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
           '&pid=' + this.currentVo.positions.id +
           '&stateId=' + 1).then(resp => {
           if (resp.data.code === 200) {
             this.$notify({message: '移至新简历成功', type: 'success'})
             //本地处理数据，避免重新请求
-            this.currentStateVos1.push(this.currentStateVos6[this.currentIndex])
-            this.currentStateVos6.splice(this.currentIndex, 1)
-            this.currentStateVos = this.currentStateVos6
+            this.currentStateVos1.push(this.currentStateVos7[this.currentIndex])
+            this.currentStateVos7.splice(this.currentIndex, 1)
+            this.currentStateVos = this.currentStateVos7
             this.nextCurrent()
           }
         })
@@ -813,6 +902,6 @@
 
 <style scoped>
   .el-menu--horizontal > .el-menu-item {
-    margin: 0 0 0 60px !important;;
+    margin: 0 0 0 20px !important;;
   }
 </style>
