@@ -153,7 +153,7 @@
         <el-row>
           <span class="title_font">内容：</span>
           {{messageDetail.content}}
-          <template v-if="messageDetailSenderRoleId === this.$store.state.studentId">
+          <template v-if="messageDetailSenderRoleId === this.$store.state.studentId && activeIndex !== 3">
             <el-button type="mini" style="background-color: #FDF6EC" @click="toResume">
               点击查看[{{messageDetail.sender}}]的信息和简历
             </el-button>
