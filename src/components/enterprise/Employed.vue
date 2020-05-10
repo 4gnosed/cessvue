@@ -1,7 +1,12 @@
 <template>
   <div>
     <el-card>
-      <span>[ {{vo.student.name}} ]的录用通知</span>
+      <template v-if="sheetEmployedId !== null">
+        <span>您的的录用通知书</span>
+      </template>
+      <template v-else>
+        <span>[ {{vo.student.name}} ]的录用通知书</span>
+      </template>
       <el-divider></el-divider>
       <el-form :model="sheetEmployed" ref="sheetEmployedRef" :rules="sheetEmployedRules">
         <el-row>
@@ -48,9 +53,11 @@
                       type="textarea" :rows="8"></el-input>
           </el-form-item>
         </el-row>
-        <div style="margin-bottom:30px">
-          <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
-        </div>
+        <template v-if="this.user.roleId === this.$store.state.enterpriseId">
+          <div style="margin-bottom:30px">
+            <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
+          </div>
+        </template>
       </el-form>
     </el-card>
   </div>
@@ -60,6 +67,9 @@
   export default {
     name: "Employed",
     props: ['index'],
+    created() {
+      this.getSheetEmployedId()
+    },
     watch: {
       index: function (index) {
         if (index === null) {
@@ -72,7 +82,9 @@
     },
     data() {
       return {
+        user: this.$store.state.user,
         vo: '',
+        sheetEmployedId: '',
         sheetEmployed: {
           id: '',
           date: '',
@@ -96,9 +108,15 @@
       this.getSheetEmployed()
     },
     methods: {
+      getSheetEmployedId() {
+        this.sheetEmployedId = this.$route.query.fLTYROd1T59onR3kUxCi9wCw
+      },
       getVo() {
         this.vo = ''
         this.vo = JSON.parse(window.sessionStorage.getItem("currentVo"))
+        if (this.vo === null) {
+          return
+        }
         this.emptySheetEmployed()
       },
       emptySheetEmployed() {
@@ -109,6 +127,18 @@
           this.sheetEmployed.remark = ''
       },
       getSheetEmployed() {
+        //个人中心查看
+        if (typeof this.sheetEmployedId !== 'undefined') {
+          this.$axios.get('/sheetEmployed/getById?eid=' + this.sheetEmployedId).then(resp => {
+            if (resp.data.code === 200) {
+              if (resp.data.data != null) {
+                this.sheetEmployed = resp.data.data
+              }
+            }
+          })
+          return
+        }
+        //招聘主页查看
         this.emptySheetEmployed()
         this.$axios.get('/sheetEmployed?rid=' + this.vo.resume.id + '&pid=' + this.vo.positions.id).then(resp => {
           if (resp.data.code === 200) {

@@ -162,13 +162,13 @@
                 </template>
                 <template v-if="currentSate === 4">
                   <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
-                        color: white" @click="applyTriple">申请三方
+                        color: white" @click="applyTriple">开始三方签约
                     <i class="el-icon-arrow-right el-icon--right"></i>
                   </el-button>
                 </template>
                 <template v-if="currentSate === 5">
                   <el-button class="common_font_size" size="mini" style="background-color: #67C23A;
-                        color: white" @click="confirmContract">确定签约
+                        color: white" @click="applyContract">申请签约
                     <i class="el-icon-arrow-right el-icon--right"></i>
                   </el-button>
                 </template>
@@ -850,20 +850,51 @@
           }
         })
       },
-      confirmContract() {
+      applyContract() {
         if (this.currentStateVos5.length === 0) {
           return;
         }
-        this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
-          '&pid=' + this.currentVo.positions.id +
-          '&stateId=' + 6).then(resp => {
+
+        this.$axios.get('/sheetContract?rid=' + this.currentVo.resume.id + '&pid=' + this.currentVo.positions.id).then(resp => {
           if (resp.data.code === 200) {
-            this.$notify({message: '签约成功', type: 'success'})
-            //本地处理数据，避免重新请求
-            this.currentStateVos6.push(this.currentStateVos5[this.currentIndex])
-            this.currentStateVos5.splice(this.currentIndex, 1)
-            this.currentStateVos = this.currentStateVos5
-            this.nextCurrent()
+            if (resp.data.data != null) {
+              let sheetContract = resp.data.data
+              this.$axios.put('/sheetContract/confirm/enterprise?cid=' + sheetContract.id).then(resp => {
+                if (resp.data.code === 200) {
+                  this.$notify({
+                    message: '申请成功，请等待学生确认',
+                    type: 'success'
+                  })
+                  this.alterCurrentStateVos(5)
+                } else {
+                  this.$notify({
+                    message: '申请失败',
+                    type: 'error'
+                  })
+                }
+              })
+              //学校、学生契约已被填写时，签约才能确定（需求已改，学校为最后确定者）
+              // if (!sheetContract.schoolConfirm) {
+              //   this.$notify({message: '学校未审核', type: 'warning'})
+              //   return;
+              // } else if (!sheetContract.studentConfirm) {
+              //   this.$notify({message: '学生未确认', type: 'warning'})
+              //   return;
+              // } else {
+              //   this.$axios.put('/resume/state?rid=' + this.currentVo.resume.id +
+              //     '&pid=' + this.currentVo.positions.id +
+              //     '&stateId=' + 6).then(resp => {
+              //     if (resp.data.code === 200) {
+              //       this.$notify({message: '签约成功', type: 'success'})
+              //       //本地处理数据，避免重新请求
+              //       this.currentStateVos6.push(this.currentStateVos5[this.currentIndex])
+              //       this.currentStateVos5.splice(this.currentIndex, 1)
+              //       this.currentStateVos = this.currentStateVos5
+              //       this.nextCurrent()
+              //     }
+              //   })
+              // }
+            }
           }
         })
       },

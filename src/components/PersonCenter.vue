@@ -961,7 +961,7 @@
             <el-tab-pane name="3" label="应聘进度">
               <el-card>
                 <span style="font-size: 14px!important;font-weight: bold;">应聘进度</span>
-<!--                <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"-->
+                <!--                <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"-->
                 <!--                           @click="nextState">下一步-->
                 <!--                </el-button>-->
                 <el-divider></el-divider>
@@ -1031,18 +1031,25 @@
                     </template>
                   </el-steps>
                 </div>
-                <div style="margin-top: 200px">
-                  <template v-if="activeState === 3">
-                    <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
-                               @click="applyContract">申请签约
-                    </el-button>
-                  </template>
-                  <template v-if="activeState === 4">
-                    <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
-                               @click="confirmContract">确认签约
-                    </el-button>
-                  </template>
-                </div>
+                <el-row style="margin-top: 200px">
+                  <el-col :span="8">&nbsp;</el-col>
+                  <el-col :span="8">
+                    <template v-if="activeState === 5">
+                      <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
+                                 @click="showEmployed">查看录用通知书
+                      </el-button>
+                    </template>
+                    <template v-if="activeState === 4 ">
+                      <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
+                                 @click="showContract">查看签约
+                      </el-button>
+                      <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
+                                 @click="confirmContract">确认签约
+                      </el-button>
+                    </template>
+                  </el-col>
+                  <el-col :span="8"></el-col>
+                </el-row>
                 <div style="float: left;margin-top: 40px;width: 100%">
                   <el-collapse>
                     <template v-for="enterprise in enterprises" v-if="enterprise.id === selectedPosition.enterpriseId">
@@ -1274,6 +1281,7 @@
       return {
         selectedPositionId: '',
         selectedPosition: '',
+        selectedResumePositions: '',
         resumePositionsList: [],
         enterprises: [],
         isAuthenticate: 0,
@@ -1559,11 +1567,52 @@
       this.initCommonData()
     },
     methods: {
-      applyContract() {
-
+      showEmployed(){
+        const {href} = this.$router.resolve({
+          path: '/employed',
+          //传参
+          query: {
+            fLTYROd1T59onR3kUxCi9wCw: this.selectedResumePositions.sheetEmployedId
+          }
+        })
+        window.open(href, '_blank')
+      },
+      showContract() {
+        const {href} = this.$router.resolve({
+          path: '/contract',
+          //传参
+          query: {
+            LXw8AAX8QIRj10d59852mmDQ: this.selectedResumePositions.sheetContractId
+          }
+        })
+        window.open(href, '_blank')
       },
       confirmContract() {
-
+        let cid = this.getSheetContractId()
+        if (cid !== null) {
+          this.$axios.put('/sheetContract/confirm/student?cid=' + cid).then(resp => {
+            if (resp.data.code === 200) {
+              this.$notify({
+                message: '申请成功，请等待学校回复',
+                type: 'success'
+              })
+            } else {
+              this.$notify({
+                message: '申请失败',
+                type: 'error'
+              })
+            }
+          })
+        }
+      },
+      getSheetContractId() {
+        let length = this.resumePositionsList.length
+        for (let i = 0; i < length; i++) {
+          if (this.resumePositionsList[i].positions.id === this.selectedPositionId) {
+            return this.resumePositionsList[i].sheetContractId
+          }
+        }
+        return null
       },
       nextState() {
         if (this.activeState++ > 5) this.activeState = 0
@@ -1577,6 +1626,7 @@
               this.selectedPosition = this.resumePositionsList[0].positions
               this.selectedPositionId = this.selectedPosition.id
               this.activeState = this.resumePositionsList[0].stateId - 1
+              this.selectedResumePositions = this.resumePositionsList[0]
             }
           }
         })
@@ -1598,6 +1648,7 @@
           if (this.resumePositionsList[i].positions.id === this.selectedPositionId) {
             this.selectedPosition = this.resumePositionsList[i].positions;
             this.activeState = this.resumePositionsList[i].stateId - 1
+            this.selectedResumePositions = this.resumePositionsList[i]
             break;
           }
         }

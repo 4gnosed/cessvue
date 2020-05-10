@@ -21,12 +21,14 @@
       <template v-if="activeIndex === '1' ">
         <el-form-item class="form_item" prop="username">
           <el-input type="text" v-model="loginForm.username" prefix-icon="el-icon-user-solid"
+                    @keyup.enter.native="login"
                     auto-complete="off" placeholder="请输入账号" spellcheck="false">
             <i slot="prepend">账号</i>
           </el-input>
         </el-form-item>
         <el-form-item class="form_item" prop="password">
           <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"
+                    @keyup.enter.native="login"
                     auto-complete="off" placeholder="请输入密码" show-password="show-password">
             <i slot="prepend">密码</i>
           </el-input>

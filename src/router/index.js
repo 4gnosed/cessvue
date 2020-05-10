@@ -169,6 +169,22 @@ export default new Router({
       }
     },
     {
+      path: '/contract',
+      name: 'Contract',
+      component: Contract,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/employed',
+      name: 'Employed',
+      component: Employed,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
       path: '*',
       component: () => import('../components/pages/Error404')
     }
@@ -319,6 +335,22 @@ export const createRouter = routes => new Router({
       name: 'Admin',
       redirect: '/admin/welcome',
       component: AdminIndex,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/contract',
+      name: 'Contract',
+      component: Contract,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/employed',
+      name: 'Employed',
+      component: Employed,
       meta: {
         requireAuth: true
       }

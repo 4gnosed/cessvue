@@ -31,6 +31,7 @@
               <el-date-picker
                 size="mini"
                 v-model="sheetExam.date"
+                value-format="yyyy-MM-dd"
                 style="width: 130px"
                 placeholder="请选择笔试日期">
               </el-date-picker>
@@ -42,6 +43,7 @@
               <el-time-picker
                 size="mini"
                 v-model="sheetExam.time"
+                value-format="HH:mm:ss"
                 style="width: 130px"
                 placeholder="请选择笔试时间">
               </el-time-picker>

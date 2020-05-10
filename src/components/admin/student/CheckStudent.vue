@@ -14,7 +14,7 @@
         class="common_font_size">
         <el-table-column
           label="用户信息"
-          align="center">
+          align="left">
           <el-table-column
             type="selection"
             width="55">
@@ -41,7 +41,7 @@
           </el-table-column>
         </el-table-column>
         <el-table-column
-          align="center"
+          align="left"
           label="学生信息">
           <el-table-column
             prop="student.name"
