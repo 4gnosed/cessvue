@@ -36,11 +36,10 @@
       width="30%"
       class="common_font_size"
       center>
-      <span></span>
-      <span slot="footer" class="dialog-footer">
-       <el-button class="common_font_size" size="mini" @click="dialogFormVisible1 = false">取 消</el-button>
-       <el-button class="common_font_size" size="mini" type="primary" @click="deleteUser()">确 定</el-button>
-      </span>
+      <div slot="footer" class="dialog-footer">
+        <el-button class="common_font_size" size="mini" @click="dialogFormVisible1 = false">取 消</el-button>
+        <el-button class="common_font_size" size="mini" type="primary" @click="deleteUser()">确 定</el-button>
+      </div>
     </el-dialog>
     <user-registration @onSubmit="listUserDtos()"></user-registration>
     <el-card style="margin: 18px 2%;width: 95%">
