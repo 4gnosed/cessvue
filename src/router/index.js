@@ -147,10 +147,7 @@ export default new Router({
         {
           path: '/infoEnterprise',
           name: 'EnterpriseInfo',
-          component: EnterpriseInfo,
-          meta: {
-            requireAuth: true
-          }
+          component: EnterpriseInfo
         },
         {
           path: '/contract',
@@ -171,10 +168,7 @@ export default new Router({
         {
           path: '/noticeInfo',
           name: 'NoticeInfo',
-          component: NoticeInfo,
-          meta: {
-            requireAuth: true
-          }
+          component: NoticeInfo
         }
       ]
     },
@@ -326,10 +320,7 @@ export const createRouter = routes => new Router({
         {
           path: '/infoEnterprise',
           name: 'EnterpriseInfo',
-          component: EnterpriseInfo,
-          meta: {
-            requireAuth: true
-          }
+          component: EnterpriseInfo
         },
         {
           path: '/contract',
@@ -350,10 +341,7 @@ export const createRouter = routes => new Router({
         {
           path: '/noticeInfo',
           name: 'NoticeInfo',
-          component: NoticeInfo,
-          meta: {
-            requireAuth: true
-          }
+          component: NoticeInfo
         }
       ]
     },

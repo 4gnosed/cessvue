@@ -3,8 +3,29 @@
     <div>
       <div>
         <el-carousel :interval="4000" type="card" height="200px">
-          <el-carousel-item v-for="item in 6" :key="item">
-            <h3 class="medium">{{ item }}</h3>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/1.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/2.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/3.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/4.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/5.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/6.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/7.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="http://localhost:8443/api/file/img/8.jpg"/>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -96,7 +117,7 @@
         window.open(href, '_blank')
       },
       initNotices() {
-        this.$axios.get('/admin/notice/byPage?page=' + this.page + '&size=' + this.size).then(resp => {
+        this.$axios.get('/notice/byPage?page=' + this.page + '&size=' + this.size).then(resp => {
           if (resp.data.code === 200) {
             this.noticeList = resp.data.data.data;
             this.total = resp.data.data.total;
