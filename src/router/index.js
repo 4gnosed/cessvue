@@ -18,6 +18,7 @@ import Contract from "../components/enterprise/Contract";
 import Employed from "../components/enterprise/Employed";
 import TalentPool from "../components/enterprise/TalentPool";
 import Examination from "../components/enterprise/Examination";
+import NoticeInfo from "../components/admin/department/NoticeInfo";
 
 Vue.use(Router)
 
@@ -150,6 +151,30 @@ export default new Router({
           meta: {
             requireAuth: true
           }
+        },
+        {
+          path: '/contract',
+          name: 'Contract',
+          component: Contract,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/employed',
+          name: 'Employed',
+          component: Employed,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/noticeInfo',
+          name: 'NoticeInfo',
+          component: NoticeInfo,
+          meta: {
+            requireAuth: true
+          }
         }
       ]
     },
@@ -164,22 +189,6 @@ export default new Router({
       name: 'Admin',
       redirect: '/admin/welcome',
       component: AdminIndex,
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
-      path: '/contract',
-      name: 'Contract',
-      component: Contract,
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
-      path: '/employed',
-      name: 'Employed',
-      component: Employed,
       meta: {
         requireAuth: true
       }
@@ -321,6 +330,30 @@ export const createRouter = routes => new Router({
           meta: {
             requireAuth: true
           }
+        },
+        {
+          path: '/contract',
+          name: 'Contract',
+          component: Contract,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/employed',
+          name: 'Employed',
+          component: Employed,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/noticeInfo',
+          name: 'NoticeInfo',
+          component: NoticeInfo,
+          meta: {
+            requireAuth: true
+          }
         }
       ]
     },
@@ -335,22 +368,6 @@ export const createRouter = routes => new Router({
       name: 'Admin',
       redirect: '/admin/welcome',
       component: AdminIndex,
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
-      path: '/contract',
-      name: 'Contract',
-      component: Contract,
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
-      path: '/employed',
-      name: 'Employed',
-      component: Employed,
       meta: {
         requireAuth: true
       }
