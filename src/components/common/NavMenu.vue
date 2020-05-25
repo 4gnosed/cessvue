@@ -21,7 +21,7 @@
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="7" :xl="5" class="hidden-md-and-down">
           <div class="el_menu_else_item title_item" style="border-left: #D2D3D6 solid 2px" @click="toIndex">
-            Collage Employment Service System
+            Collage Employment System
           </div>
         </el-col>
         <el-col :xs="24" :sm="24" :md="4" :lg="3" :xl="4" class="hidden-sm-and-down">
@@ -34,9 +34,9 @@
           </div>
         </el-col>
         <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
-          <div style="margin-top: 6px">
+          <div style="margin-top: 16px">
             <el-badge :value="newMessageNum" :max="99">
-              <i @click="showMessages()" class="el-icon-bell el_menu_message_item" style="font-size: 20px"></i>
+              <i @click="showMessages()" class="el-icon-bell el_menu_message_item" style="font-size: 30px"></i>
             </el-badge>
           </div>
         </el-col>
@@ -86,7 +86,7 @@
         <template v-if="activeIndex === '1' ">
           <el-table :data="messages" @selection-change="readyTagReadMessages" ref="messageRefs" height="500"
                     stripe class="common_font_size">
-            <el-table-column type="selection" width="34px"></el-table-column>
+            <el-table-column type="selection" width="60px"></el-table-column>
             <el-table-column sortable prop="sender" label="发件人" width="80"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
             <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
@@ -106,7 +106,7 @@
         </template>
         <template v-if="activeIndex === '2' ">
           <el-table :data="readedMessages" height="500" stripe class="common_font_size">
-            <el-table-column type="selection" width="34px"></el-table-column>
+            <el-table-column type="selection" width="60px"></el-table-column>
             <el-table-column sortable prop="sender" label="发件人" width="80px"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
             <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
@@ -122,7 +122,7 @@
         </template>
         <template v-if="activeIndex === '3' ">
           <el-table :data="sendedMessages" height="500" stripe class="common_font_size">
-            <el-table-column type="selection" width="34px"></el-table-column>
+            <el-table-column type="selection" width="60px"></el-table-column>
             <el-table-column sortable prop="sender" label="发件人" width="80px"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
             <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
@@ -479,7 +479,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   a {
     text-decoration: none;
   }
@@ -489,48 +489,49 @@
   }
 
   .el-icon-arrow-down {
-    font-size: 11px;
+    font-size: 18px;
   }
 
   .el_menu_item {
-    font-size: 11px;
-    font-weight: bold;
+    font-size: 18px;
+
     float: left;
     padding: 0 4px;
-    line-height: 34px;
-    height: 34px;
+    line-height: 60px;
+    height: 60px;
   }
 
   .el_menu_else_item {
-    font-size: 11px;
+    font-size: 18px;
     color: #D2D3D6;
-    font-weight: bold;
-    line-height: 34px;
-    height: 34px;
+
+    line-height: 60px;
+    height: 60px;
   }
 
   .el_menu_message_item {
     color: #D2D3D6;
-    font-weight: bold;
-    line-height: 34px;
+
+    line-height: 30px;
     height: 30px;
   }
 
   .title_item {
-    font-size: 14px
+    font-weight: bold;
+    font-size: 24px;
   }
 
   .drop_down_button {
-    font-size: 11px;
-    font-weight: bold;
+    font-size: 18px;
+
   }
 
   .common_font_size {
-    font-size: 12px;
+    font-size: 18px;
   }
 
   .title_font {
-    font-weight: bold;
+
   }
 
   .dialog_footer {
@@ -538,14 +539,14 @@
   }
 
   .el-dropdown-menu__item {
-    font-size: 12px !important;
+    font-size: 18px !important;
   }
 
   .el-badge__content {
     background-color: red;
     font-size: 2px;
-    height: 12px;
-    line-height: 12px;
+    height: 18px;
+    line-height: 18px;
     padding: 0 3px;
   }
 </style>

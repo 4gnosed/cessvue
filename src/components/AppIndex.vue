@@ -1,31 +1,37 @@
 <template>
-  <div>
+  <div style="margin-top: 35px">
     <div>
       <div>
         <el-carousel :interval="4000" type="card" height="200px">
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/1.jpg"/>
           </el-carousel-item>
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/2.jpg"/>
           </el-carousel-item>
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/3.jpg"/>
           </el-carousel-item>
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/4.jpg"/>
           </el-carousel-item>
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/5.jpg"/>
           </el-carousel-item>
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/6.jpg"/>
           </el-carousel-item>
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/7.jpg"/>
           </el-carousel-item>
-          <el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
             <img src="http://localhost:8443/api/file/img/8.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
+            <img src="http://localhost:8443/api/file/img/9.jpg"/>
+          </el-carousel-item>
+          <el-carousel-item style="background-color: transparent">
+            <img src="http://localhost:8443/api/file/img/10.jpg"/>
           </el-carousel-item>
         </el-carousel>
       </div>
