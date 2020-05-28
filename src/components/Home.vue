@@ -9,7 +9,7 @@
       <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
         <nav-menu v-bind:newMessageNum="newMessageNum"></nav-menu>
       </el-header>
-      <el-main>
+      <el-main  style="overflow-y: hidden">
         <router-view></router-view>
       </el-main>
       <el-footer style="height: 30px;padding: 0 ">
