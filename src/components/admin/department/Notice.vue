@@ -11,12 +11,17 @@
       </el-row>
     </div>
     <div>
-      <textarea :id="tinymceId" v-model="tip"></textarea>
+      <textarea :id="tinymceId" v-model="notice.content"></textarea>
     </div>
-    <div style="margin-top:  20px">
-      <el-button class="common_font_size" size="small" type="primary" @click="publicNotice()">发 布</el-button>
+    <div style="margin-top:  20px;text-align: center">
+      <template v-if="notice.id">
+        <el-button class="common_font_size" size="small" type="primary" @click="updateNotice()">更 新</el-button>
+      </template>
+      <template v-else>
+        <el-button class="common_font_size" size="small" type="primary" @click="empty()">重 置</el-button>
+        <el-button class="common_font_size" size="small" type="primary" @click="publicNotice()">发 布</el-button>
+      </template>
     </div>
-    <!--    <div v-html="notice"></div>-->
   </div>
 </template>
 <script>
@@ -48,13 +53,19 @@
 
   export default {
     name: 'Notice',
+    props: {
+      selectedNotice: {
+        type: Object,
+        required: false
+      }
+    },
     components: {Editor},
     data() {
       const ide = Date.now()
       return {
         tinymceId: ide,
-        tip: '',
         notice: {
+          id: '',
           title: '',
           content: ''
         },
@@ -76,10 +87,33 @@
         }
       }
     },
+    created() {
+      this.getNotice()
+    },
     mounted() {
       this.init()
     },
+    watch: {
+      //newVal是指更新后的数据
+      selectedNotice: {
+        handler(newVal, oldVal) {
+          if (newVal) {
+            this.notice = newVal
+            tinyMCE.activeEditor.setContent(this.notice.content)
+          }
+        },
+        // 代表在wacth里声明了watchNum这个方法之后立即先去执行handler方法
+        immediate: true,
+        deep: true,   //对象内部属性的监听，关键。
+        //deep的意思就是深入观察，监听器会一层层的往下遍历，给对象的所有属性都加上这个监听器
+      },
+    },
     methods: {
+      getNotice() {
+        if (typeof this.selectedNotice !== 'undefined') {
+          this.notice = this.selectedNotice
+        }
+      },
       init() {
         const self = this
         window.tinymce.init({
@@ -108,6 +142,36 @@
           selector: `#${this.tinymceId}`,
         })
       },
+      updateNotice() {
+        this.notice.content = tinyMCE.activeEditor.getContent()
+        if (this.notice.title === '' || this.notice.title.match(/^[ ]*$/)) {
+          this.$notify({
+            message: '请输入标题',
+            type: 'warning'
+          })
+          return
+        } else if (this.notice.content === '' || this.notice.title.match(/^[ ]*$/)) {
+          this.$notify({
+            message: '请输入内容',
+            type: 'warning'
+          })
+          return
+        }
+        this.$axios.put('/admin/notice', this.notice).then(resp => {
+          if (resp.data.code === 200) {
+            this.empty()
+            this.$notify({
+              message: '更新成功',
+              type: 'success'
+            })
+          } else {
+            this.$notify({
+              message: resp.data.message,
+              type: 'error'
+            })
+          }
+        })
+      },
       publicNotice() {
         this.notice.content = tinyMCE.activeEditor.getContent()
         if (this.notice.title === '' || this.notice.title.match(/^[ ]*$/)) {
@@ -125,6 +189,7 @@
         }
         this.$axios.post('/admin/notice', this.notice).then(resp => {
           if (resp.data.code === 200) {
+            this.empty()
             this.$notify({
               message: '发布成功',
               type: 'success'
@@ -136,6 +201,16 @@
             })
           }
         })
+      },
+      empty() {
+        // if(this.notice.id){
+        //   this.notice.title=this.selectedNotice.title
+        //   tinyMCE.activeEditor.setContent(this.selectedNotice.content)
+        // }else {
+        this.notice.title = ''
+        this.notice.content = ''
+        tinyMCE.activeEditor.setContent('')
+        // }
       }
     }
   }

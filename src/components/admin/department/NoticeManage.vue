@@ -85,18 +85,31 @@
         <el-button class="common_font_size" size="mini" type="primary" @click="deleteNotice()">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      title="编辑公告"
+      :visible.sync="dialogFormVisible"
+      width="80%"
+      class="common_font_size"
+      center>
+      <Notice v-bind:selectedNotice="selectedNotice"></Notice>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+  import Notice from "./Notice";
+
   export default {
     name: "NoticeManage",
+    components:{Notice},
     data() {
       return {
         notices: [],
         deletedIndex: '',
         deletedNoticeId: '',
+        selectedNotice: '',
         selectedNotices: [],
+        dialogFormVisible: false,
         dialogFormVisible1: false,
       }
     },
@@ -119,7 +132,9 @@
       resetSelected() {
         this.$refs.multipleTable.clearSelection()
       },
-      editNotice() {
+      editNotice(notice) {
+        this.selectedNotice=notice
+        this.dialogFormVisible=true
       },
       readyDeleteNotice(index, notice) {
         this.dialogFormVisible1 = true
