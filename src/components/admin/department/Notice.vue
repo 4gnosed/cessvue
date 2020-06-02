@@ -164,6 +164,8 @@
               message: '更新成功',
               type: 'success'
             })
+            this.$emit('refresh')
+            this.$parent.initNotices()
           } else {
             this.$notify({
               message: resp.data.message,

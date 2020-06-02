@@ -91,7 +91,7 @@
       width="80%"
       class="common_font_size"
       center>
-      <Notice v-bind:selectedNotice="selectedNotice"></Notice>
+      <Notice v-bind:selectedNotice="selectedNotice" @refresh="refresh"></Notice>
     </el-dialog>
   </div>
 </template>
@@ -122,6 +122,10 @@
       }
     },
     methods: {
+      refresh(){
+        this.initNotices()
+        this.dialogFormVisible=false
+      },
       initNotices() {
         this.$axios.get('/admin/notice').then(resp => {
           if (resp.data.code === 200) {
