@@ -813,6 +813,8 @@
             this.currentStateVos2.splice(this.currentIndex, 1)
             this.currentStateVos = this.currentStateVos2
             this.nextCurrent()
+          } else if (resp.data.code === 400) {
+            this.$notify({message: resp.data.message, type: 'warning'})
           }
         })
       },
