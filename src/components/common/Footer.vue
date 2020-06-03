@@ -20,14 +20,14 @@
 
 <style scoped>
   .footer_class {
-    height: 30px;
-    background: #303643;
+    height: 40px;
+    background: #014C88;
     text-align: center;
-    font-size: 11px;
+    font-size: 16px;
   }
 
   .a {
     color: #f0f0f0;
-    line-height: 30px;
+    line-height: 40px;
   }
 </style>

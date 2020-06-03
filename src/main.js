@@ -92,7 +92,7 @@ router.beforeEach((to, from, next) => {
           //其它角色，这里先不处理
           next()
         }
-      } else {
+      } else if(resp.data.code === 400){
         Vue.prototype.$notify({
           message: '请求失败，'+resp.data.message, type: 'error'
         })
@@ -113,6 +113,7 @@ router.beforeEach((to, from, next) => {
       path: 'login',
       query: {redirect: to.fullPath}
     })
+    return
   }
 
 //退出登录

@@ -1,82 +1,80 @@
-<template>
-  <div>
-    <el-card>
-      <span>与[ {{vo.student.name}} ]沟通offer的情况</span>
-      <el-divider></el-divider>
-      <el-form :model="sheetOffer" ref="sheetOfferRef" :rules="sheetOfferRules">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="部门:" prop="department">
-              <el-input size="mini" v-model="sheetOffer.department" placeholder="请输入部门名称"
-                        style="width: 200px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="职位:" prop="positionsId">
-              <el-select disabled v-model="sheetOffer.positionsId" placeholder="职位" size="mini" style="width: 200px">
-                <el-option
-                  disabled
-                  clearable
-                  v-for="item in positionList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="新职位:" prop="newPositionsId">
-              <el-select filterable clearable v-model="sheetOffer.newPositionsId" placeholder="新职位" size="mini"
-                         style="width: 200px">
-                <el-option
-                  v-for="item in positionList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="试用期:" prop="probation">
-              <el-input size="mini" v-model="sheetOffer.probation" placeholder="请输入试用期"
-                        style="width: 200px">
-                <template slot="append">/月</template>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="试用期月薪:" prop="probationMonthSalary">
-              <el-input size="mini" v-model="sheetOffer.probationMonthSalary" placeholder="请输入试用期月薪"
-                        style="width: 200px">
-                <template slot="append">/元</template>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="转正后月薪:" prop="regularMonthSalary">
-              <el-input size="mini" v-model="sheetOffer.regularMonthSalary" placeholder="请输入转正后月薪"
-                        style="width: 200px">
-                <template slot="append">/元</template>
-              </el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-form-item label="备注:" prop="remark">
-            <el-input v-model="sheetOffer.remark" placeholder="备注" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
+<template v-if="vo !==''">
+  <el-card shadow="hover">
+    <span>与[ {{vo.student.name}} ]沟通offer的情况</span>
+    <el-divider></el-divider>
+    <el-form :model="sheetOffer" ref="sheetOfferRef" :rules="sheetOfferRules">
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="部门:" prop="department">
+            <el-input size="mini" v-model="sheetOffer.department" placeholder="请输入部门名称"
+                      style="width: 200px"></el-input>
           </el-form-item>
-        </el-row>
-        <div style="margin-bottom:30px">
-          <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
-        </div>
-      </el-form>
-    </el-card>
-  </div>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="职位:" prop="positionsId">
+            <el-select disabled v-model="sheetOffer.positionsId" placeholder="职位" size="mini" style="width: 200px">
+              <el-option
+                disabled
+                clearable
+                v-for="item in positionList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="新职位:" prop="newPositionsId">
+            <el-select filterable clearable v-model="sheetOffer.newPositionsId" placeholder="新职位" size="mini"
+                       style="width: 200px">
+              <el-option
+                v-for="item in positionList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="试用期:" prop="probation">
+            <el-input size="mini" v-model="sheetOffer.probation" placeholder="请输入试用期"
+                      style="width: 200px">
+              <template slot="append">/月</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="试用期月薪:" prop="probationMonthSalary">
+            <el-input size="mini" v-model="sheetOffer.probationMonthSalary" placeholder="请输入试用期月薪"
+                      style="width: 200px">
+              <template slot="append">/元</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="转正后月薪:" prop="regularMonthSalary">
+            <el-input size="mini" v-model="sheetOffer.regularMonthSalary" placeholder="请输入转正后月薪"
+                      style="width: 200px">
+              <template slot="append">/元</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-form-item label="备注:" prop="remark">
+          <el-input v-model="sheetOffer.remark" placeholder="备注" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <div style="margin-bottom:30px">
+        <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
+      </div>
+    </el-form>
+  </el-card>
 </template>
 
 <script>

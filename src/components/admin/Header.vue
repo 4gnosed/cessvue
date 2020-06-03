@@ -4,7 +4,7 @@
       :default-active="$route.path"
       router
       mode="horizontal"
-      background-color="#303643"
+      background-color="#014C88"
       style="width: 100%">
       <el-row style="color: #fff">
         <el-col :xs="18" :sm="18" :md="20" :lg="21" :xl="21">
@@ -13,9 +13,9 @@
           </div>
         </el-col>
         <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
-          <div style="margin-top: 6px">
+          <div style="margin-top: 14px">
             <el-badge :value="newMessageNum" :max="99">
-              <i @click="showMessages()" class="el-icon-bell el_menu_message_item" style="font-size: 20px"></i>
+              <i @click="showMessages()" class="el-icon-bell el_menu_message_item" style="font-size: 30px"></i>
             </el-badge>
           </div>
         </el-col>
@@ -26,7 +26,7 @@
                 <el-button size="mini" round class="drop_down_button">
                   {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
-                <el-dropdown-menu slot="dropdown" style="font-size: 11px;">
+                <el-dropdown-menu slot="dropdown" style="font-size: 18px;">
                   <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
                   <el-dropdown-item @click.native="backIndex">返回主页</el-dropdown-item>
                 </el-dropdown-menu>
@@ -38,35 +38,34 @@
     </el-menu>
     <div>
       <el-drawer
-        title="您的收信箱"
         :visible.sync="messageTable"
         direction="rtl"
         size="30%">
+        <div slot="title" style="font-weight: bold;font-size: 20px">您的收信箱</div>
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
           <el-menu-item index="1" @click.native="changeIndex('1')">
             <i class="iconfont el-icon-iconfont-noread"></i>
-            <span slot="title">未读消息</span>
+            <span slot="title" class="messageTitle">未读消息</span>
           </el-menu-item>
           <el-menu-item index="2" @click.native="changeIndex('2')">
             <i class="iconfont el-icon-iconfont-read"></i>
-            <span slot="title">已读消息</span>
+            <span slot="title" class="messageTitle">已读消息</span>
           </el-menu-item>
           <el-menu-item index="3" @click.native="changeIndex('3')">
             <i class="iconfont el-icon-iconfont-yifasong"></i>
-            <span slot="title">已发消息</span>
+            <span slot="title" class="messageTitle">已发消息</span>
           </el-menu-item>
         </el-menu>
         <template v-if="activeIndex === '1' ">
-          <el-table :data="messages" @selection-change="readyTagReadMessages" ref="messageRefs" height="500"
+          <el-table :data="messages" @selection-change="readyTagReadMessages" ref="messageRefs" height="600"
                     stripe class="common_font_size">
-            <el-table-column type="selection" width="34px"></el-table-column>
-            <el-table-column sortable prop="sender" label="发件人" width="80"></el-table-column>
+            <el-table-column type="selection" width="40px"></el-table-column>
+            <el-table-column sortable prop="sender" label="发件人" width="100"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
-            <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
+            <el-table-column sortable prop="sendTime" label="日期" width="90px"></el-table-column>
             <el-table-column
-              fixed="right"
               label="操作"
-              width="50">
+              width="80">
               <template slot-scope="scope">
                 <el-button @click="showMessage(scope.row)" type="text" size="small">查看</el-button>
               </template>
@@ -78,15 +77,15 @@
           </div>
         </template>
         <template v-if="activeIndex === '2' ">
-          <el-table :data="readedMessages" height="500" stripe class="common_font_size">
-            <el-table-column type="selection" width="34px"></el-table-column>
-            <el-table-column sortable prop="sender" label="发件人" width="80px"></el-table-column>
+          <el-table :data="readedMessages" height="600"
+                    stripe class="common_font_size">
+            <el-table-column type="selection" width="40px"></el-table-column>
+            <el-table-column sortable prop="sender" label="发件人" width="100"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
-            <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
+            <el-table-column sortable prop="sendTime" label="日期" width="90px"></el-table-column>
             <el-table-column
-              fixed="right"
               label="操作"
-              width="50">
+              width="80">
               <template slot-scope="scope">
                 <el-button @click="showReadMessage(scope.row)" type="text" size="small">查看</el-button>
               </template>
@@ -94,15 +93,15 @@
           </el-table>
         </template>
         <template v-if="activeIndex === '3' ">
-          <el-table :data="sendedMessages" height="500" stripe class="common_font_size">
-            <el-table-column type="selection" width="34px"></el-table-column>
-            <el-table-column sortable prop="sender" label="发件人" width="80px"></el-table-column>
+          <el-table :data="sendedMessages" height="600" stripe class="common_font_size">
+            <el-table-column type="selection" width="40px"></el-table-column>
+            <el-table-column sortable prop="sender" label="发件人" width="100"></el-table-column>
             <el-table-column sortable prop="title" label="标题" width="170px"></el-table-column>
-            <el-table-column sortable prop="sendTime" label="日期" width="85px"></el-table-column>
+            <el-table-column sortable prop="sendTime" label="日期" width="90px"></el-table-column>
             <el-table-column
               fixed="right"
               label="操作"
-              width="50">
+              width="80">
               <template slot-scope="scope">
                 <el-button @click="showSendMessage(scope.row)" type="text" size="small">查看</el-button>
               </template>
@@ -111,10 +110,10 @@
         </template>
       </el-drawer>
       <el-dialog
-        title="详细消息"
         :visible.sync="messageDetailDialogVisible"
         width="70%"
         center>
+        <div slot="title" style="font-weight: bold;font-size: 20px">详细消息</div>
         <el-row>
           <el-col :span="8"><span class="title_font">发件人：</span>{{messageDetail.sender}}</el-col>
           <el-col :span="8"><span class="title_font">收件人：</span>{{messageDetail.receiver}}</el-col>
@@ -339,7 +338,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   a {
     text-decoration: none;
   }
@@ -349,23 +348,23 @@
   }
 
   .el-icon-arrow-down {
-    font-size: 11px;
+    font-size: 18px;
   }
 
   .el_menu_else_item {
-    font-size: 11px;
+    font-size: 18px;
     font-weight: bold;
-    line-height: 34px;
-    height: 34px;
+    line-height: 50px;
+    height: 50px;
   }
 
   .title_item {
-    font-size: 16px;
+    font-size: 24px;
     letter-spacing: 2px;
   }
 
   .drop_down_button {
-    font-size: 11px;
+    font-size: 18px;
     font-weight: bold;
   }
 
@@ -383,5 +382,9 @@
     height: 12px;
     line-height: 12px;
     padding: 0 3px;
+  }
+
+  .messageTitle {
+    font-size: 18px;
   }
 </style>

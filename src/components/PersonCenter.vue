@@ -2,42 +2,42 @@
   <div>
     <el-scrollbar>
       <div>
-        <el-tabs v-model="activeTab" :tab-position="tabPosition" style="height: 1300px;"
+        <el-tabs v-model="activeTab" :tab-position="tabPosition" style="height: 1500px;"
                  class="common_font_size">
           <el-tab-pane name="1" label="个人信息" style="text-align: center">
-            <el-card>
-              <span style="font-size: 14px!important;font-weight: bold;">基本信息</span>
+            <el-card shadow="hover">
+              <span class="title_font">基本信息</span>
               <el-divider></el-divider>
               <el-form v-model="user" style="text-align: left">
                 <el-row>
-                  <el-col :span="6">
+                  <el-col :span="8">
                     <el-form-item label="用户名" label-width="120px" prop="username" style="width: 200px">
                       <el-input size="mini" v-model="user.username" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="8">
                     <el-form-item label="角色" label-width="120px" prop="roles" style="width: 200px">
                       <el-input size="mini" v-model="user.role" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="8">
                     <el-form-item label="真实姓名" label-width="120px" prop="name" style="width: 200px">
                       <el-input size="mini" v-model="user.name" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="6">
+                  <el-col :span="8">
                     <el-form-item label="上次登录时间" label-width="120px" prop="email" style="width: 300px">
                       <el-input size="mini" v-model="user.lastLogin" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="8">
                     <el-form-item label="手机号" label-width="120px" prop="phone" style="width: 300px">
                       <el-input size="mini" v-model="user.phone" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="8">
                     <el-form-item label="邮箱" label-width="120px" prop="email" style="width: 300px">
                       <el-input size="mini" v-model="user.email" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
@@ -48,7 +48,7 @@
               <!--学生-->
               <template v-if="user.roleId==this.$store.state.studentId">
                 <el-divider></el-divider>
-                <span style="font-size: 14px!important;font-weight: bold;">学生详细信息</span>
+                <span class="title_font">学生详细信息</span>
                 <template v-if="isAuthenticate==1">
                   <el-divider></el-divider>
                   <el-alert
@@ -128,19 +128,19 @@
                     </el-col>
                     <el-col :span="7">
                       <el-form-item label="联系地址:" prop="address">
-                        <el-input size="mini" style="width: 200px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 300px" prefix-icon="el-icon-edit"
                                   v-model="student.address" placeholder="请输入联系地址"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="12">
+                    <el-col :span="6">
                       <el-form-item label="身份证号码:" prop="idCard">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
                                   v-model="student.idCard" placeholder="请输入身份证号码"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="6">
                       <el-form-item label="电话号码:" prop="phone">
                         <el-input size="mini" style="width: 200px" prefix-icon="el-icon-phone"
                                   v-model="student.phone" placeholder="电话号码"></el-input>
@@ -169,14 +169,14 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="毕业院校:" prop="school">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 180px" prefix-icon="el-icon-edit"
                                   v-model="student.school" placeholder="毕业院校名称"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="所属院系:" prop="departmentId">
                         <el-select v-model="student.departmentId" placeholder="院系" size="mini"
-                                   @change="changeDepartment" style="width: 120px;">
+                                   @change="changeDepartment" style="width: 180px;">
                           <el-option
                             v-for="item in department"
                             :key="item.id"
@@ -186,6 +186,8 @@
                         </el-select>
                       </el-form-item>
                     </el-col>
+                  </el-row>
+                  <el-row>
                     <el-col :span="6">
                       <el-form-item label="专业:" prop="departmentId">
                         <el-select v-model="student.specialtyId" placeholder="专业" size="mini"
@@ -401,7 +403,7 @@
                   <el-row>
                     <el-col :span="24">
                       <el-form-item label="企业简介:" prop="introduction">
-                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.introduction" placeholder="企业简介"></el-input>
                       </el-form-item>
@@ -410,7 +412,7 @@
                   <el-row>
                     <el-col :span="24">
                       <el-form-item label="产品介绍:" prop="product">
-                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.product" placeholder="产品介绍"></el-input>
                       </el-form-item>
@@ -419,16 +421,16 @@
                   <el-row>
                     <el-col :span="24">
                       <el-form-item label="企业荣誉:" prop="honor">
-                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.honor" placeholder="企业荣誉"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="6">
+                    <el-col :span="24">
                       <el-form-item label="企业文化:" prop="culture">
-                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.culture" placeholder="请输入企业文化"></el-input>
                       </el-form-item>
@@ -437,7 +439,7 @@
                   <el-row>
                     <el-col :span="24">
                       <el-form-item label="企业展望:" prop="expectation">
-                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.expectation" placeholder="请输入企业展望"></el-input>
                       </el-form-item>
@@ -446,7 +448,7 @@
                   <el-row>
                     <el-col :span="24">
                       <el-form-item label="福利:" prop="welfare">
-                        <el-input size="mini" type="textarea" style="width: 850px;margin-left: 100px" autosize
+                        <el-input size="mini" type="textarea" autosize
                                   prefix-icon="el-icon-edit"
                                   v-model="enterprise.welfare" placeholder="请输入福利"></el-input>
                       </el-form-item>
@@ -478,7 +480,7 @@
           <template v-if="this.$store.state.user.roleId == this.$store.state.studentId">
             <el-tab-pane name="2" label="标准简历">
               <el-card style="height: 1300px">
-                <span style="font-size: 14px!important;font-weight: bold;">标准简历</span>
+                <span class="title_font">标准简历</span>
                 <el-divider></el-divider>
                 <el-form :model="resume" ref="resumeRefs" :rules="resumeRules">
                   <el-tabs :tab-position="tabPosition" v-model="active" style="height: 1300px;"
@@ -959,8 +961,8 @@
               </el-card>
             </el-tab-pane>
             <el-tab-pane name="3" label="应聘进度">
-              <el-card>
-                <span style="font-size: 14px!important;font-weight: bold;">应聘进度</span>
+              <el-card shadow="hover">
+                <span class="title_font">应聘进度</span>
                 <!--                <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"-->
                 <!--                           @click="nextState">下一步-->
                 <!--                </el-button>-->
@@ -1050,6 +1052,7 @@
                   </el-col>
                   <el-col :span="8"></el-col>
                 </el-row>
+                <el-divider></el-divider>
                 <div style="float: left;margin-top: 40px;width: 100%">
                   <el-collapse>
                     <template v-for="enterprise in enterprises" v-if="enterprise.id === selectedPosition.enterpriseId">
@@ -1218,8 +1221,8 @@
             </el-tab-pane>
           </template>
           <el-tab-pane name="4" label="更改密码" style="text-align: center">
-            <el-card>
-              <span style="font-size: 14px!important;font-weight: bold;">更改密码</span>
+            <el-card shadow="hover">
+              <span class="title_font">更改密码</span>
               <el-divider></el-divider>
               <el-form :model="passForm" ref="passForm" :rules="passRules">
                 <el-form-item prop="oldPassword">
@@ -1287,7 +1290,7 @@
         isAuthenticate: 0,
         activeState: 0,
         tabPosition: 'left',
-        activeTab: '3',
+        activeTab: '1',
         user: this.$store.state.user,
         nations: [],
         department: [],
@@ -1567,7 +1570,7 @@
       this.initCommonData()
     },
     methods: {
-      showEmployed(){
+      showEmployed() {
         const {href} = this.$router.resolve({
           path: '/employed',
           //传参
@@ -2196,7 +2199,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   .el-tabs__item {
     font-size: 11px !important;
   }
@@ -2246,4 +2249,8 @@
     color: #00c2b3;
   }
 
+  .title_font {
+    font-size: 16px !important;
+    font-weight: bold;
+  }
 </style>

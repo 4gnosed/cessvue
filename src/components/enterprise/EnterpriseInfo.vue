@@ -1,11 +1,12 @@
 <template>
-  <div style="height: 1800px;margin-top: 35px">
+  <div style="height: 1800px;">
     <div style="height: 130px;background-color: #444C5F;color: white;">
       <el-row style="line-height: 75px;font-weight: bold">
         <el-col :span="3">&nbsp;</el-col>
         <el-col :span="5" style="font-size: 26px;text-align: left;">{{enterprise.name}}</el-col>
         <el-col :span="8">&nbsp;</el-col>
-        <el-col :span="8" style="font-size: 32px;text-align: left" @click.native="activeTab">{{positions.length}}</el-col>
+        <el-col :span="8" style="font-size: 32px;text-align: left" @click.native="activeTab">{{positions.length}}
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="3">&nbsp;</el-col>
@@ -106,8 +107,8 @@
       <el-tab-pane name="2">
         <span slot="label"><i class="el-icon-menu"></i>在招职位</span>
         <el-row>
-          <span style="font-weight: bold;margin-left: 18px">校园宣讲会</span>
-          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">
+          <span class="title_font">校园宣讲会</span>
+          <div class="title_font" style="margin-left: 18px;margin-right: 18px;margin-top: 10px">
             {{enterprise.talkDate}}
             &nbsp;&nbsp;
             {{enterprise.talkTime.name}}
@@ -1312,5 +1313,10 @@
 
   .dialog_height {
     height: 700px;
+  }
+
+  .title_font {
+    font-weight: bold;
+    margin-left: 20px;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-card shadow="hover">
     <div style="margin-bottom: 20px;text-align: left">
       <el-row>
         <el-col :span="1" style="line-height: 32px"><span>标 题:</span></el-col>
@@ -22,7 +22,7 @@
         <el-button class="common_font_size" size="small" type="primary" @click="publicNotice()">发 布</el-button>
       </template>
     </div>
-  </div>
+  </el-card>
 </template>
 <script>
   import tinymce from 'tinymce/tinymce'
@@ -69,6 +69,7 @@
           title: '',
           content: ''
         },
+        noticeId: '',
         DefaultInit: {
           language_url: '/tinymce/langs/zh_CN.js',  //导入语言文件
           language: "zh_CN",//语言设置
@@ -122,12 +123,12 @@
           // 图片上传
           images_upload_handler: function (blobInfo, success, failure) {
             let formData = new FormData()
-            console.log(blobInfo.filename())
+            // console.log(blobInfo.filename())
             formData.append('img', blobInfo.blob())
             self.$axios.post('/admin/notice/img', formData).then(resp => {
               if (resp.data.code === 200) {
-                success(resp.data.data)
-                console.log(resp.data.data)
+                success(resp.data.data.pname)
+                self.noticeId = resp.data.data.nid
               } else {
                 failure(function () {
                   this.$notify({
@@ -189,6 +190,7 @@
           })
           return
         }
+        this.notice.id = this.noticeId
         this.$axios.post('/admin/notice', this.notice).then(resp => {
           if (resp.data.code === 200) {
             this.empty()
@@ -209,6 +211,7 @@
         //   this.notice.title=this.selectedNotice.title
         //   tinyMCE.activeEditor.setContent(this.selectedNotice.content)
         // }else {
+        this.notice.id = ''
         this.notice.title = ''
         this.notice.content = ''
         tinyMCE.activeEditor.setContent('')

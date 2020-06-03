@@ -5,7 +5,7 @@
             mode="vertical"
             background-color="#545c64"
             text-color="#fff"
-            active-text-color="#ffd04b"
+            active-text-color="#00c2b3"
             :collapse="isCollapse">
         <navigation-item v-for="(menu,i) in this.$store.state.adminMenus" :key="i" :item="menu"/>
     </el-menu>

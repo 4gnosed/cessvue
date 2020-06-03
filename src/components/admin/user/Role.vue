@@ -34,7 +34,7 @@
       </div>
     </el-dialog>
     <role-create @onSubmit="listRoles()"></role-create>
-    <el-card style="margin: 18px 2%;width: 95%">
+    <el-card style="margin: 18px 2%;width: 95%" shadow="hover">
       <el-table
         :data="roles"
         stripe

@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 1800px;margin-top: 35px">
-    <div style="background-color: #00c2b3;height: 150px">
+  <div style="height: 1800px;">
+    <el-card shadow="hover" style="background-color: #00c2b3;height: 150px">
       <div style="line-height: 80px">
         <el-input size="small" placeholder="搜索职位、公司、关键词 " prefix-icon="el-icon-search"
                   clearable
@@ -20,7 +20,7 @@
           高级搜索
         </el-button>
       </div>
-    </div>
+    </el-card>
     <transition name="slide-fade">
       <div v-show="showAdvanceSearchView" class="common_font_size"
            style="border: 1px solid #409eff;border-radius: 5px;box-sizing: border-box;padding: 5px;margin: 10px 0px;">
@@ -95,7 +95,7 @@
         </el-row>
       </div>
     </transition>
-    <div class="position_card">
+    <el-card shadow="hover" class="position_card">
       <!--        <el-card id="el_card" class="position_item" shadow="hover" style="height: 100px"-->
       <div style="text-align: right;margin-bottom: 4px">
         <el-button icon="el-icon-sort" class="common_font_size" size="mini" @click="sortByUpdateTime">时间排序</el-button>
@@ -284,7 +284,7 @@
           :total="total">
         </el-pagination>
       </div>
-    </div>
+    </el-card>
     <div>
       <el-dialog
         :visible.sync="dialogVisible"
@@ -709,7 +709,7 @@
                      icon="el-icon-arrow-left" @click="last">上一步
           </el-button>
           <el-button class="common_font_size" size="mini" style="background-color: #409EFF;
-                        color: white"@click="next">下一步
+                        color: white" @click="next">下一步
             <i class="el-icon-arrow-right el-icon--right"></i>
           </el-button>
         </div>

@@ -26,7 +26,7 @@
         <el-radio-group v-model="ruleForm.role" size="medium">
           <el-radio border label="2">学生</el-radio>
           <el-radio border label="3">企业</el-radio>
-          <el-radio border label="5">校领导</el-radio>
+          <el-radio border label="5">教师</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item>

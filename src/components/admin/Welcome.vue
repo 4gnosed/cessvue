@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <el-card shadow="hover">
     <span class="common_font_size">欢迎来到Cess后台系统</span>
-  </div>
+  </el-card>
 </template>
 
 <script>

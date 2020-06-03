@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-top: 10px">
+    <el-card style="margin-top: 10px" shadow="hover">
       <el-table
         :data="contractVos"
         stripe
@@ -155,7 +155,7 @@
           :total="total">
         </el-pagination>
       </div>
-    </div>
+    </el-card>
     <el-dialog
       title="三方契约内容"
       :visible.sync="showContractVisible"

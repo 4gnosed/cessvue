@@ -1,66 +1,64 @@
-<template>
-  <div>
-    <el-card>
-      <template v-if="sheetEmployedId !== null">
-        <span>您的的录用通知书</span>
+<template v-if="vo !==''">
+  <el-card shadow="hover">
+    <template v-if="sheetEmployedId !== null">
+      <span>您的的录用通知书</span>
+    </template>
+    <template v-else>
+      <span>[ {{vo.student.name}} ]的录用通知书</span>
+    </template>
+    <el-divider></el-divider>
+    <el-form :model="sheetEmployed" ref="sheetEmployedRef" :rules="sheetEmployedRules">
+      <el-row>
+        <el-col :span="7">
+          <el-form-item label="入职日期:" prop="date">
+            <el-date-picker
+              v-model="sheetEmployed.date"
+              size="mini"
+              type="date"
+              value-format="yyyy-MM-dd"
+              style="width: 150px;"
+              placeholder="请选择入职日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-form-item label="入职准备:" prop="preparation">
+          <el-input v-model="sheetEmployed.preparation" placeholder="请输入入职准备" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item label="入职要求:" prop="requirements">
+          <el-input v-model="sheetEmployed.requirements" placeholder="请输入入职要求" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item label="入职建议:" prop="advice">
+          <el-input v-model="sheetEmployed.advice" placeholder="请输入入职建议" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item label="企业祝语:" prop="enterpriseHope">
+          <el-input v-model="sheetEmployed.enterpriseHope" placeholder="企业祝语" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item label="备注:" prop="remark">
+          <el-input v-model="sheetEmployed.remark" placeholder="备注" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <template v-if="this.user.roleId === this.$store.state.enterpriseId">
+        <div style="margin-bottom:30px">
+          <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
+        </div>
       </template>
-      <template v-else>
-        <span>[ {{vo.student.name}} ]的录用通知书</span>
-      </template>
-      <el-divider></el-divider>
-      <el-form :model="sheetEmployed" ref="sheetEmployedRef" :rules="sheetEmployedRules">
-        <el-row>
-          <el-col :span="7">
-            <el-form-item label="入职日期:" prop="date">
-              <el-date-picker
-                v-model="sheetEmployed.date"
-                size="mini"
-                type="date"
-                value-format="yyyy-MM-dd"
-                style="width: 150px;"
-                placeholder="请选择入职日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-form-item label="入职准备:" prop="preparation">
-            <el-input v-model="sheetEmployed.preparation" placeholder="请输入入职准备" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="入职要求:" prop="requirements">
-            <el-input v-model="sheetEmployed.requirements" placeholder="请输入入职要求" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="入职建议:" prop="advice">
-            <el-input v-model="sheetEmployed.advice" placeholder="请输入入职建议" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="企业祝语:" prop="enterpriseHope">
-            <el-input v-model="sheetEmployed.enterpriseHope" placeholder="企业祝语" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="备注:" prop="remark">
-            <el-input v-model="sheetEmployed.remark" placeholder="备注" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
-          </el-form-item>
-        </el-row>
-        <template v-if="this.user.roleId === this.$store.state.enterpriseId">
-          <div style="margin-bottom:30px">
-            <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
-          </div>
-        </template>
-      </el-form>
-    </el-card>
-  </div>
+    </el-form>
+  </el-card>
 </template>
 
 <script>

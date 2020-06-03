@@ -1,311 +1,313 @@
 <template>
   <div>
-    <div>
-      <div style="display: flex;justify-content: space-between">
-        <div>
-          <el-input size="mini" placeholder="请输入姓名" prefix-icon="el-icon-search"
-                    clearable
-                    @clear="initStudents"
-                    style="width: 130px;margin-right: 10px" v-model="keywordName"
-                    @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
-          <el-input size="mini" placeholder="请输入学号，可回车搜索..." prefix-icon="el-icon-search"
-                    clearable
-                    @clear="initStudents"
-                    style="width: 220px;margin-right: 10px" v-model="studentId"
-                    @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
-          <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary" @click="initStudents"
-                     :disabled="showAdvanceSearchView">
-            搜索
-          </el-button>
-          <el-button class="common_font_size" size="mini" type="primary"
-                     @click="showAdvanceSearchView = !showAdvanceSearchView">
-            <i :class="showAdvanceSearchView?'fa fa-angle-double-up':'fa fa-angle-double-down'"
-               aria-hidden="true"></i>
-            高级搜索
-          </el-button>
-        </div>
-        <div>
-          <el-upload
-            ref="upload"
-            action="void"
-            multiple
-            :multiple="false"
-            style="display: inline-flex;margin-right: 8px"
-            :http-request="customUpload"
-            :on-remove="handleRemove"
-            :on-progress="progressA"
-            :auto-upload="true">
-            <el-button class="common_font_size" size="mini" :disabled="importDataDisabled" type="success"
-                       :icon="importDataBtnIcon">
-              导入数据
+    <el-card shadow="hover">
+      <div>
+        <div style="display: flex;justify-content: space-between">
+          <div>
+            <el-input size="mini" placeholder="请输入姓名" prefix-icon="el-icon-search"
+                      clearable
+                      @clear="initStudents"
+                      style="width: 130px;margin-right: 10px" v-model="keywordName"
+                      @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
+            <el-input size="mini" placeholder="请输入学号，可回车搜索..." prefix-icon="el-icon-search"
+                      clearable
+                      @clear="initStudents"
+                      style="width: 220px;margin-right: 10px" v-model="studentId"
+                      @keydown.enter.native="initStudents" :disabled="showAdvanceSearchView"></el-input>
+            <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary" @click="initStudents"
+                       :disabled="showAdvanceSearchView">
+              搜索
             </el-button>
-          </el-upload>
-          <el-button class="common_font_size" size="mini" :loading="downloadLoading" type="success" @click="exportData"
-                     icon="el-icon-download">
-            导出数据
-          </el-button>
-          <el-button class="common_font_size" size="mini" type="primary" icon="el-icon-plus" @click="showAddEmpView">
-            添加学生
-          </el-button>
-        </div>
-      </div>
-      <transition name="slide-fade">
-        <div v-show="showAdvanceSearchView"
-             style="border: 1px solid #409eff;border-radius: 5px;box-sizing: border-box;padding: 5px;margin: 10px 0px;">
-          <el-row>
-            <el-col :span="5">
-              所属院系:
-              <el-select v-model="searchValue.departmentId" placeholder="所属院系" size="mini" clearable="clearable"
-                         @change="changeDepartment" style="width: 130px;">
-                <el-option
-                  class="common_font_size"
-                  v-for="item in department"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="5">
-              专业:
-              <el-select v-model="searchValue.specialtyId" placeholder="专业" size="mini" clearable="clearable"
-                         style="width: 130px;">
-                <el-option
-                  class="common_font_size"
-                  v-for="item in specialtySelected"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="5">
-              学生职位:
-              <el-select v-model="searchValue.positionId" placeholder="学生职位" size="mini" clearable="clearable"
-                         style="width: 130px;">
-                <el-option
-                  class="common_font_size"
-                  v-for="item in position"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="5">
-              政治面貌:
-              <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable="clearable"
-                         style="width: 130px;">
-                <el-option
-                  class="common_font_size"
-                  v-for="item in politics"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="4">
-              民族:
-              <el-select v-model="searchValue.nationId" placeholder="民族" size="mini" clearable="clearable"
-                         style="width: 130px;">
-                <el-option
-                  class="common_font_size"
-                  v-for="item in nations"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row style="margin-top: 10px">
-            <el-col :span="10">
-              入学日期:
-              <el-date-picker
-                v-model="searchValue.beginDateScope"
-                type="daterange"
-                size="mini"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :picker-options="pickerOptions">
-              </el-date-picker>
-            </el-col>
-            <el-col :span="5" :offset="4">
-              <el-button class="common_font_size" size="mini" @click="showAdvanceSearchView=false">取消</el-button>
-              <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary"
-                         @click="initStudents">搜索
+            <el-button class="common_font_size" size="mini" type="primary"
+                       @click="showAdvanceSearchView = !showAdvanceSearchView">
+              <i :class="showAdvanceSearchView?'fa fa-angle-double-up':'fa fa-angle-double-down'"
+                 aria-hidden="true"></i>
+              高级搜索
+            </el-button>
+          </div>
+          <div>
+            <el-upload
+              ref="upload"
+              action="void"
+              multiple
+              :multiple="false"
+              style="display: inline-flex;margin-right: 8px"
+              :http-request="customUpload"
+              :on-remove="handleRemove"
+              :on-progress="progressA"
+              :auto-upload="true">
+              <el-button class="common_font_size" size="mini" :disabled="importDataDisabled" type="success"
+                         :icon="importDataBtnIcon">
+                导入数据
               </el-button>
-            </el-col>
-          </el-row>
+            </el-upload>
+            <el-button class="common_font_size" size="mini" :loading="downloadLoading" type="success" @click="exportData"
+                       icon="el-icon-download">
+              导出数据
+            </el-button>
+            <el-button class="common_font_size" size="mini" type="primary" icon="el-icon-plus" @click="showAddEmpView">
+              添加学生
+            </el-button>
+          </div>
         </div>
-      </transition>
-    </div>
-    <div style="margin-top: 10px">
-      <el-table
-        :data="students"
-        stripe
-        border
-        highlight-current-row="highlight-current-row"
-        v-loading="loading"
-        element-loading-text="正在加载..."
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="RGB(239,239,239)"
-        style="width: 100%"
-        class="common_font_size">
-        <el-table-column
-          type="selection"
-          width="55">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          fixed
-          align="left"
-          label="姓名"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="studentId"
-          label="学号"
-          sortable
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="gender"
-          label="性别"
-          sortable
-          width="85">
-        </el-table-column>
-        <el-table-column
-          prop="birthday"
-          width="110"
-          sortable
-          label="出生日期">
-        </el-table-column>
-        <el-table-column
-          prop="idCard"
-          width="170"
-          sortable
-          label="身份证号码">
-        </el-table-column>
-        <el-table-column
-          prop="nation.name"
-          width="90"
-          sortable
-          label="民族">
-        </el-table-column>
-        <el-table-column
-          prop="nativePlace"
-          width="90"
-          sortable
-          label="籍贯">
-        </el-table-column>
-        <el-table-column
-          prop="politics.name"
-          width="110"
-          sortable
-          label="政治面貌">
-        </el-table-column>
-        <el-table-column
-          prop="email"
-          width="170"
-          align="left"
-          sortable
-          label="电子邮件">
-        </el-table-column>
-        <el-table-column
-          prop="phone"
-          width="110"
-          sortable
-          label="电话号码">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          width="220"
-          sortable
-          label="联系地址">
-        </el-table-column>
-        <el-table-column
-          prop="topDegree"
-          width="120"
-          sortable
-          label="最高学历">
-        </el-table-column>
-        <el-table-column
-          prop="school"
-          width="160"
-          sortable
-          label="毕业院校">
-        </el-table-column>
-        <el-table-column
-          prop="department.name"
-          width="200"
-          sortable
-          label="所属院系">
-        </el-table-column>
-        <el-table-column
-          prop="specialty.name"
-          width="200"
-          sortable
-          label="专业">
-        </el-table-column>
-        <el-table-column
-          prop="position.name"
-          width="120"
-          sortable
-          label="学生职位">
-        </el-table-column>
-        <el-table-column
-          prop="languageLevel"
-          width="150"
-          sortable
-          label="外语水平">
-        </el-table-column>
-        <el-table-column
-          prop="computerLevel"
-          width="150"
-          sortable
-          label="计算机等级">
-        </el-table-column>
-        <el-table-column
-          prop="beginDate"
-          width="120"
-          sortable
-          label="入学日期">
-        </el-table-column>
-        <el-table-column
-          prop="endDate"
-          width="120"
-          sortable
-          label="毕业日期">
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          width="200"
-          label="操作">
-          <template slot-scope="scope">
-            <el-button class="common_font_size" size="mini" @click="showEditStudentView(scope.row)"
-                       style="padding: 3px">编辑
-            </el-button>
-            <el-button class="common_font_size" size="mini" @click="deleteStudent(scope.row,scope.$index)"
-                       style="padding: 3px" type="danger">删除
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div style="display: flex;justify-content: flex-end">
-        <el-pagination
-          background
-          @current-change="currentChange"
-          @size-change="sizeChange"
-          layout="sizes, prev, pager, next, jumper, ->, total, slot"
-          :total="total">
-        </el-pagination>
+        <transition name="slide-fade">
+          <div v-show="showAdvanceSearchView"
+               style="border: 1px solid #409eff;border-radius: 5px;box-sizing: border-box;padding: 5px;margin: 10px 0px;">
+            <el-row>
+              <el-col :span="5">
+                所属院系:
+                <el-select v-model="searchValue.departmentId" placeholder="所属院系" size="mini" clearable="clearable"
+                           @change="changeDepartment" style="width: 130px;">
+                  <el-option
+                    class="common_font_size"
+                    v-for="item in department"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="5">
+                专业:
+                <el-select v-model="searchValue.specialtyId" placeholder="专业" size="mini" clearable="clearable"
+                           style="width: 130px;">
+                  <el-option
+                    class="common_font_size"
+                    v-for="item in specialtySelected"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="5">
+                学生职位:
+                <el-select v-model="searchValue.positionId" placeholder="学生职位" size="mini" clearable="clearable"
+                           style="width: 130px;">
+                  <el-option
+                    class="common_font_size"
+                    v-for="item in position"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="5">
+                政治面貌:
+                <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable="clearable"
+                           style="width: 130px;">
+                  <el-option
+                    class="common_font_size"
+                    v-for="item in politics"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="4">
+                民族:
+                <el-select v-model="searchValue.nationId" placeholder="民族" size="mini" clearable="clearable"
+                           style="width: 130px;">
+                  <el-option
+                    class="common_font_size"
+                    v-for="item in nations"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-col>
+            </el-row>
+            <el-row style="margin-top: 10px">
+              <el-col :span="10">
+                入学日期:
+                <el-date-picker
+                  v-model="searchValue.beginDateScope"
+                  type="daterange"
+                  size="mini"
+                  unlink-panels
+                  value-format="yyyy-MM-dd"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
+              </el-col>
+              <el-col :span="5" :offset="4">
+                <el-button class="common_font_size" size="mini" @click="showAdvanceSearchView=false">取消</el-button>
+                <el-button class="common_font_size" size="mini" icon="el-icon-search" type="primary"
+                           @click="initStudents">搜索
+                </el-button>
+              </el-col>
+            </el-row>
+          </div>
+        </transition>
       </div>
-    </div>
+      <div style="margin-top: 10px">
+        <el-table
+          :data="students"
+          stripe
+          border
+          highlight-current-row="highlight-current-row"
+          v-loading="loading"
+          element-loading-text="正在加载..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="RGB(239,239,239)"
+          style="width: 100%"
+          class="common_font_size">
+          <el-table-column
+            type="selection"
+            width="55">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            fixed
+            align="left"
+            label="姓名"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="studentId"
+            label="学号"
+            sortable
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="gender"
+            label="性别"
+            sortable
+            width="85">
+          </el-table-column>
+          <el-table-column
+            prop="birthday"
+            width="110"
+            sortable
+            label="出生日期">
+          </el-table-column>
+          <el-table-column
+            prop="idCard"
+            width="170"
+            sortable
+            label="身份证号码">
+          </el-table-column>
+          <el-table-column
+            prop="nation.name"
+            width="90"
+            sortable
+            label="民族">
+          </el-table-column>
+          <el-table-column
+            prop="nativePlace"
+            width="90"
+            sortable
+            label="籍贯">
+          </el-table-column>
+          <el-table-column
+            prop="politics.name"
+            width="110"
+            sortable
+            label="政治面貌">
+          </el-table-column>
+          <el-table-column
+            prop="email"
+            width="170"
+            align="left"
+            sortable
+            label="电子邮件">
+          </el-table-column>
+          <el-table-column
+            prop="phone"
+            width="110"
+            sortable
+            label="电话号码">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            width="220"
+            sortable
+            label="联系地址">
+          </el-table-column>
+          <el-table-column
+            prop="topDegree"
+            width="120"
+            sortable
+            label="最高学历">
+          </el-table-column>
+          <el-table-column
+            prop="school"
+            width="160"
+            sortable
+            label="毕业院校">
+          </el-table-column>
+          <el-table-column
+            prop="department.name"
+            width="200"
+            sortable
+            label="所属院系">
+          </el-table-column>
+          <el-table-column
+            prop="specialty.name"
+            width="200"
+            sortable
+            label="专业">
+          </el-table-column>
+          <el-table-column
+            prop="position.name"
+            width="120"
+            sortable
+            label="学生职位">
+          </el-table-column>
+          <el-table-column
+            prop="languageLevel"
+            width="150"
+            sortable
+            label="外语水平">
+          </el-table-column>
+          <el-table-column
+            prop="computerLevel"
+            width="150"
+            sortable
+            label="计算机等级">
+          </el-table-column>
+          <el-table-column
+            prop="beginDate"
+            width="120"
+            sortable
+            label="入学日期">
+          </el-table-column>
+          <el-table-column
+            prop="endDate"
+            width="120"
+            sortable
+            label="毕业日期">
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            width="200"
+            label="操作">
+            <template slot-scope="scope">
+              <el-button class="common_font_size" size="mini" @click="showEditStudentView(scope.row)"
+                         style="padding: 3px">编辑
+              </el-button>
+              <el-button class="common_font_size" size="mini" @click="deleteStudent(scope.row,scope.$index)"
+                         style="padding: 3px" type="danger">删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div style="display: flex;justify-content: flex-end">
+          <el-pagination
+            background
+            @current-change="currentChange"
+            @size-change="sizeChange"
+            layout="sizes, prev, pager, next, jumper, ->, total, slot"
+            :total="total">
+          </el-pagination>
+        </div>
+      </div>
+    </el-card>
     <el-dialog
       :title="title"
       :visible.sync="dialogVisible"

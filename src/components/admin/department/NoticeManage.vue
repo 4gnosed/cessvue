@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card style="margin: 18px 2%;width: 95%">
+    <el-card style="margin: 18px 2%;width: 95%" shadow="hover">
       <el-table
         @selection-change="readyDeleteNotices"
         ref="multipleTable"

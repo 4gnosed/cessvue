@@ -5,7 +5,7 @@
         <i class="el-icon-caret-top"></i>
       </el-backtop>
     </template>
-    <el-header style="padding: 0px;height: 30px;margin-bottom: 1px">
+    <el-header style="padding: 0px;height: 30px;margin-bottom: 24px">
       <Header v-bind:newMessageNum="newMessageNum"></Header>
     </el-header>
     <el-container>
@@ -16,7 +16,7 @@
         <router-view/>
       </el-main>
     </el-container>
-    <el-footer style="padding: 0px;height: 30px;margin-top: 1px">
+    <el-footer style="padding: 0px;height: 40px;margin-top: 1px">
       <Footer></Footer>
     </el-footer>
   </el-container>
@@ -25,7 +25,7 @@
 <script>
   import AdminMenu from './AdminMenu'
   import Header from './Header'
-  import Footer from "./Footer";
+  import Footer from "../common/Footer";
 
   export default {
     name: 'AdminIndex',

@@ -1,67 +1,65 @@
-<template>
-  <div>
-    <el-card>
-      <span>[ {{vo.student.name}} ]的笔试情况</span>
-      <el-divider></el-divider>
-      <el-form :model="sheetExam" ref="sheetExamRef" :rules="sheetExamRules">
-        <el-row>
-          <el-form-item label="笔试内容:" prop="content">
-            <el-input v-model="sheetExam.content" placeholder="请输入笔试内容" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
+<template v-if="vo !== ''">
+  <el-card shadow="hover">
+    <span>[ {{vo.student.name}} ]的笔试情况</span>
+    <el-divider></el-divider>
+    <el-form :model="sheetExam" ref="sheetExamRef" :rules="sheetExamRules">
+      <el-row>
+        <el-form-item label="笔试内容:" prop="content">
+          <el-input v-model="sheetExam.content" placeholder="请输入笔试内容" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="笔试成绩:" prop="score">
+            <el-input size="mini" v-model="sheetExam.score" placeholder="请输入笔试成绩"
+                      style="width: 120px"></el-input>
           </el-form-item>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="笔试成绩:" prop="score">
-              <el-input size="mini" v-model="sheetExam.score" placeholder="请输入笔试成绩"
-                        style="width: 120px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="1">&nbsp;</el-col>
-          <el-col :span="8">
-            <el-form-item label="笔试时长(分钟为单位):" prop="duration">
-              <el-input size="mini" v-model="sheetExam.duration" placeholder="请输入笔试时长"
-                        style="width: 120px"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="笔试日期:" prop="date">
-              <el-date-picker
-                size="mini"
-                v-model="sheetExam.date"
-                value-format="yyyy-MM-dd"
-                style="width: 130px"
-                placeholder="请选择笔试日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="1">&nbsp;</el-col>
-          <el-col :span="6">
-            <el-form-item label="笔试时间:" prop="time">
-              <el-time-picker
-                size="mini"
-                v-model="sheetExam.time"
-                value-format="HH:mm:ss"
-                style="width: 130px"
-                placeholder="请选择笔试时间">
-              </el-time-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-form-item label="备注:" prop="remark">
-            <el-input v-model="sheetExam.remark" placeholder="请注输入备注" maxlength="500" size="mini"
-                      type="textarea" :rows="8"></el-input>
+        </el-col>
+        <el-col :span="1">&nbsp;</el-col>
+        <el-col :span="8">
+          <el-form-item label="笔试时长(分钟为单位):" prop="duration">
+            <el-input size="mini" v-model="sheetExam.duration" placeholder="请输入笔试时长"
+                      style="width: 120px"></el-input>
           </el-form-item>
-        </el-row>
-        <div style="margin-bottom:30px">
-          <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
-        </div>
-      </el-form>
-    </el-card>
-  </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="笔试日期:" prop="date">
+            <el-date-picker
+              size="mini"
+              v-model="sheetExam.date"
+              value-format="yyyy-MM-dd"
+              style="width: 130px"
+              placeholder="请选择笔试日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="1">&nbsp;</el-col>
+        <el-col :span="6">
+          <el-form-item label="笔试时间:" prop="time">
+            <el-time-picker
+              size="mini"
+              v-model="sheetExam.time"
+              value-format="HH:mm:ss"
+              style="width: 130px"
+              placeholder="请选择笔试时间">
+            </el-time-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-form-item label="备注:" prop="remark">
+          <el-input v-model="sheetExam.remark" placeholder="请注输入备注" maxlength="500" size="mini"
+                    type="textarea" :rows="8"></el-input>
+        </el-form-item>
+      </el-row>
+      <div style="margin-bottom:30px">
+        <el-button class="common_font_size" size="small" type="primary" @click="addOrUpdate()">更 新</el-button>
+      </div>
+    </el-form>
+  </el-card>
 </template>
 
 <script>

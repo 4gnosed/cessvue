@@ -76,13 +76,13 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="12">
+      <el-col :span="8">
         <el-form-item label="身份证号码:" prop="idCard">
-          <el-input disabled size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+          <el-input disabled size="mini" style="width: 240px" prefix-icon="el-icon-edit"
                     v-model="student.idCard" placeholder="请输入身份证号码"></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="6">
         <el-form-item label="电话号码:" prop="phone">
           <el-input disabled size="mini" style="width: 200px" prefix-icon="el-icon-phone"
                     v-model="student.phone" placeholder="电话号码"></el-input>
@@ -336,5 +336,53 @@
 </script>
 
 <style scoped>
+  .el-tabs__item {
+    font-size: 11px !important;
+  }
+
+  .el-form-item__label {
+    font-size: 11px !important;
+  }
+
+  .el-radio__original {
+    font-size: 11px !important;
+  }
+
+  .el-step__description {
+    font-size: 11px !important;
+  }
+
+  .position_item {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .minHeight >>> .el-collapse-item__header {
+    min-height: 130px !important;
+  }
+
+  .top_el_row {
+    height: 40px;
+    font-size: 14px !important;
+  }
+
+  .mid_el_row {
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .bot_el_row {
+    font-size: 12px;
+    border-top: 2px solid #F6F6F8;
+  }
+
+  .grid-content {
+    height: 40px;
+  }
+
+  .top_el_row[data-v-5eac995b] {
+    font-size: 12px;
+    color: #00c2b3;
+  }
 
 </style>

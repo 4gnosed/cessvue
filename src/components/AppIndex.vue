@@ -1,98 +1,97 @@
 <template>
-  <div style="margin-top: 35px">
-    <div>
-      <div>
-        <el-carousel :interval="4000" type="card" height="200px">
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/1.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/2.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/3.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/4.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/5.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/6.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/7.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/8.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/9.jpg"/>
-          </el-carousel-item>
-          <el-carousel-item style="background-color: transparent">
-            <img src="http://localhost:8443/api/file/img/10.jpg"/>
-          </el-carousel-item>
-        </el-carousel>
+  <div>
+    <div style="background-color: #00c2b3">
+      <el-carousel :interval="4000" type="card" height="200px">
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/1.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/2.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/3.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/4.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/5.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/6.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/7.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/8.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/9.jpg"/>
+        </el-carousel-item>
+        <el-carousel-item style="background-color: transparent">
+          <img src="http://localhost:8443/api/file/img/10.jpg"/>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+    <el-card shadow="hover" style="margin-top: 5px">
+      <div slot="header">
+        <el-row>
+          <el-col :span="4">&nbsp;</el-col>
+          <el-col :span="4"><span style="font-weight: bold;font-size: 20px">企业校招</span></el-col>
+          <el-col :span="4">&nbsp;</el-col>
+          <el-col :span="4">&nbsp;</el-col>
+          <el-col :span="4"><span style="font-weight: bold;font-size: 20px">学校通知</span></el-col>
+          <el-col :span="4">&nbsp;</el-col>
+        </el-row>
       </div>
-      <div>
-        <el-card shadow="hover">
-          <div slot="header">
-            <el-row>
-              <el-col :span="4">&nbsp;</el-col>
-              <el-col :span="4"><span style="font-weight: bold">企业校招</span></el-col>
-              <el-col :span="4">&nbsp;</el-col>
-              <el-col :span="4">&nbsp;</el-col>
-              <el-col :span="4"><span style="font-weight: bold">学校通知</span></el-col>
-              <el-col :span="4">&nbsp;</el-col>
-            </el-row>
-          </div>
-          <el-row>
-            <el-col :span="11" style="text-align: left">
-            </el-col>
-            <el-col :span="2" style="height: 600px">
-              <el-divider direction="vertical" style="font-size: 5px;"></el-divider>
-            </el-col>
-            <el-col :span="11" style="text-align: left">
-              <div style="height: 500px">
-                <div v-for="(notice,index) in noticeList"
-                     :class="active === index?'smart_index':'a_white'"
-                     @mouseover="mouseOver(index)" @mouseleave="mouseLeave(index)"
-                     @click=" toNoticeInfo(notice.id)">
-                  <el-row>
-                    <el-col :span="1" style="height: 34px;line-height: 34px">
-                      <i class="el-icon-thumb"></i>
-                    </el-col>
-                    <el-col :span="2">
-                      <el-avatar :class="active === index?'a_white':'smart_index'" style="font-size: 12px;">
+      <el-row>
+        <el-col :span="11" style="text-align: left">
+        </el-col>
+        <el-col :span="2" style="height: 600px">
+          <el-divider direction="vertical" style="font-size: 5px;"></el-divider>
+        </el-col>
+        <el-col :span="11" style="text-align: left">
+          <div style="height: 500px">
+            <div v-for="(notice,index) in noticeList"
+                 :class="active === index?'smart_index':'a_white'"
+                 @mouseover="mouseOver(index)" @mouseleave="mouseLeave(index)"
+                 @click=" toNoticeInfo(notice.id)">
+              <el-row>
+                <el-col :span="3">
+                  <template v-if=" Date.parse(getDate(notice.time)) + 2*1000 * 60 * 60 *24  >= new Date() ">
+                    <el-badge value="new">
+                      <el-avatar :class="active === index?'a_white':'smart_index'" style="font-size: 14px;">
                         {{notice.time | timeEllipsis}}
                       </el-avatar>
-                    </el-col>
-                    <el-col :span="21" style="margin-top: 10px">
-                      <el-badge value="new">
-                        {{notice.title | titleEllipsis }}
-                      </el-badge>
-                    </el-col>
-                  </el-row>
-                </div>
-              </div>
-              <div style="display: flex;justify-content: flex-end;">
-                <el-pagination
-                  background
-                  @current-change="currentChange"
-                  @size-change="sizeChange"
-                  layout="sizes, prev, pager, next, jumper, ->, total, slot"
-                  :total="total">
-                </el-pagination>
-              </div>
-              <el-divider></el-divider>
-            </el-col>
-          </el-row>
-        </el-card>
-      </div>
-    </div>
+                    </el-badge>
+                  </template>
+                  <template v-else>
+                    <el-avatar :class="active === index?'a_white':'smart_index'" style="font-size: 14px;">
+                      {{notice.time | timeEllipsis}}
+                    </el-avatar>
+                  </template>
+                </el-col>
+                <el-col :span="21" style="margin-top: 10px">
+                  {{notice.title | titleEllipsis }}
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+          <div style="display: flex;justify-content: flex-end;">
+            <el-pagination
+              background
+              @current-change="currentChange"
+              @size-change="sizeChange"
+              layout="prev, pager, next"
+              :total="total">
+            </el-pagination>
+          </div>
+          <el-divider></el-divider>
+        </el-col>
+      </el-row>
+    </el-card>
   </div>
-
 </template>
 
 <script>
@@ -112,6 +111,9 @@
       this.initNotices()
     },
     methods: {
+      getDate(dateTime) {
+        return dateTime.slice(0, 10);
+      },
       toNoticeInfo(noticeId) {
         const {href} = this.$router.resolve({
           path: '/noticeInfo',
@@ -152,8 +154,8 @@
       },
       titleEllipsis(value) {
         if (!value) return "";
-        if (value.length > 27) {
-          return value.slice(0, 27) + "...";
+        if (value.length > 30) {
+          return value.slice(0, 30) + "...";
         }
         return value;
       }
@@ -169,13 +171,14 @@
   .el-avatar {
     color: black;
     background: #F5F5F5;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
   }
 
   .smart_index {
-    background-color: #F5F5F5;
+    background-color: #00c2b3;
   }
 
   .a_white {
@@ -201,5 +204,10 @@
 
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+  }
+
+  .el-card >>> .el-card__header {
+    background-color: #00639D !important;
+    color: white;
   }
 </style>

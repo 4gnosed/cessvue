@@ -9,14 +9,14 @@
           <i class="el-icon-user"></i>
           <span slot="title">账户登录</span>
         </el-menu-item>
-        <el-menu-item index="2" @click.native="changeIndex('2')">
-          <i class="el-icon-message"></i>
-          <span slot="title">验证登录</span>
-        </el-menu-item>
-        <el-menu-item index="3" @click.native="changeIndex('3')">
-          <i class="iconfont el-icon-iconfont-QRcode"></i>
-          <span slot="title">二维码登录</span>
-        </el-menu-item>
+<!--        <el-menu-item index="2" @click.native="changeIndex('2')">-->
+<!--          <i class="el-icon-message"></i>-->
+<!--          <span slot="title">验证登录</span>-->
+<!--        </el-menu-item>-->
+<!--        <el-menu-item index="3" @click.native="changeIndex('3')">-->
+<!--          <i class="iconfont el-icon-iconfont-QRcode"></i>-->
+<!--          <span slot="title">二维码登录</span>-->
+<!--        </el-menu-item>-->
       </el-menu>
       <template v-if="activeIndex === '1' ">
         <el-form-item class="form_item" prop="username">
@@ -63,7 +63,7 @@
         </el-form-item>
       </template>
       <el-form-item class="form_item">
-        <el-checkbox v-model="loginForm.rememberMe" style="float: left;">记住我</el-checkbox>
+        <el-checkbox v-model="loginForm.rememberMe" style="float: left;">保持登录状态</el-checkbox>
       </el-form-item>
       <el-form-item class="form_item">
         <el-button type="primary" style="width: 100%;background: #505458;border: none" v-on:click="login">登录</el-button>

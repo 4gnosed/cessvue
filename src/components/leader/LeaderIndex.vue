@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 1500px;margin-top: 35px">
+  <div style="height: 1500px;">
     教师内容
   </div>
 </template>

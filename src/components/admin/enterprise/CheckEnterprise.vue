@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-top: 10px">
+    <el-card shadow="hover">
       <el-table
         :data="userEnterpriseVos"
         stripe
@@ -10,8 +10,8 @@
         element-loading-text="正在加载..."
         element-loading-spinner="el-icon-loading"
         element-loading-background="RGB(239,239,239)"
-        style="width: 100%"
-        height="550px"
+        style="width: 100%" enabled
+        height="700px"
         class="common_font_size">
         <el-table-column
           label="用户信息"
@@ -204,7 +204,7 @@
           :total="total">
         </el-pagination>
       </div>
-    </div>
+    </el-card>
     <el-dialog
       :visible.sync="placeDialogVisible"
       width="80%">

@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 700px;margin-top: 35px">
-    <div style="height: 80px;background-color: #444C5F;color: white;">
+  <div style="height: 1000px;">
+    <el-card shadow="hover" style="height: 150px;background-color: #444C5F;color: white;">
       <el-row style="line-height: 75px;font-weight: bold">
         <el-col :span="3">&nbsp;</el-col>
         <el-col :span="5" style="font-size: 26px;text-align: left;" @click.native="toEnterprise">{{enterprise.name}}
@@ -14,8 +14,8 @@
           <el-button type="primary" size="mini" @click="toEnterprise">查看本企业详情</el-button>
         </el-col>
       </el-row>
-    </div>
-    <div>
+    </el-card>
+    <div style="margin-top: 5px">
       <el-container>
         <el-header style="padding: 0!important;margin-top: 8px;">
           <el-menu

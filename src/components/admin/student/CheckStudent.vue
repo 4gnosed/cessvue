@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-card shadow="hover">
     <div style="margin-top: 10px">
       <el-table
         :data="userStudentVos"
@@ -11,6 +11,7 @@
         element-loading-spinner="el-icon-loading"
         element-loading-background="RGB(239,239,239)"
         style="width: 100%"
+        height="700px"
         class="common_font_size">
         <el-table-column
           label="用户信息"
@@ -189,7 +190,7 @@
         </el-pagination>
       </div>
     </div>
-  </div>
+  </el-card>
 </template>
 
 <script>
