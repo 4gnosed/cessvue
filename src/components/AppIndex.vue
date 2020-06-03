@@ -47,27 +47,22 @@
       </div>
       <el-row>
         <el-col :span="11" style="text-align: left">
-        </el-col>
-        <el-col :span="2" style="height: 600px">
-          <el-divider direction="vertical" style="font-size: 5px;"></el-divider>
-        </el-col>
-        <el-col :span="11" style="text-align: left">
           <div style="height: 500px">
-            <div v-for="(notice,index) in noticeList"
-                 :class="active === index?'smart_index':'a_white'"
-                 @mouseover="mouseOver(index)" @mouseleave="mouseLeave(index)"
+            <div v-for="(notice,index) in enterpriseNoticeList"
+                 :class="active1 === index?'smart_index':'a_white'"
+                 @mouseover="mouseOver1(index)" @mouseleave="mouseLeave1(index)"
                  @click=" toNoticeInfo(notice.id)">
               <el-row>
                 <el-col :span="3">
                   <template v-if=" Date.parse(getDate(notice.time)) + 2*1000 * 60 * 60 *24  >= new Date() ">
                     <el-badge value="new">
-                      <el-avatar :class="active === index?'a_white':'smart_index'" style="font-size: 14px;">
+                      <el-avatar :class="active1 === index?'a_white':'smart_index'" style="font-size: 14px;">
                         {{notice.time | timeEllipsis}}
                       </el-avatar>
                     </el-badge>
                   </template>
                   <template v-else>
-                    <el-avatar :class="active === index?'a_white':'smart_index'" style="font-size: 14px;">
+                    <el-avatar :class="active1 === index?'a_white':'smart_index'" style="font-size: 14px;">
                       {{notice.time | timeEllipsis}}
                     </el-avatar>
                   </template>
@@ -81,10 +76,49 @@
           <div style="display: flex;justify-content: flex-end;">
             <el-pagination
               background
-              @current-change="currentChange"
-              @size-change="sizeChange"
+              @current-change="currentChange1"
               layout="prev, pager, next"
-              :total="total">
+              :total="enterpriseTotal">
+            </el-pagination>
+          </div>
+          <el-divider></el-divider>
+        </el-col>
+        <el-col :span="2" style="height: 600px">
+          <el-divider direction="vertical" style="font-size: 5px;"></el-divider>
+        </el-col>
+        <el-col :span="11" style="text-align: left">
+          <div style="height: 500px">
+            <div v-for="(notice,index) in schoolNoticeList"
+                 :class="active2 === index?'smart_index':'a_white'"
+                 @mouseover="mouseOver2(index)" @mouseleave="mouseLeave2(index)"
+                 @click=" toNoticeInfo(notice.id)">
+              <el-row>
+                <el-col :span="3">
+                  <template v-if=" Date.parse(getDate(notice.time)) + 2*1000 * 60 * 60 *24  >= new Date() ">
+                    <el-badge value="new">
+                      <el-avatar :class="active2 === index?'a_white':'smart_index'" style="font-size: 14px;">
+                        {{notice.time | timeEllipsis}}
+                      </el-avatar>
+                    </el-badge>
+                  </template>
+                  <template v-else>
+                    <el-avatar :class="active2 === index?'a_white':'smart_index'" style="font-size: 14px;">
+                      {{notice.time | timeEllipsis}}
+                    </el-avatar>
+                  </template>
+                </el-col>
+                <el-col :span="21" style="margin-top: 10px">
+                  {{notice.title | titleEllipsis }}
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+          <div style="display: flex;justify-content: flex-end;">
+            <el-pagination
+              background
+              @current-change="currentChange2"
+              layout="prev, pager, next"
+              :total="schoolTotal">
             </el-pagination>
           </div>
           <el-divider></el-divider>
@@ -100,15 +134,20 @@
     name: 'AppIndex',
     data() {
       return {
-        noticeList: [],
-        total: 0,
-        page: 1,
+        schoolNoticeList: [],
+        schoolTotal: 0,
+        enterpriseNoticeList: [],
+        enterpriseTotal: 0,
+        schoolPage: 1,
+        enterprisePage: 1,
         size: 10,
-        active: 0
+        active1: 0,
+        active2: 0
       }
     },
     mounted() {
-      this.initNotices()
+      this.initSchoolNotices()
+      this.initEnterpriseNotices()
     },
     methods: {
       getDate(dateTime) {
@@ -124,27 +163,41 @@
         })
         window.open(href, '_blank')
       },
-      initNotices() {
-        this.$axios.get('/notice/byPage?page=' + this.page + '&size=' + this.size).then(resp => {
+      initSchoolNotices() {
+        this.$axios.get('/notice/byPage?page=' + this.schoolPage + '&size=' + this.size).then(resp => {
           if (resp.data.code === 200) {
-            this.noticeList = resp.data.data.data;
-            this.total = resp.data.data.total;
+            this.schoolNoticeList = resp.data.data.data;
+            this.schoolTotal = resp.data.data.total;
           }
         })
       },
-      sizeChange(currentSize) {
-        this.size = currentSize;
-        this.initNotices();
+      initEnterpriseNotices() {
+        this.$axios.get('/noticeEnterprise/byPage?page=' + this.enterprisePage + '&size=' + this.size).then(resp => {
+          if (resp.data.code === 200) {
+            this.enterpriseNoticeList = resp.data.data.data;
+            this.enterpriseTotal = resp.data.data.total;
+          }
+        })
       },
-      currentChange(currentPage) {
-        this.page = currentPage;
-        this.initNotices();
+      currentChange1(currentPage) {
+        this.enterprisePage = currentPage;
+        this.initEnterpriseNotices();
       },
-      mouseOver: function (index) {
-        this.active = index
+      currentChange2(currentPage) {
+        this.schoolPage = currentPage;
+        this.initSchoolNotices();
       },
-      mouseLeave: function (index) {
-        this.active = index
+      mouseOver1: function (index) {
+        this.active1 = index
+      },
+      mouseLeave1: function (index) {
+        this.active1 = index
+      },
+      mouseOver2: function (index) {
+        this.active2 = index
+      },
+      mouseLeave2: function (index) {
+        this.active2 = index
       }
     },
     filters: {

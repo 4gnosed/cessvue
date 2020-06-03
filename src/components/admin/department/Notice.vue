@@ -4,9 +4,17 @@
       <el-row>
         <el-col :span="1" style="line-height: 32px"><span>标 题:</span></el-col>
         <el-col :span="22">
-          <el-input size="small"
-                    v-model="notice.title"
-                    placeholder="请输入标题..."></el-input>
+          <template v-if="notice.title.match('来校招聘')">
+            <el-input size="small"
+                      disabled
+                      v-model="notice.title"
+                      placeholder="请输入标题..."></el-input>
+          </template>
+          <template v-else>
+            <el-input size="small"
+                      v-model="notice.title"
+                      placeholder="请输入标题..."></el-input>
+          </template>
         </el-col>
       </el-row>
     </div>
@@ -14,7 +22,7 @@
       <textarea :id="tinymceId" v-model="notice.content"></textarea>
     </div>
     <div style="margin-top:  20px;text-align: center">
-      <template v-if="notice.id">
+      <template v-if="notice.id && notice.id !==-1">
         <el-button class="common_font_size" size="small" type="primary" @click="updateNotice()">更 新</el-button>
       </template>
       <template v-else>
@@ -63,6 +71,9 @@
     data() {
       const ide = Date.now()
       return {
+        enterprise: {
+          id: ''
+        },
         tinymceId: ide,
         notice: {
           id: '',
@@ -93,6 +104,7 @@
     },
     mounted() {
       this.init()
+      this.getEnterprise()
     },
     watch: {
       //newVal是指更新后的数据
@@ -158,7 +170,13 @@
           })
           return
         }
-        this.$axios.put('/admin/notice', this.notice).then(resp => {
+        let url = ''
+        if (this.$store.state.user.roleId === this.$store.state.enterpriseId) {
+          url = '/notice'
+        } else {
+          url = '/admin/notice'
+        }
+        this.$axios.put(url, this.notice).then(resp => {
           if (resp.data.code === 200) {
             this.empty()
             this.$notify({
@@ -190,14 +208,21 @@
           })
           return
         }
-        this.notice.id = this.noticeId
-        this.$axios.post('/admin/notice', this.notice).then(resp => {
+        let url = ''
+        if (this.notice.id === -1) {
+          url = '/noticeEnterprise?enterpriseId=' + this.enterprise.id
+        } else {
+          this.notice.id = this.noticeId
+          url = '/admin/notice'
+        }
+        this.$axios.post(url, this.notice).then(resp => {
           if (resp.data.code === 200) {
             this.empty()
             this.$notify({
               message: '发布成功',
               type: 'success'
             })
+            this.$emit('refresh')
           } else {
             this.$notify({
               message: resp.data.message,
@@ -216,6 +241,15 @@
         this.notice.content = ''
         tinyMCE.activeEditor.setContent('')
         // }
+      },
+      getEnterprise() {
+        this.$axios.get('/enterprise/getOne?userId=' + this.$store.state.user.id).then(resp => {
+          if (resp.data.code === 200) {
+            this.enterprise = resp.data.data;
+            window.sessionStorage.setItem("enterprise", JSON.stringify(this.enterprise))
+            this.getPositions()
+          }
+        })
       }
     }
   }

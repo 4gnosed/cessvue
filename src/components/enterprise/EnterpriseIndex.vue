@@ -5,13 +5,15 @@
         <el-col :span="3">&nbsp;</el-col>
         <el-col :span="5" style="font-size: 26px;text-align: left;" @click.native="toEnterprise">{{enterprise.name}}
         </el-col>
-        <el-col :span="7">&nbsp;</el-col>
-        <el-col :span="4" style="text-align: right">
+        <el-col :span="10">&nbsp;</el-col>
+        <el-col :span="2">
           <el-button type="primary" size="mini" @click="addPosition">发布职位</el-button>
         </el-col>
-        <el-col :span="1">&nbsp;</el-col>
-        <el-col :span="4" style="text-align: left">
+        <el-col :span="2">
           <el-button type="primary" size="mini" @click="toEnterprise">查看本企业详情</el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="primary" size="mini" @click="addNotice">发布公告</el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -185,55 +187,68 @@
         </el-container>
       </el-container>
     </div>
-    <div>
-      <el-dialog
-        title="填写职位信息"
-        :visible.sync="dialogVisible"
-        width="80%">
-        <el-row>
-          <el-col :span="2">
-            <el-button
-              size="mini"
-              type="primary"
-              icon="el-icon-plus"
-              @click="addTab(editableTabsValue)">
-              增加职位
-            </el-button>
-          </el-col>
-          <el-col :span="2" style="margin-left: 10px">
-            <el-button
-              size="mini"
-              type="primary"
-              icon="el-icon-minus"
-              @click="removeTab(editableTabsValue)">
-              移出职位
-            </el-button>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-tabs v-model="editableTabsValue" type="card" style="margin-top: 20px">
-            <el-tab-pane class="tab" v-for="(item, index) in editableTabs" :key="item.name" :label="item.title"
-                         :name="item.name">
-              <position-item v-bind:positionId=-1></position-item>
-            </el-tab-pane>
-          </el-tabs>
-        </el-row>
-      </el-dialog>
-    </div>
+    <el-dialog
+      title="填写职位信息"
+      :visible.sync="dialogVisible"
+      width="80%">
+      <el-row>
+        <el-col :span="2">
+          <el-button
+            size="mini"
+            type="primary"
+            icon="el-icon-plus"
+            @click="addTab(editableTabsValue)">
+            增加职位
+          </el-button>
+        </el-col>
+        <el-col :span="2" style="margin-left: 10px">
+          <el-button
+            size="mini"
+            type="primary"
+            icon="el-icon-minus"
+            @click="removeTab(editableTabsValue)">
+            移出职位
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-tabs v-model="editableTabsValue" type="card" style="margin-top: 20px">
+          <el-tab-pane class="tab" v-for="(item, index) in editableTabs" :key="item.name" :label="item.title"
+                       :name="item.name">
+            <position-item v-bind:positionId=-1></position-item>
+          </el-tab-pane>
+        </el-tabs>
+      </el-row>
+    </el-dialog>
+    <el-dialog
+      :visible.sync="dialogFormVisible"
+      width="80%"
+      class="common_font_size"
+      center>
+      <div slot="title" style="font-weight: bold;font-size: 20px">编辑公告</div>
+      <Notice v-bind:selectedNotice="notice" @refresh="refresh"></Notice>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import PositionItem from "./PositionItem";
+  import Notice from "../admin/department/Notice";
 
   let positionItem = PositionItem
   export default {
     name: "enterprise",
-    components: {PositionItem},
+    components: {PositionItem, Notice},
     data() {
       return {
         user: this.$store.state.user,
+        notice: {
+          id: '',
+          title: '',
+          content: ''
+        },
         dialogVisible: false,
+        dialogFormVisible: false,
         editableTabsValue: '1',
         editableTabs: [{
           title: '新职位',
@@ -401,6 +416,23 @@
       this.getUserPositionsResumeVos()
     },
     methods: {
+      refresh() {
+        this.dialogFormVisible = false
+      },
+      addNotice() {
+        this.dialogFormVisible = true
+        //判定该企业是否已经发布过公告
+        this.$axios.get('/noticeEnterprise?enterpriseId=' + this.enterprise.id).then(resp => {
+          if (resp.data.code === 200) {
+            //是，修改
+            this.notice = resp.data.data
+          } else if (resp.data.code === 400) {
+            //无，添加
+            this.notice.id = -1
+            this.notice.title = this.enterprise.name + '来校招聘'
+          }
+        })
+      },
       activeCurrentSate() {
         let path = this.$route.path;
         if (path.startsWith('/enterprise/newResume')) {
