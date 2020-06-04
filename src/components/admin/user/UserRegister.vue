@@ -22,7 +22,8 @@
                     maxlength="20"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input size="mini" type="password" v-model="ruleForm.password" placeholder="密码" show-password="show-password"
+          <el-input size="mini" type="password" v-model="ruleForm.password" placeholder="密码"
+                    show-password="show-password"
                     maxlength="16"></el-input>
         </el-form-item>
         <el-form-item prop="checkPass">
@@ -60,8 +61,11 @@
         callback()
       }
       var checkUserName = (rule, value, callback) => {
+        let reg = /^[a-zA-Z0-9_-]{4,16}$/
         if (!value) {
           return callback(new Error('用户名不能为空'))
+        } else if (!reg.test(value.toString())) {
+          return callback(new Error('用户名需要4到16位（数字、字母、下划线、减号）'))
         }
         callback()
       }
@@ -93,8 +97,11 @@
         }, 0)
       }
       var validatePass = (rule, value, callback) => {
+        let reg = /^[a-zA-Z0-9_-]{3,16}$/
         if (value === '') {
           callback(new Error('请输入密码'))
+        } else if (!reg.test(value.toString())) {
+          return callback(new Error('密码需要3到16位（数字、字母、下划线、减号）'))
         } else {
           if (this.ruleForm.checkPass !== '') {
             this.$refs.ruleForm.validateField('checkPass')
@@ -185,7 +192,7 @@
     margin: 18px 0 0 25px;
   }
 
-  .common_font_size el-col el-col-24{
+  .common_font_size el-col el-col-24 {
     width: 330px;
   }
 </style>
