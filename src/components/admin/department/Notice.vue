@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="hover">
+  <div>
     <div style="margin-bottom: 20px;text-align: left">
       <el-row>
         <el-col :span="1" style="line-height: 32px"><span>标 题:</span></el-col>
@@ -30,7 +30,7 @@
         <el-button class="common_font_size" size="small" type="primary" @click="publicNotice()">发 布</el-button>
       </template>
     </div>
-  </el-card>
+  </div>
 </template>
 <script>
   import tinymce from 'tinymce/tinymce'

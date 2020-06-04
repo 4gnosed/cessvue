@@ -6,7 +6,7 @@ import {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 
-// 引入Element
+// 引入Elementx`x`
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 var qs = require('qs')
@@ -17,7 +17,7 @@ Vue.prototype.$message = Message;
 var axios = require('axios')
 Vue.prototype.$axios = axios
 // 设置反向代理，前端请求默认发送到 http://localhost:8443/api
-axios.defaults.baseURL = 'http://localhost:8443/api'
+axios.defaults.baseURL = 'http://192.168.0.109:8443/api'
 // 为解决跨域cookie传输问题，允许前端每次发送请求时就会带上 sessionId
 axios.defaults.withCredentials = true
 // 设置axios请求的token
@@ -32,6 +32,7 @@ router.beforeEach((to, from, next) => {
 
   let state = store.state;
   let username = state.user.username;
+  let userId = state.user.id;
   let roleId = state.user.roleId;
   let adminId = state.adminId;
   let studentId = state.studentId;
@@ -75,7 +76,24 @@ router.beforeEach((to, from, next) => {
         } else if (to.path.startsWith('/enterprise')) {
           //企业
           if (roleId == enterpriseId) {
-            next()
+            //判断该企业信息是否已经审核通过，是才可以进入招聘页面
+            Vue.prototype.$axios.get('/enterprise/getOne?userId=' + userId).then(resp => {
+              if (resp.data.code === 200) {
+                next()
+              } else if (resp.data.code === 204) {
+                //提示需要完善信息认证
+                next({
+                  path: '/personCenter',
+                })
+                return false
+              } else if (resp.data.code === 444) {
+                //审核未通过状态
+                next({
+                  path: '/personCenter',
+                })
+                return false
+              }
+            })
           } else {
             confirmToLogin('企业')
             return false
@@ -92,9 +110,9 @@ router.beforeEach((to, from, next) => {
           //其它角色，这里先不处理
           next()
         }
-      } else if(resp.data.code === 400){
+      } else if (resp.data.code === 400) {
         Vue.prototype.$notify({
-          message: '请求失败，'+resp.data.message, type: 'error'
+          message: '请求失败，' + resp.data.message, type: 'error'
         })
         login()
         return false

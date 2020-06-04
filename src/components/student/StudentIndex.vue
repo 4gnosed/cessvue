@@ -1097,16 +1097,35 @@
       showResume(positionId) {
         //判断该用户是否为学生
         if (this.roleId === this.studentId) {
-          this.stepNum = 8
-          this.dialogVisible = true
-          //当前职位
-          this.selectPositionId = positionId
-          //获取该用户已经保存的简历信息
-          this.$axios.get('/resume?userId=' + this.userId).then(resp => {
+          //判断该学生信息是否已经审核通过，是才可以进入简历编辑页面
+          this.$axios.get('/content/student/getOne?userId=' + this.user.id).then(resp => {
             if (resp.data.code === 200) {
-              this.resume = resp.data.data;
-              //控制投递简历按钮样式
-              this.isSavedResume()
+              this.stepNum = 8
+              this.dialogVisible = true
+              //当前职位
+              this.selectPositionId = positionId
+              //获取该用户已经保存的简历信息
+              this.$axios.get('/resume?userId=' + this.userId).then(resp => {
+                if (resp.data.code === 200) {
+                  this.resume = resp.data.data;
+                  //控制投递简历按钮样式
+                  this.isSavedResume()
+                }
+              })
+            } else if (resp.data.code === 204) {
+              //提示需要完善信息认证
+              this.$notify({
+                title: '提醒',
+                message: '请前往个人中心完善信息',
+                type: 'warning'
+              })
+            } else if (resp.data.code === 444) {
+              //审核未通过状态
+              this.$notify({
+                title: '提醒',
+                message: '请等待审核结果',
+                type: 'warning'
+              })
             }
           })
         } else {

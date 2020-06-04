@@ -2,7 +2,7 @@
   <div>
     <el-scrollbar>
       <div>
-        <el-tabs v-model="activeTab" :tab-position="tabPosition" style="height: 1500px;"
+        <el-tabs v-model="activeTab" :tab-position="tabPosition" style="height: 2000px;"
                  class="common_font_size">
           <el-tab-pane name="1" label="个人信息" style="text-align: center">
             <el-card shadow="hover">
@@ -52,8 +52,7 @@
                 <template v-if="isAuthenticate==1">
                   <el-divider></el-divider>
                   <el-alert
-                    title="（请完善详细信息）"
-                    description="填写信息并等待认证，若已经填写则可以再次填写更新"
+                    title="请填写信息并等待审核，若已经填写则可以更新"
                     type="warning"
                     center
                     show-icon>
@@ -64,7 +63,7 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="姓名:" prop="name">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit" v-model="student.name"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="student.name"
                                   placeholder="请输入学生姓名"></el-input>
                       </el-form-item>
                     </el-col>
@@ -90,7 +89,7 @@
                     </el-col>
                     <el-col :span="7">
                       <el-form-item label="政治面貌:" prop="politicId">
-                        <el-select v-model="student.politicId" placeholder="政治面貌" size="mini" style="width: 120px">
+                        <el-select v-model="student.politicId" placeholder="政治面貌" size="mini" style="width: 150px">
                           <el-option
                             v-for="item in politics"
                             :key="item.id"
@@ -104,7 +103,7 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="民族:" prop="nationId">
-                        <el-select v-model="student.nationId" placeholder="民族" size="mini" style="width: 120px;">
+                        <el-select v-model="student.nationId" placeholder="民族" size="mini" style="width: 150px;">
                           <el-option
                             v-for="item in nations"
                             :key="item.id"
@@ -116,7 +115,7 @@
                     </el-col>
                     <el-col :span="5">
                       <el-form-item label="籍贯:" prop="nativePlace">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                   v-model="student.nativePlace" placeholder="请输入籍贯"></el-input>
                       </el-form-item>
                     </el-col>
@@ -150,14 +149,14 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="学号:" prop="studentId">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                   v-model="student.studentId" placeholder="学号"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="5">
                       <el-form-item label="学历:" prop="topDegree">
                         <el-select v-model="student.topDegree" placeholder="学历" size="mini"
-                                   style="width: 120px;">
+                                   style="width: 150px;">
                           <el-option
                             v-for="item in topDegrees"
                             :key="item"
@@ -191,7 +190,7 @@
                     <el-col :span="6">
                       <el-form-item label="专业:" prop="departmentId">
                         <el-select v-model="student.specialtyId" placeholder="专业" size="mini"
-                                   style="width: 120px;">
+                                   style="width: 150px;">
                           <el-option
                             v-for="item in specialtySelected"
                             :key="item.id"
@@ -204,7 +203,7 @@
                     <el-col :span="6">
                       <el-form-item label="学生职位:" prop="positionId">
                         <el-select v-model="student.positionId" placeholder="学生职位" size="mini"
-                                   style="width: 120px;">
+                                   style="width: 150px;">
                           <el-option
                             v-for="item in position"
                             :key="item.id"
@@ -216,7 +215,7 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="外语水平:" prop="languageLevel">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                   v-model="student.languageLevel" placeholder="请输入外语水平"></el-input>
                       </el-form-item>
                     </el-col>
@@ -279,8 +278,8 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                      <el-form-item label="时间段:" prop="talkTime">
-                        <el-select v-model="enterprise.talkTimeId" placeholder="宣讲时间" size="mini" style="width: 120px;">
+                      <el-form-item label="时间段:" prop="talkTimeId">
+                        <el-select v-model="enterprise.talkTimeId" placeholder="宣讲时间" size="mini" style="width: 150px;">
                           <el-option
                             v-for="item in times"
                             :key="item.id"
@@ -296,8 +295,7 @@
                   <template v-if="isAuthenticate==1">
                     <el-divider></el-divider>
                     <el-alert
-                      title="（请完善详细信息）"
-                      description="填写信息并等待认证，若已经填写则可以再次填写更新"
+                      title="请填写信息并等待审核，若已经填写则可以更新"
                       type="warning"
                       center
                       show-icon>
@@ -307,7 +305,7 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="企业名称:" prop="name">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit" v-model="enterprise.name"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="enterprise.name"
                                   placeholder="请输入企业名称"></el-input>
                       </el-form-item>
                     </el-col>
@@ -325,27 +323,27 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="所属行业:" prop="industry">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                   v-model="enterprise.industry"
                                   placeholder="请输入所属行业"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="企业性质:" prop="nature">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                   v-model="enterprise.nature"
                                   placeholder="请输入企业性质"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="经营范围:" prop="scope">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit" v-model="enterprise.scope"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit" v-model="enterprise.scope"
                                   placeholder="请输入经营范围"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="融资阶段:" prop="financeId">
-                        <el-select v-model="enterprise.financeId" placeholder="融资阶段" size="mini" style="width: 120px;">
+                        <el-select v-model="enterprise.financeId" placeholder="融资阶段" size="mini" style="width: 150px;">
                           <el-option
                             v-for="item in finances"
                             :key="item.id"
@@ -357,7 +355,7 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="企业规模:" prop="scaleId">
-                        <el-select v-model="enterprise.scaleId" placeholder="企业规模" size="mini" style="width: 120px;">
+                        <el-select v-model="enterprise.scaleId" placeholder="企业规模" size="mini" style="width: 150px;">
                           <el-option
                             v-for="item in scales"
                             :key="item.id"
@@ -369,7 +367,7 @@
                     </el-col>
                     <el-col :span="5">
                       <el-form-item label="地址:" prop="address">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 200px" prefix-icon="el-icon-edit"
                                   v-model="enterprise.address" placeholder="请输入地址"></el-input>
                       </el-form-item>
                     </el-col>
@@ -377,19 +375,19 @@
                   <el-row>
                     <el-col :span="6">
                       <el-form-item label="联系电话:" prop="phone">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-phone"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-phone"
                                   v-model="enterprise.phone" placeholder="联系电话"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="电子邮箱:" prop="email">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-message"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-message"
                                   v-model="enterprise.email" placeholder="请输入电子邮箱"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="法人代表:" prop="boss">
-                        <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                   v-model="enterprise.boss" placeholder="请输入法人代表"></el-input>
                       </el-form-item>
                     </el-col>
@@ -496,7 +494,7 @@
                                   size="mini"
                                   type="date"
                                   value-format="yyyy-MM-dd"
-                                  style="width: 120px;"
+                                  style="width: 150px;"
                                   placeholder="开始日期">
                                 </el-date-picker>
                               </el-form-item>
@@ -508,7 +506,7 @@
                                   size="mini"
                                   type="date"
                                   value-format="yyyy-MM-dd"
-                                  style="width: 120px;"
+                                  style="width: 150px;"
                                   placeholder="结束日期">
                                 </el-date-picker>
                               </el-form-item>
@@ -517,28 +515,28 @@
                           <el-row>
                             <el-col :span="6">
                               <el-form-item label="企业名称:" prop="enterpriseName">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.enterpriseName"
                                           placeholder="请输入企业名称"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="所属行业:" prop="enterpriseName">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.industry"
                                           placeholder="请输入所属行业"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="部门:" prop="department">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.department"
                                           placeholder="请输入部门名称"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="实习职位:" prop="position">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.position"
                                           placeholder="请输入实习职位"></el-input>
                               </el-form-item>
@@ -547,7 +545,7 @@
                           <el-row>
                             <el-col :span="6">
                               <el-form-item label="企业性质:" prop="nature">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.nature"
                                           placeholder="请输入企业性质"></el-input>
                               </el-form-item>
@@ -555,7 +553,7 @@
                             <el-col :span="6">
                               <el-form-item label="企业规模:" prop="scaleId">
                                 <el-select v-model="resume.experienceWork.scaleId" placeholder="企业规模" size="mini"
-                                           style="width: 120px;">
+                                           style="width: 150px;">
                                   <el-option
                                     v-for="item in scales"
                                     :key="item.id"
@@ -568,7 +566,7 @@
                             <el-col :span="6">
                               <el-form-item label="工作性质:" prop="natureId">
                                 <el-select v-model="resume.experienceWork.natureId" placeholder="工作性质" size="mini"
-                                           style="width: 120px;">
+                                           style="width: 150px;">
                                   <el-option
                                     v-for="item in natures"
                                     :key="item.id"
@@ -580,7 +578,7 @@
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="部门人数:" prop="departmentNumber">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.departmentNumber"
                                           placeholder="请输入部门人数"></el-input>
                               </el-form-item>
@@ -589,21 +587,21 @@
                           <el-row>
                             <el-col :span="6">
                               <el-form-item label="主管:" prop="leader">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.leader"
                                           placeholder="请输入主管姓名"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="证明人:" prop="witness">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.witness"
                                           placeholder="请输入证明人姓名"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="证明人联系电话:" prop="witnessPhone">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceWork.witnessPhone"
                                           placeholder="请输入证明人联系电话"></el-input>
                               </el-form-item>
@@ -644,7 +642,7 @@
                                   size="mini"
                                   type="date"
                                   value-format="yyyy-MM-dd"
-                                  style="width: 120px;"
+                                  style="width: 150px;"
                                   placeholder="开始日期">
                                 </el-date-picker>
                               </el-form-item>
@@ -656,14 +654,14 @@
                                   size="mini"
                                   type="date"
                                   value-format="yyyy-MM-dd"
-                                  style="width: 120px;"
+                                  style="width: 150px;"
                                   placeholder="结束日期">
                                 </el-date-picker>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="项目名称:" prop="name">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceProject.name"
                                           placeholder="请输入项目名称"></el-input>
                               </el-form-item>
@@ -672,28 +670,28 @@
                           <el-row>
                             <el-col :span="6">
                               <el-form-item label="开发工具:" prop="tool">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceProject.tool"
                                           placeholder="请输入开发工具"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="软件环境:" prop="software">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceProject.software"
                                           placeholder="请输入软件环境"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="硬件环境:" prop="hardware">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceProject.hardware"
                                           placeholder="请输入硬件环境"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="项目人数:" prop="number">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceProject.number"
                                           placeholder="请输入number"></el-input>
                               </el-form-item>
@@ -731,7 +729,7 @@
                                   size="mini"
                                   type="date"
                                   value-format="yyyy-MM-dd"
-                                  style="width: 120px;"
+                                  style="width: 150px;"
                                   placeholder="开始日期">
                                 </el-date-picker>
                               </el-form-item>
@@ -743,7 +741,7 @@
                                   size="mini"
                                   type="date"
                                   value-format="yyyy-MM-dd"
-                                  style="width: 120px;"
+                                  style="width: 150px;"
                                   placeholder="结束日期">
                                 </el-date-picker>
                               </el-form-item>
@@ -752,21 +750,21 @@
                           <el-row>
                             <el-col :span="6">
                               <el-form-item label="培训机构:" prop="organization">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceTrain.organization"
                                           placeholder="请输入培训机构名称"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="培训地址:" prop="address">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceTrain.address"
                                           placeholder="请输入培训地址"></el-input>
                               </el-form-item>
                             </el-col>
                             <el-col :span="6">
                               <el-form-item label="获得证书:" prop="certificate">
-                                <el-input size="mini" style="width: 120px" prefix-icon="el-icon-edit"
+                                <el-input size="mini" style="width: 150px" prefix-icon="el-icon-edit"
                                           v-model="resume.experienceTrain.certificate"
                                           placeholder="请输入获得证书"></el-input>
                               </el-form-item>
@@ -800,13 +798,13 @@
                               <el-col :span="6">
                                 <el-form-item label="技能">
                                   <el-input size="mini" v-model="skill.name" placeholder="请输入技能名称"
-                                            style="width: 120px"></el-input>
+                                            style="width: 150px"></el-input>
                                 </el-form-item>
                               </el-col>
                               <el-col :span="6">
                                 <el-form-item label="掌握程度">
                                   <el-select v-model="skill.levelId" placeholder="掌握程度" size="mini"
-                                             style="width: 120px;">
+                                             style="width: 150px;">
                                     <el-option
                                       v-for="item in levels"
                                       :key="item.id"
@@ -847,7 +845,7 @@
                                     size="mini"
                                     type="date"
                                     value-format="yyyy-MM-dd"
-                                    style="width: 120px;"
+                                    style="width: 150px;"
                                     placeholder="获得日期">
                                   </el-date-picker>
                                 </el-form-item>
@@ -855,13 +853,13 @@
                               <el-col :span="4">
                                 <el-form-item label="证书名称">
                                   <el-input size="mini" v-model="certificate.name" placeholder="请输入证书名称"
-                                            style="width: 120px"></el-input>
+                                            style="width: 150px"></el-input>
                                 </el-form-item>
                               </el-col>
                               <el-col :span="4">
                                 <el-form-item label="成绩">
                                   <el-input size="mini" v-model="certificate.result" placeholder="请输入成绩"
-                                            style="width: 120px"></el-input>
+                                            style="width: 150px"></el-input>
                                 </el-form-item>
                               </el-col>
                               <el-col :span="4">
@@ -1326,18 +1324,18 @@
           id: '',
           name: '',
           createTime: '',
-          industry: '',
-          nature: '',
-          scope: '',
+          industry: '计算机软件、硬件行业',
+          nature: '私营企业',
+          scope: '计算机软件、硬件服务',
           financeId: '',
           scaleId: '',
           finance: '',
           scale: '',
-          address: '',
-          phone: '',
-          email: '',
+          address: '北京市 朝阳区 ',
+          phone: '13878787871',
+          email: '13878787871@cess.com',
           boss: '',
-          website: '',
+          website: 'http://www.cess.com',
           introduction: '',
           product: '',
           honor: '',
@@ -1460,6 +1458,8 @@
           studentId: [{required: true, message: '请输入学号', trigger: 'blur'}],
         },
         entRules: {
+          talkDate: [{required: true, message: '请选择宣讲日期', trigger: 'blur'}],
+          talkTimeId: [{required: true, message: '请选择宣讲时间段', trigger: 'blur'}],
           name: [{required: true, message: '请输入企业名称', trigger: 'blur'}],
           email: [{required: true, message: '请输入邮箱地址', trigger: 'blur'}, {
             type: 'email',
@@ -1676,9 +1676,10 @@
               message: '请完善详细信息',
               type: 'warning'
             })
-          } else if (resp.data.code === 400) {
+          } else if (resp.data.code === 444) {
             //审核未通过状态
             this.isAuthenticate = 1
+            this.student = resp.data.data;
             this.$notify({
               title: '提醒',
               message: '请等待审核结果',
@@ -1704,9 +1705,10 @@
               message: '请完善详细信息',
               type: 'warning'
             })
-          } else if (resp.data.code === 400) {
+          } else if (resp.data.code === 444) {
             //审核未通过状态
             this.isAuthenticate = 1
+            this.enterprise = resp.data.data;
             this.$notify({
               title: '提醒',
               message: '请等待审核结果',
@@ -1995,7 +1997,9 @@
                   honor: this.enterprise.honor,
                   culture: this.enterprise.culture,
                   expectation: this.enterprise.expectation,
-                  welfare: this.enterprise.welfare
+                  welfare: this.enterprise.welfare,
+                  talkDate: this.enterprise.talkDate,
+                  talkTimeId: this.enterprise.talkTimeId,
                 }
               }).then(resp => {
                 if (resp.data.code === 200) {
@@ -2252,5 +2256,9 @@
   .title_font {
     font-size: 16px !important;
     font-weight: bold;
+  }
+
+  .el-alert__title{
+    font-size: 16px!important;
   }
 </style>

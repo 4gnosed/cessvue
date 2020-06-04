@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       // 匹配所有以"/api"开头的请求路径
       '/api': {
-        target: 'http://localhost:8443',
+        target: 'http://192.168.0.109:8443',
         changeOrigin: true,
         //重写，去掉开头的 "/api"
         pathRewrite: {
@@ -23,8 +23,8 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: '192.168.0.109', // can be overwritten by process.env.HOST
+    port: 8765, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
