@@ -73,6 +73,11 @@
           <el-button type="primary" style="width: 100%;background: #505458;border: none">没用账户？ 先注册</el-button>
         </router-link>
       </el-form-item>
+      <el-form-item class="form_item">
+        <router-link to="index">
+          <el-button type="primary" style="width: 100%;background: #505458;border: none">暂不登录</el-button>
+        </router-link>
+      </el-form-item>
     </el-form>
   </el-scrollbar>
   </body>
