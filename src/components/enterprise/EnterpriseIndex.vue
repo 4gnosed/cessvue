@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 1000px;">
+  <div style="height: 2200px;">
     <el-card shadow="hover" style="height: 150px;background-color: #444C5F;color: white;">
       <el-row style="line-height: 75px;font-weight: bold">
         <el-col :span="3">&nbsp;</el-col>

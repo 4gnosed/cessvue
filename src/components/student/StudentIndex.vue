@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 1800px;">
+  <div style="height: 3000px;">
     <el-card shadow="hover" style="background-color: #00c2b3;height: 150px">
       <div style="line-height: 80px">
         <el-input size="small" placeholder="搜索职位、公司、关键词 " prefix-icon="el-icon-search"

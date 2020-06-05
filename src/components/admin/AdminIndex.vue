@@ -5,7 +5,7 @@
         <i class="el-icon-caret-top"></i>
       </el-backtop>
     </template>
-    <el-header style="padding: 0px;height: 30px;margin-bottom: 24px">
+    <el-header style="padding: 0px;height: 30px;margin-bottom: 21px">
       <Header v-bind:newMessageNum="newMessageNum"></Header>
     </el-header>
     <el-container>

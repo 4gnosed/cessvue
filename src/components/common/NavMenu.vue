@@ -14,7 +14,7 @@
             {{ item.navItem }}
           </el-menu-item>
         </el-col>
-        <el-col :xs="6" :sm="11" :md="0" :lg="0" :xl="0" class="hidden-md-and-up">
+        <el-col :xs="6" :sm="4" :md="0" :lg="0" :xl="0" class="hidden-md-and-up">
           <el-menu
             class="el_menu_item"
             mode="horizontal"
@@ -32,7 +32,7 @@
             </el-submenu>
           </el-menu>
         </el-col>
-        <el-col :xs="12" :sm="7" :md="9" :lg="5" :xl="6">
+        <el-col :xs="12" :sm="14" :md="9" :lg="5" :xl="6">
           <div class="el_menu_else_item title_item" @click="toIndex">
             高校就业服务系统
           </div>
@@ -255,7 +255,7 @@
           {name: '/index', navItem: '首页'},
           {name: '/student', navItem: '求职'},
           {name: '/enterprise/newResume', navItem: '招聘'},
-          {name: '/leader', navItem: '数据分析'},
+          {name: '/leader', navItem: '数据统计'},
           {name: '/admin', navItem: '后台管理'}
         ],
         user: this.$store.state.user,

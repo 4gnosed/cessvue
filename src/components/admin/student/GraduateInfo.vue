@@ -41,7 +41,8 @@
                 导入数据
               </el-button>
             </el-upload>
-            <el-button class="common_font_size" size="mini" :loading="downloadLoading" type="success" @click="exportData"
+            <el-button class="common_font_size" size="mini" :loading="downloadLoading" type="success"
+                       @click="exportData"
                        icon="el-icon-download">
               导出数据
             </el-button>
@@ -56,7 +57,7 @@
             <el-row>
               <el-col :span="5">
                 所属院系:
-                <el-select v-model="searchValue.departmentId" placeholder="所属院系" size="mini" clearable="clearable"
+                <el-select v-model="searchValue.departmentId" placeholder="所属院系" size="mini" clearable
                            @change="changeDepartment" style="width: 130px;">
                   <el-option
                     class="common_font_size"
@@ -69,7 +70,7 @@
               </el-col>
               <el-col :span="5">
                 专业:
-                <el-select v-model="searchValue.specialtyId" placeholder="专业" size="mini" clearable="clearable"
+                <el-select v-model="searchValue.specialtyId" placeholder="专业" size="mini" clearable
                            style="width: 130px;">
                   <el-option
                     class="common_font_size"
@@ -82,7 +83,7 @@
               </el-col>
               <el-col :span="5">
                 学生职位:
-                <el-select v-model="searchValue.positionId" placeholder="学生职位" size="mini" clearable="clearable"
+                <el-select v-model="searchValue.positionId" placeholder="学生职位" size="mini" clearable
                            style="width: 130px;">
                   <el-option
                     class="common_font_size"
@@ -95,7 +96,7 @@
               </el-col>
               <el-col :span="5">
                 政治面貌:
-                <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable="clearable"
+                <el-select v-model="searchValue.politicId" placeholder="政治面貌" size="mini" clearable
                            style="width: 130px;">
                   <el-option
                     class="common_font_size"
@@ -108,7 +109,7 @@
               </el-col>
               <el-col :span="4">
                 民族:
-                <el-select v-model="searchValue.nationId" placeholder="民族" size="mini" clearable="clearable"
+                <el-select v-model="searchValue.nationId" placeholder="民族" size="mini" clearable
                            style="width: 130px;">
                   <el-option
                     class="common_font_size"
