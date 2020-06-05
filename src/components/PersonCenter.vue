@@ -5,7 +5,7 @@
         <el-tabs v-model="activeTab" :tab-position="tabPosition" style="height: 2000px;"
                  class="common_font_size">
           <el-tab-pane name="1" label="个人信息" style="text-align: center">
-            <el-card shadow="hover">
+            <el-card shadow="hover" class="position_card">
               <span class="title_font">基本信息</span>
               <el-divider></el-divider>
               <el-form v-model="user" style="text-align: left">
@@ -461,23 +461,23 @@
                 </div>
               </template>
               <!--教师-->
-<!--              <template v-if="user.roleId==this.$store.state.leaderId">-->
-<!--                <el-divider></el-divider>-->
-<!--                <span style="font-size: 14px!important;font-weight: bold;">教师详细信息</span>-->
-<!--                <el-divider></el-divider>-->
-<!--                内容-->
-<!--                <el-divider></el-divider>-->
-<!--                <div>-->
-<!--                  <el-button class="common_font_size" size="mini" @click="resetTeacher()">重 置</el-button>-->
-<!--                  <el-button class="common_font_size" size="mini" type="primary" @click="addOrUpdateTeacher()">更 新-->
-<!--                  </el-button>-->
-<!--                </div>-->
-<!--              </template>-->
+              <!--              <template v-if="user.roleId==this.$store.state.leaderId">-->
+              <!--                <el-divider></el-divider>-->
+              <!--                <span style="font-size: 14px!important;font-weight: bold;">教师详细信息</span>-->
+              <!--                <el-divider></el-divider>-->
+              <!--                内容-->
+              <!--                <el-divider></el-divider>-->
+              <!--                <div>-->
+              <!--                  <el-button class="common_font_size" size="mini" @click="resetTeacher()">重 置</el-button>-->
+              <!--                  <el-button class="common_font_size" size="mini" type="primary" @click="addOrUpdateTeacher()">更 新-->
+              <!--                  </el-button>-->
+              <!--                </div>-->
+              <!--              </template>-->
             </el-card>
           </el-tab-pane>
           <template v-if="this.$store.state.user.roleId == this.$store.state.studentId">
             <el-tab-pane name="2" label="标准简历">
-              <el-card style="height: 1300px">
+              <el-card style="height: 1300px" class="position_card">
                 <span class="title_font">标准简历</span>
                 <el-divider></el-divider>
                 <el-form :model="resume" ref="resumeRefs" :rules="resumeRules">
@@ -959,7 +959,7 @@
               </el-card>
             </el-tab-pane>
             <el-tab-pane name="3" label="应聘进度">
-              <el-card shadow="hover">
+              <el-card shadow="hover" class="position_card">
                 <span class="title_font">应聘进度</span>
                 <!--                <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"-->
                 <!--                           @click="nextState">下一步-->
@@ -1051,12 +1051,12 @@
                   <el-col :span="8"></el-col>
                 </el-row>
                 <el-divider></el-divider>
-                <div style="float: left;margin-top: 40px;width: 100%">
+                <div style="float: left;margin-top: 50px;width: 100%">
                   <el-collapse>
                     <template v-for="enterprise in enterprises" v-if="enterprise.id === selectedPosition.enterpriseId">
                       <el-collapse-item class="minHeight">
                         <template slot="title">
-                          <div style="width: 100%;padding-left: 20px;text-align: left;">
+                          <div style="width: 100%;padding-left: 20px;text-align: left;margin-bottom: 82px;">
                             <el-row class="top_el_row">
                               <el-col :span="5">
                                 <div class="grid-content">{{selectedPosition.name}}</div>
@@ -1210,6 +1210,11 @@
                           <el-row>
                             <el-col :span="4"></el-col>
                           </el-row>
+                          <el-divider></el-divider>
+                          <span style="font-weight: bold;margin-left: 18px">推荐职位</span>
+                          <el-divider></el-divider>
+                          <span style="font-weight: bold;margin-left: 18px">推荐公司</span>
+                          <el-divider></el-divider>
                         </div>
                       </el-collapse-item>
                     </template>
@@ -1219,7 +1224,7 @@
             </el-tab-pane>
           </template>
           <el-tab-pane name="4" label="更改密码" style="text-align: center">
-            <el-card shadow="hover">
+            <el-card shadow="hover" class="position_card">
               <span class="title_font">更改密码</span>
               <el-divider></el-divider>
               <el-form :model="passForm" ref="passForm" :rules="passRules">
@@ -2220,6 +2225,16 @@
     font-size: 11px !important;
   }
 
+  .position_card {
+    width: 1300px;
+  }
+
+  .position_card {
+    margin: auto;
+    margin-top: 30px;
+    width: 1200px;
+  }
+
   .position_item {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -2253,12 +2268,7 @@
     color: #00c2b3;
   }
 
-  .title_font {
-    font-size: 16px !important;
-    font-weight: bold;
-  }
-
-  .el-alert__title{
-    font-size: 16px!important;
+  .dialog_height {
+    height: 700px;
   }
 </style>
