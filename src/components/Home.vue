@@ -36,13 +36,16 @@
     },
     methods: {
       newMessage() {
-        //有新消息则通知
-        this.$axios.get('/message/new?userId=' + this.$store.state.user.id).then(resp => {
-          if (resp.data.code === 200) {
-            this.newMessageNum = resp.data.data;
-            this.$notify({message: '您有 ' + this.newMessageNum + ' 条未读消息', type: 'success'})
-          }
-        })
+        let uid = this.$store.state.user.id
+        if (uid) {
+          //有新消息则通知
+          this.$axios.get('/message/new?userId=' + uid).then(resp => {
+            if (resp.data.code === 200) {
+              this.newMessageNum = resp.data.data;
+              this.$notify({message: '您有 ' + this.newMessageNum + ' 条未读消息', type: 'success'})
+            }
+          })
+        }
       }
     }
   }

@@ -921,12 +921,9 @@
         }
       }
     },
-    created() {
-      this.getEnterprise()
-    },
     mounted() {
       this.initData()
-      this.getPositions()
+      this.getEnterprise()
     },
     methods: {
       getEnterprise() {
@@ -934,7 +931,7 @@
         this.$axios.get('/enterprise/getById?eid=' + this.enterprise.id).then(resp => {
           if (resp.data.code === 200) {
             this.enterprise = resp.data.data;
-            window.sessionStorage.setItem("enterprise", JSON.stringify(this.enterprise));
+            this.getPositions()
           }
         })
       },
@@ -942,96 +939,14 @@
         return text.replace(/\n/g, "<br/>")
       },
       initData() {
-        if (!window.sessionStorage.getItem("salaries")) {
-          this.$axios.get('/salary').then(resp => {
-            if (resp.data.code === 200) {
-              this.salaries = resp.data.data;
-              window.sessionStorage.setItem("salaries", JSON.stringify(this.salaries));
-            }
-          })
-        } else {
-          this.salaries = JSON.parse(window.sessionStorage.getItem("salaries"));
-        }
-        if (!window.sessionStorage.getItem("degrees")) {
-          this.$axios.get('/degree').then(resp => {
-            if (resp.data.code === 200) {
-              this.degrees = resp.data.data;
-              window.sessionStorage.setItem("degrees", JSON.stringify(this.degrees));
-            }
-          })
-        } else {
-          this.degrees = JSON.parse(window.sessionStorage.getItem("degrees"));
-        }
-        if (!window.sessionStorage.getItem("experiences")) {
-          this.$axios.get('/experience').then(resp => {
-            if (resp.data.code === 200) {
-              this.experiences = resp.data.data;
-              window.sessionStorage.setItem("experiences", JSON.stringify(this.experiences));
-            }
-          })
-        } else {
-          this.experiences = JSON.parse(window.sessionStorage.getItem("experiences"));
-        }
-        if (!window.sessionStorage.getItem("scales")) {
-          this.$axios.get('/scale').then(resp => {
-            if (resp.data.code === 200) {
-              this.scales = resp.data.data;
-              window.sessionStorage.setItem("scales", JSON.stringify(this.scales));
-            }
-          })
-        } else {
-          this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
-        }
-        if (!window.sessionStorage.getItem("enterprises")) {
-          this.$axios.get('/enterprise').then(resp => {
-            if (resp.data.code === 200) {
-              this.enterprises = resp.data.data;
-              window.sessionStorage.setItem("enterprises", JSON.stringify(this.enterprises));
-            }
-          })
-        } else {
-          this.enterprises = JSON.parse(window.sessionStorage.getItem("enterprises"));
-        }
-        if (!window.sessionStorage.getItem("natures")) {
-          this.$axios.get('/nature').then(resp => {
-            if (resp.data.code === 200) {
-              this.natures = resp.data.data;
-              window.sessionStorage.setItem("natures", JSON.stringify(this.natures));
-            }
-          })
-        } else {
-          this.natures = JSON.parse(window.sessionStorage.getItem("natures"));
-        }
-        if (!window.sessionStorage.getItem("finances")) {
-          this.$axios.get('/finance').then(resp => {
-            if (resp.data.code === 200) {
-              this.finances = resp.data.data;
-              window.sessionStorage.setItem("finances", JSON.stringify(this.finances));
-            }
-          })
-        } else {
-          this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
-        }
-        if (!window.sessionStorage.getItem("scales")) {
-          this.$axios.get('/scale').then(resp => {
-            if (resp.data.code === 200) {
-              this.scales = resp.data.data;
-              window.sessionStorage.setItem("scales", JSON.stringify(this.scales));
-            }
-          })
-        } else {
-          this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
-        }
-        if (!window.sessionStorage.getItem("levels")) {
-          this.$axios.get('/level').then(resp => {
-            if (resp.data.code === 200) {
-              this.levels = resp.data.data;
-              window.sessionStorage.setItem("levels", JSON.stringify(this.levels));
-            }
-          })
-        } else {
-          this.levels = JSON.parse(window.sessionStorage.getItem("levels"));
-        }
+        this.salaries = JSON.parse(window.sessionStorage.getItem("salaries"));
+        this.degrees = JSON.parse(window.sessionStorage.getItem("degrees"));
+        this.experiences = JSON.parse(window.sessionStorage.getItem("experiences"));
+        this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
+        this.enterprises = JSON.parse(window.sessionStorage.getItem("enterprises"));
+        this.natures = JSON.parse(window.sessionStorage.getItem("natures"));
+        this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
+        this.levels = JSON.parse(window.sessionStorage.getItem("levels"));
       },
       sizeChange(currentSize) {
         this.size = currentSize;

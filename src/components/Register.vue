@@ -111,10 +111,11 @@
       return {
         ruleForm: {
           name: '',
-          phone: '',
-          email: '',
-          username: '',
-          password: '',
+          phone: '13545654565',
+          email: '13545654565@cess.com',
+          username: 'ent',
+          password: '123',
+          checkPass: '123',
           role: ''
         },
         rules: {
