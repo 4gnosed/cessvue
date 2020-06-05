@@ -1353,8 +1353,8 @@
     filters: {
       addrEllipsis(value) {
         if (!value) return "";
-        if (value.length > 12) {
-          return value.slice(0, 12) + "...";
+        if (value.length > 10) {
+          return value.slice(0, 10) + "...";
         }
         return value;
       },
