@@ -461,18 +461,18 @@
                 </div>
               </template>
               <!--教师-->
-              <template v-if="user.roleId==this.$store.state.leaderId">
-                <el-divider></el-divider>
-                <span style="font-size: 14px!important;font-weight: bold;">教师详细信息</span>
-                <el-divider></el-divider>
-                内容
-                <el-divider></el-divider>
-                <div>
-                  <el-button class="common_font_size" size="mini" @click="resetTeacher()">重 置</el-button>
-                  <el-button class="common_font_size" size="mini" type="primary" @click="addOrUpdateTeacher()">更 新
-                  </el-button>
-                </div>
-              </template>
+<!--              <template v-if="user.roleId==this.$store.state.leaderId">-->
+<!--                <el-divider></el-divider>-->
+<!--                <span style="font-size: 14px!important;font-weight: bold;">教师详细信息</span>-->
+<!--                <el-divider></el-divider>-->
+<!--                内容-->
+<!--                <el-divider></el-divider>-->
+<!--                <div>-->
+<!--                  <el-button class="common_font_size" size="mini" @click="resetTeacher()">重 置</el-button>-->
+<!--                  <el-button class="common_font_size" size="mini" type="primary" @click="addOrUpdateTeacher()">更 新-->
+<!--                  </el-button>-->
+<!--                </div>-->
+<!--              </template>-->
             </el-card>
           </el-tab-pane>
           <template v-if="this.$store.state.user.roleId == this.$store.state.studentId">
