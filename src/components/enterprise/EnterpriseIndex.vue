@@ -3,8 +3,7 @@
     <el-card shadow="hover" style="height: 150px;background-color: #444C5F;color: white;">
       <el-row style="line-height: 75px;font-weight: bold">
         <el-col :span="3">&nbsp;</el-col>
-        <el-col :span="5" style="font-size: 26px;text-align: left;" @click.native="toEnterprise">{{enterprise.name}}
-        </el-col>
+        <el-col :span="5" style="font-size: 26px;text-align: left;">{{enterprise.name}}</el-col>
         <el-col :span="10">&nbsp;</el-col>
         <el-col :span="2">
           <el-button type="primary" size="mini" @click="addPosition">发布职位</el-button>
@@ -15,6 +14,17 @@
         <el-col :span="2">
           <el-button type="primary" size="mini" @click="addNotice">发布公告</el-button>
         </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="3">&nbsp;</el-col>
+        <el-col :span="5" style="text-align: left;color: #f0f0f0">
+          {{enterprise.finance.name}}
+          &nbsp;|&nbsp;
+          {{enterprise.scale.name}}
+          &nbsp;|&nbsp;
+          {{enterprise.industry}}
+        </el-col>
+        <el-col :span="8">&nbsp;</el-col>
       </el-row>
     </el-card>
     <div style="margin-top: 5px">

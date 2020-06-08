@@ -2,7 +2,7 @@
   <div>
     <div style="margin-bottom: 20px;text-align: left">
       <el-row>
-        <el-col :span="1" style="line-height: 32px"><span>标 题:</span></el-col>
+        <el-col :span="1" class="titleClass"><span>标 题:</span></el-col>
         <el-col :span="22">
           <template v-if="notice.title.match('来校招聘')">
             <el-input size="small"
@@ -15,6 +15,19 @@
                       v-model="notice.title"
                       placeholder="请输入标题..."></el-input>
           </template>
+        </el-col>
+      </el-row>
+      <el-row v-if="!notice.title.match('来校招聘')" style="margin-top: 16px">
+        <el-col :span="1" class="titleClass"><span>类 型:</span></el-col>
+        <el-col :span="2">
+          <el-select v-model="notice.type" placeholder="公告类型" size="mini" clearable>
+            <el-option
+              v-for="item in types"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-col>
       </el-row>
     </div>
@@ -78,8 +91,19 @@
         notice: {
           id: '',
           title: '',
+          type: '',
           content: ''
         },
+        types: [{
+          value: '公告公示',
+          label: '公告公示'
+        }, {
+          value: '就业指导',
+          label: '就业指导'
+        }, {
+          value: '就业政策',
+          label: '就业政策'
+        }],
         noticeId: '',
         DefaultInit: {
           language_url: '/tinymce/langs/zh_CN.js',  //导入语言文件
@@ -163,9 +187,17 @@
             type: 'warning'
           })
           return
-        } else if (this.notice.content === '' || this.notice.title.match(/^[ ]*$/)) {
+        }
+        if (this.notice.content === '' || this.notice.title.match(/^[ ]*$/)) {
           this.$notify({
             message: '请输入内容',
+            type: 'warning'
+          })
+          return
+        }
+        if (!this.notice.title.match('来校招聘') && this.notice.type === '') {
+          this.$notify({
+            message: '请选择公告类型',
             type: 'warning'
           })
           return
@@ -201,9 +233,17 @@
             type: 'warning'
           })
           return
-        } else if (this.notice.content === '' || this.notice.title.match(/^[ ]*$/)) {
+        }
+        if (this.notice.content === '' || this.notice.title.match(/^[ ]*$/)) {
           this.$notify({
             message: '请输入内容',
+            type: 'warning'
+          })
+          return
+        }
+        if (!this.notice.title.match('来校招聘') && this.notice.type === '') {
+          this.$notify({
+            message: '请选择公告类型',
             type: 'warning'
           })
           return
@@ -239,6 +279,7 @@
         this.notice.id = ''
         this.notice.title = ''
         this.notice.content = ''
+        this.notice.type = ''
         tinyMCE.activeEditor.setContent('')
         // }
       },
@@ -254,3 +295,9 @@
     }
   }
 </script>
+<style scoped>
+  .titleClass {
+    line-height: 32px;
+    font-weight: bold;
+  }
+</style>

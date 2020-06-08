@@ -41,7 +41,7 @@
           sortable>
         </el-table-column>
         <el-table-column
-          prop="noticeType"
+          prop="type"
           label="类型"
           sortable>
         </el-table-column>
@@ -101,7 +101,7 @@
 
   export default {
     name: "NoticeManage",
-    components:{Notice},
+    components: {Notice},
     data() {
       return {
         notices: [],
@@ -122,9 +122,9 @@
       }
     },
     methods: {
-      refresh(){
+      refresh() {
         this.initNotices()
-        this.dialogFormVisible=false
+        this.dialogFormVisible = false
       },
       initNotices() {
         this.$axios.get('/admin/notice').then(resp => {
@@ -137,8 +137,8 @@
         this.$refs.multipleTable.clearSelection()
       },
       editNotice(notice) {
-        this.selectedNotice=notice
-        this.dialogFormVisible=true
+        this.selectedNotice = notice
+        this.dialogFormVisible = true
       },
       readyDeleteNotice(index, notice) {
         this.dialogFormVisible1 = true
