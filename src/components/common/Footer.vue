@@ -20,7 +20,7 @@
 
 <style scoped>
   .footer_class {
-    height: 40px;
+    height: 24px;
     background: #014C88;
     text-align: center;
     font-size: 16px;
@@ -28,6 +28,6 @@
 
   .a {
     color: #f0f0f0;
-    line-height: 40px;
+    line-height: 24px;
   }
 </style>

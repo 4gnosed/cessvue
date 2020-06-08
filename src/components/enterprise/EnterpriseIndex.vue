@@ -1,23 +1,11 @@
 <template>
   <div style="height: 2200px;">
-    <el-card shadow="hover" style="height: 150px;background-color: #444C5F;color: white;">
+    <el-card shadow="hover" class="poster">
       <el-row style="line-height: 75px;font-weight: bold">
-        <el-col :span="3">&nbsp;</el-col>
-        <el-col :span="5" style="font-size: 26px;text-align: left;">{{enterprise.name}}</el-col>
-        <el-col :span="10">&nbsp;</el-col>
-        <el-col :span="2">
-          <el-button type="primary" size="mini" @click="addPosition">发布职位</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="primary" size="mini" @click="toEnterprise">查看本企业详情</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="primary" size="mini" @click="addNotice">发布公告</el-button>
-        </el-col>
+        <el-col :span="6" style="font-size: 26px;text-align: left;color: white">{{enterprise.name}}</el-col>
       </el-row>
       <el-row>
-        <el-col :span="3">&nbsp;</el-col>
-        <el-col :span="5" style="text-align: left;color: #f0f0f0">
+        <el-col :span="6" style="text-align: left;color: white">
           {{enterprise.finance.name}}
           &nbsp;|&nbsp;
           {{enterprise.scale.name}}
@@ -25,6 +13,17 @@
           {{enterprise.industry}}
         </el-col>
         <el-col :span="8">&nbsp;</el-col>
+      </el-row>
+      <el-row style="line-height: 60px">
+        <el-col :span="2" style="text-align: left">
+          <el-button type="primary" size="mini" @click="addPosition">发布职位</el-button>
+        </el-col>
+        <el-col :span="2" style="text-align: center">
+          <el-button type="primary" size="mini" @click="toEnterprise">查看本企业详情</el-button>
+        </el-col>
+        <el-col :span="2" style="text-align: right">
+          <el-button type="primary" size="mini" @click="addNotice">发布公告</el-button>
+        </el-col>
       </el-row>
     </el-card>
     <div style="margin-top: 5px">
@@ -37,7 +36,7 @@
             mode="horizontal"
             background-color="#545c64"
             text-color="#fff"
-            active-text-color="#ffd04b">
+            active-text-color="#67C23A">
             <el-menu-item index="/enterprise/newResume"
                           @click="alterCurrentStateVos(1)">新简历（{{currentStateVos1.length}}）
             </el-menu-item>
@@ -978,5 +977,10 @@
 <style scoped>
   .el-menu--horizontal > .el-menu-item {
     margin: 0 0 0 20px !important;;
+  }
+
+  .poster {
+    background: url("../../assets/img/banner1.png") no-repeat;
+    height: 175px;
   }
 </style>

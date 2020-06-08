@@ -456,7 +456,7 @@
     width: 60%;
     font-weight: bold;
     font-size: 22px;
-    color: black;
+    color: #014C88;
     border-bottom: 2px solid black;
   }
 </style>

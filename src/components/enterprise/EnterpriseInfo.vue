@@ -106,16 +106,15 @@
       </el-tab-pane>
       <el-tab-pane name="2">
         <span slot="label"><i class="el-icon-menu"></i>在招职位</span>
-        <el-row>
+        <el-row style="height: 90px;line-height:40px;background-color: #00c2b3">
           <span class="title_font">校园宣讲会</span>
-          <div class="title_font" style="margin-left: 18px;margin-right: 18px;margin-top: 10px">
+          <div class="title_font">
             {{enterprise.talkDate}}
             &nbsp;&nbsp;
             {{enterprise.talkTime.name}}
             &nbsp;&nbsp;
             {{enterprise.place.name}}
           </div>
-          <el-divider></el-divider>
         </el-row>
         <div class="position_card">
           <el-collapse accordion>
@@ -1233,5 +1232,8 @@
   .title_font {
     font-weight: bold;
     margin-left: 20px;
+    margin-left: 18px;
+    margin-right: 18px
   }
+
 </style>
