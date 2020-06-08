@@ -90,13 +90,13 @@
         </el-row>
         <el-row class="select" style="margin-top: 20px">
           <el-col :span="6">
-            <div>签约率 ( A / B )：<span class="keyword">6%</span></div>
+            <div>应聘率 ( A / B )：<span class="keyword">87.5%</span></div>
           </el-col>
           <el-col :span="3">
-            <div>签约人数 A：<span class="keyword">30</span></div>
+            <div>应聘人数 A：<span class="keyword">3500</span></div>
           </el-col>
           <el-col :span="3">
-            <div>应聘总人数 B：<span class="keyword">500</span></div>
+            <div>毕业生总人数 B：<span class="keyword">4000</span></div>
           </el-col>
         </el-row>
       </div>
@@ -115,7 +115,7 @@
             <div>招聘满足度 ( A / B )：<span class="keyword">70.59%</span></div>
           </el-col>
           <el-col :span="3">
-            <div>实际录用人数 A：<span class="keyword">1200</span></div>
+            <div>录用总人数 A：<span class="keyword">1200</span></div>
           </el-col>
           <el-col :span="3">
             <div>需求总人数 B：<span class="keyword">1700</span></div>
@@ -182,7 +182,7 @@
             }
           },
           calculable: true,
-          yAxis: [
+          xAxis: [
             {
               name: '薪资范围',
               type: 'category',
@@ -192,7 +192,7 @@
               }
             }
           ],
-          xAxis: [
+          yAxis: [
             {
               name: '签约人数',
               type: 'value',
@@ -211,6 +211,11 @@
                   {type: 'max', name: '最大值'},
                   {type: 'min', name: '最小值'}
                 ]
+              },
+              itemStyle: {
+                normal: {
+                  color: '#BBAFAF',
+                }
               }
               // markLine: {
               //   data: [
@@ -287,6 +292,12 @@
               name: '合格人数',
               type: 'bar',
               data: [300, 220, 120, 50, 30],
+              itemStyle: {
+                normal: {
+                  color: '#BBAFAF',
+                }
+              }
+
               // markPoint: {
               //   data: [
               //     {type: 'max', name: '最大值'},
@@ -373,6 +384,11 @@
                   {type: 'max', name: '最大值'},
                   {type: 'min', name: '最小值'}
                 ]
+              },
+              itemStyle: {
+                normal: {
+                  color: '#BBAFAF',
+                }
               }
               // markLine: {
               //   data: [

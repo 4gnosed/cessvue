@@ -92,13 +92,13 @@
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label="身份证号码:" prop="idCard">
-                      <el-input disabled disabled size="mini" style="width: 240px" prefix-icon="el-icon-edit"
+                      <el-input disabled disabled size="mini" style="width: 200px" prefix-icon="el-icon-edit"
                                 v-model="student.idCard" placeholder="请输入身份证号码"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
                     <el-form-item label="电话号码:" prop="phone">
-                      <el-input disabled disabled size="mini" style="width: 200px" prefix-icon="el-icon-phone"
+                      <el-input disabled disabled size="mini" style="width: 150px" prefix-icon="el-icon-phone"
                                 v-model="student.phone" placeholder="电话号码"></el-input>
                     </el-form-item>
                   </el-col>

@@ -1044,7 +1044,7 @@
                                  @click="showContract">查看签约
                       </el-button>
                       <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
-                                 @click="confirmContract">确认签约
+                                 @click="confirmContract">申请签约
                       </el-button>
                     </template>
                   </el-col>

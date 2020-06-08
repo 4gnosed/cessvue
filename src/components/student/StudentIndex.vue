@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 2000px;">
-    <el-card shadow="hover" style="background-color: #00c2b3;height: 150px">
+  <div style="height: 2200px;">
+    <el-card shadow="hover" class="poster">
       <div style="line-height: 80px">
         <el-input size="small" placeholder="搜索职位、公司、关键词 " prefix-icon="el-icon-search"
                   clearable
@@ -1411,5 +1411,10 @@
 
   .dialog_height {
     height: 700px;
+  }
+
+  .poster {
+    background: url("../../assets/img/banner.jpg") no-repeat;
+    height: 200px;
   }
 </style>
