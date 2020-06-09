@@ -10,6 +10,28 @@
               <el-divider></el-divider>
               <el-form v-model="user" style="text-align: left">
                 <el-row>
+                  <el-col :span="10">&nbsp;</el-col>
+                  <el-col :span="4" style="margin-left: 14px">
+                    <el-upload
+                      class="avatar-uploader"
+                      action="void"
+                      :show-file-list="false"
+                      :http-request="uploadAvatar"
+                      :on-remove="handleRemoveAvatar"
+                      :before-upload="beforeAvatarUpload">
+                      <template v-if="user.avatarPath">
+                        <img :src="user.avatarPath" class="avatar">
+                        <span class="el-upload-action" @click.stop="handleRemoveAvatar()">
+                          <i class="el-icon-delete"></i>
+                        </span>
+                      </template>
+                      <i v-else class="el-icon-upload2 avatar-uploader-icon" stop></i>
+                    </el-upload>
+                  </el-col>
+                  <el-col :span="10">&nbsp;</el-col>
+                </el-row>
+                <el-divider></el-divider>
+                <el-row>
                   <el-col :span="8">
                     <el-form-item label="用户名" label-width="120px" prop="username" style="width: 200px">
                       <el-input size="mini" v-model="user.username" autocomplete="off" disabled="disabled"></el-input>
@@ -919,14 +941,16 @@
                           <i class="el-icon-arrow-right el-icon--right"></i>
                         </el-button>
                       </el-col>
-                      <el-col :span="20">
+                      <el-col :span="16">
                         <template v-if=" this.resume.fileUrlVo.fileName!=null&&this.resume.fileUrlVo.fileName!='' ">
                           <a class="el-upload-list__item-name" :href="this.resume.fileUrlVo.path" target=" _blank"
-                             style="margin-bottom: 10px">
-                            <i class="el-icon-document"></i>
+                             style="margin-bottom: 10px;font-size: 20px;font-weight: bold">
+                            <i class="el-icon-document">简历附件：</i>
                             {{this.resume.fileUrlVo.fileName}}
                           </a>
                         </template>
+                      </el-col>
+                      <el-col :span="4">
                         <el-upload
                           ref="upload"
                           action="void"
@@ -937,8 +961,13 @@
                           :on-progress="progressA"
                           :auto-upload="true">
                           <el-button class="common_font_size" size="mini" :disabled="uploadDataDisabled" type="mini"
-                                     style="background-color: #409EFF;color: white" :icon="uploadDataBtnIcon">
-                            上传附件
+                                     style="background-color: #67C23A;color: white" :icon="uploadDataBtnIcon">
+                            <template v-if="this.resume.fileUrlVo.fileName!=null&&this.resume.fileUrlVo.fileName!=''">
+                              更新附件
+                            </template>
+                            <template v-else>
+                              上传附件
+                            </template>
                           </el-button>
                         </el-upload>
                       </el-col>
@@ -1575,6 +1604,46 @@
       this.initCommonData()
     },
     methods: {
+      // 移除图片
+      handleRemoveAvatar() {
+        this.user.avatarPath = ''
+      },
+      // 上传前格式和图片大小限制
+      beforeAvatarUpload(file) {
+        const type = file.type === 'image/jpeg' || 'image/jpg' || 'image/webp' || 'image/png'
+        const isLt2M = file.size / 1024 / 1024 < 2
+        if (!type) {
+          this.$notify({
+            message: '图片格式不正确!(只能包含jpg，png，webp，JPEG)',
+            type: 'error'
+          })
+        }
+        if (!isLt2M) {
+          this.$notify({
+            message: '上传图片大小不能超过 2MB!',
+            type: 'error'
+          })
+        }
+        return type && isLt2M
+      },
+      uploadAvatar(file) {
+        let FormDatas = new FormData();
+        FormDatas.append('avatar', file.file);
+        FormDatas.append('userId', this.user.id);
+        this.$axios({
+          url: this.baseUrl + "/user/avatar",
+          method: 'post',
+          data: FormDatas,
+        }).then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({type: 'success', message: '更新头像成功'})
+            this.user = resp.data.data
+            this.$store.commit('login', this.user)
+          } else {
+            this.$notify({type: 'error', message: '更新头像失败'})
+          }
+        })
+      },
       showEmployed() {
         const {href} = this.$router.resolve({
           path: '/employed',
@@ -2270,5 +2339,57 @@
 
   .dialog_height {
     height: 700px;
+  }
+
+  .avatar-uploader {
+    width: 160PX;
+    height: 160px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background: url('../assets/img/defaultHead.png') no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 0;
+    color: #fff;
+    width: 160px;
+    height: 160px;
+    line-height: 160px;
+    text-align: center;
+  }
+
+  .avatar-uploader-icon:hover {
+    font-size: 28px;
+    background-color: rgba(0, 0, 0, .3);
+  }
+
+  .avatar {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    display: block;
+  }
+
+  .el-upload-action {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+    color: #fff;
+    text-align: center;
+    line-height: 160px;
+
+  }
+
+  .el-upload-action:hover {
+    font-size: 20px;
+    background-color: #000;
+    background-color: rgba(0, 0, 0, .3)
   }
 </style>

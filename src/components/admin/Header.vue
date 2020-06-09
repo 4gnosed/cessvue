@@ -7,29 +7,41 @@
       background-color="#014C88"
       style="width: 100%">
       <el-row style="color: #fff">
-        <el-col :xs="18" :sm="18" :md="20" :lg="21" :xl="21">
+        <el-col :xs="15" :sm="16" :md="19" :lg="19" :xl="19">
           <div class="el_menu_else_item title_item" @click="backIndex">
             高校就业服务后台管理系统
           </div>
         </el-col>
-        <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
-          <div style="margin-top: 14px">
+        <el-col :xs="3" :sm="3" :md="2" :lg="2" :xl="2">
+          <div style="margin-top: 12px;text-align: right">
             <el-badge :value="newMessageNum" :max="99">
               <i @click="showMessages()" class="el-icon-bell el_menu_message_item" style="font-size: 30px"></i>
             </el-badge>
           </div>
         </el-col>
-        <el-col :xs="4" :sm="4" :md="2" :lg="2" :xl="2">
+        <el-col :xs="3" :sm="2" :md="1" :lg="1" :xl="1">
+          <div class="el_menu_avatar_item">
+            <template v-if="this.$store.state.user.username ">
+              <el-avatar size="medium" :src="user.avatarPath"></el-avatar>
+            </template>
+          </div>
+        </el-col>
+        <el-col :xs="3" :sm="3" :md="2" :lg="2" :xl="2">
           <div class="el_menu_else_item">
             <el-dropdown trigger="click" class="el_menu_else_item">
               <template v-if="this.$store.state.user.username">
                 <el-button size="mini" round class="drop_down_button">
                   {{this.$store.state.user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
-                <el-dropdown-menu slot="dropdown" style="font-size: 18px;">
+                <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item @click.native="help">帮助</el-dropdown-item>
                   <el-dropdown-item @click.native="backIndex">返回主页</el-dropdown-item>
                 </el-dropdown-menu>
+              </template>
+              <template v-else>
+                <el-button @click.native="login" size="mini" round class="drop_down_button">
+                  未登录
+                </el-button>
               </template>
             </el-dropdown>
           </div>
@@ -356,6 +368,14 @@
     font-weight: bold;
     line-height: 50px;
     height: 50px;
+  }
+
+  .el_menu_avatar_item {
+    font-size: 18px;
+    color: black;
+
+    text-align: right;
+    margin-top: 6px;
   }
 
   .title_item {

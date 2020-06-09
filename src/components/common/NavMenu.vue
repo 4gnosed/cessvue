@@ -37,28 +37,26 @@
             高校就业服务系统
           </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="26" :lg="10" :xl="7" class="hidden-md-and-down">
+        <el-col :xs="24" :sm="24" :md="26" :lg="9" :xl="7" class="hidden-md-and-down">
           <div class="el_menu_else_item title_item" style="border-left: #D2D3D6 solid 2px" @click="toIndex">
             Collage Employment Service System
           </div>
         </el-col>
-        <!--        <el-col :xs="24" :sm="24" :md="4" :lg="3" :xl="4" class="hidden-sm-and-down">-->
-        <!--          <div class="el_menu_else_item">-->
-        <!--            <el-input-->
-        <!--              prefix-icon="el-icon-search"-->
-        <!--              size="mini"-->
-        <!--              style="width: 150px;">-->
-        <!--            </el-input>-->
-        <!--          </div>-->
-        <!--        </el-col>-->
-        <el-col :xs="2" :sm="2" :md="2" :lg="1" :xl="1">
+        <el-col :xs="2" :sm="2" :md="1" :lg="1" :xl="1">
           <div style="margin-top: 16px">
             <el-badge :value="newMessageNum" :max="99">
               <i @click="showMessages()" class="el-icon-bell el_menu_message_item" style="font-size: 30px"></i>
             </el-badge>
           </div>
         </el-col>
-        <el-col :xs="4" :sm="4" :md="1" :lg="1" :xl="2">
+        <el-col :xs="2" :sm="2" :md="1" :lg="1" :xl="1">
+          <div class="el_menu_avatar_item">
+            <template v-if="this.$store.state.user.username ">
+              <el-avatar size="medium" :src="user.avatarPath"></el-avatar>
+            </template>
+          </div>
+        </el-col>
+        <el-col :xs="2" :sm="2" :md="1" :lg="1" :xl="1">
           <div class="el_menu_else_item">
             <el-dropdown trigger="click" class="el_menu_else_item">
               <template v-if="this.$store.state.user.username">
@@ -524,6 +522,14 @@
 
     line-height: 60px;
     height: 60px;
+  }
+
+  .el_menu_avatar_item {
+    font-size: 18px;
+    color: black;
+
+    text-align: right;
+    margin-top: 10px;
   }
 
   .el_menu_message_item {

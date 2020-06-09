@@ -17,7 +17,8 @@ export default new Vuex.Store({
       name: user == null ? '' : JSON.parse(user).name,
       lastLogin: user == null ? '' : JSON.parse(user).lastLogin,
       phone: user == null ? '' : JSON.parse(user).phone,
-      email: user == null ? '' : JSON.parse(user).email
+      email: user == null ? '' : JSON.parse(user).email,
+      avatarPath: user == null ? '' : JSON.parse(user).avatarPath,
     },
     adminMenus: [],
     //用户角色
