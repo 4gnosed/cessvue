@@ -2,36 +2,11 @@
   <div>
     <div>
       <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/1.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/2.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/3.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/4.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/5.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/6.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/7.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/8.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/9.jpg"/>
-        </el-carousel-item>
-        <el-carousel-item style="background-color: transparent">
-          <img src="http://192.168.0.109:8443/api/file/img/10.jpg"/>
-        </el-carousel-item>
+        <template v-for="(picture,index) in noticePictureList">
+          <el-carousel-item style="background-color: transparent">
+            <img @click="toNoticeInfo(picture.nid)" :src="picture.pname"/>
+          </el-carousel-item>
+        </template>
       </el-carousel>
     </div>
     <el-card shadow="hover" style="margin-top: 5px">
@@ -234,6 +209,7 @@
     name: 'AppIndex',
     data() {
       return {
+        noticePictureList: [],
         normalNoticeList: [],
         schoolTotal: 0,
         schoolPage: 1,
@@ -258,6 +234,7 @@
       }
     },
     mounted() {
+      this.initNoticePictures()
       this.initNormalNotices()
       this.initEnterpriseNotices()
       this.initGuideNotices()
@@ -291,6 +268,13 @@
           }
         })
         window.open(href, '_blank')
+      },
+      initNoticePictures() {
+        this.$axios.get('/noticePicture').then(resp => {
+          if (resp.data.code === 200) {
+            this.noticePictureList = resp.data.data;
+          }
+        })
       },
       initNormalNotices() {
         this.$axios.get('/noticeNormal/byPage?page=' + this.schoolPage + '&size=' + this.size).then(resp => {
