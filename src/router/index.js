@@ -28,7 +28,11 @@ export default new Router({
   routes: [
     {
       path: '/login',
-      alias: '/admin/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/enterprise/login',
       name: 'Login',
       component: Login
     },
@@ -201,7 +205,11 @@ export const createRouter = routes => new Router({
   routes: [
     {
       path: '/login',
-      alias: '/admin/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/enterprise/login',
       name: 'Login',
       component: Login
     },

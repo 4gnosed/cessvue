@@ -153,6 +153,8 @@ router.beforeEach((to, from, next) => {
     }).then(() => {
       logout()
       login()
+    }).catch(() => {
+      next(from.path)
     })
   }
 
