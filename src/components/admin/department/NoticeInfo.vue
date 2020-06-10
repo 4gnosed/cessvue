@@ -2,7 +2,8 @@
   <div style="width: 1500px;margin:0px auto;">
     <el-card shadow="hover">
       <div slot="header">
-        <div style="font-size: 22px;font-weight: bold;border-bottom: 1px solid #EBEEF5" v-html="notice.title"></div>
+        <div style="font-size: 22px;font-weight: bold;" v-html="notice.title"></div>
+        <el-divider></el-divider>
         <div style="margin-top: 10px;font-size: 16px;">
           <el-row>
             <el-col :span="3">
