@@ -959,6 +959,11 @@
     },
     methods: {
       initData() {
+        this.$axios.get('/enterprise').then(resp => {
+          if (resp.data.code === 200) {
+            this.enterprises = resp.data.data;
+          }
+        })
         if (!window.sessionStorage.getItem("salaries")) {
           this.$axios.get('/salary').then(resp => {
             if (resp.data.code === 200) {
@@ -988,26 +993,6 @@
           })
         } else {
           this.experiences = JSON.parse(window.sessionStorage.getItem("experiences"));
-        }
-        if (!window.sessionStorage.getItem("scales")) {
-          this.$axios.get('/scale').then(resp => {
-            if (resp.data.code === 200) {
-              this.scales = resp.data.data;
-              window.sessionStorage.setItem("scales", JSON.stringify(this.scales));
-            }
-          })
-        } else {
-          this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
-        }
-        if (!window.sessionStorage.getItem("enterprises")) {
-          this.$axios.get('/enterprise').then(resp => {
-            if (resp.data.code === 200) {
-              this.enterprises = resp.data.data;
-              window.sessionStorage.setItem("enterprises", JSON.stringify(this.enterprises));
-            }
-          })
-        } else {
-          this.enterprises = JSON.parse(window.sessionStorage.getItem("enterprises"));
         }
         if (!window.sessionStorage.getItem("natures")) {
           this.$axios.get('/nature').then(resp => {
@@ -1052,9 +1037,7 @@
       },
       searchPositions() {
         let keywords = this.searchValue.keywords;
-        if (keywords && !keywords.match(/^[ ]*$/)) {
-          this.initPositions()
-        }
+        this.initPositions()
       },
       initPositions() {
         let url = '/positions?page=' + this.page + '&size=' + this.size;
