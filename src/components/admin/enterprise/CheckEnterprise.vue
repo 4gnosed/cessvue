@@ -207,7 +207,7 @@
     </el-card>
     <el-dialog
       :visible.sync="placeDialogVisible"
-      width="80%">
+      width="40%">
       <div slot="title">
         安排[<span style="font-weight: bold">{{this.selectedEnterprise.name}}</span>]宣讲会地点
         <br/><br/>
@@ -218,24 +218,27 @@
           :data="placeList"
           border
           highlight-current-row="highlight-current-row"
-          height="400px">
+          height="500px"
+          width="600px">
           <el-table-column
             type="index"
             label="序号"
-            width="80">
+            width="80px">
           </el-table-column>
           <el-table-column
             prop="name"
             sortable
             label="地点"
-            align="center">
+            align="center"
+            width="400px">
           </el-table-column>
           <el-table-column
             label="时间段"
-            align="center">
+            align="center"
+            width="120px">
             <el-table-column
+              v-if="this.selectedEnterprise.talkTime.name === '8:00-10:00'"
               align="center"
-              width="170px"
               label="8:00-10:00">
               <template slot-scope="scope">
                 <template v-if="scope.row.time1">
@@ -263,8 +266,8 @@
               </template>
             </el-table-column>
             <el-table-column
+              v-if="this.selectedEnterprise.talkTime.name === '10:00-12:00'"
               align="center"
-              width="170px"
               label="10:00-12:00">
               <template slot-scope="scope">
                 <template v-if="scope.row.time2">
@@ -293,8 +296,8 @@
               </template>
             </el-table-column>
             <el-table-column
+              v-if="this.selectedEnterprise.talkTime.name === '14:00-16:00'"
               align="center"
-              width="170px"
               label="14:00-16:00">
               <template slot-scope="scope">
                 <template v-if="scope.row.time3">
@@ -323,8 +326,8 @@
               </template>
             </el-table-column>
             <el-table-column
+              v-if="this.selectedEnterprise.talkTime.name === '16:00-18:00'"
               align="center"
-              width="170px"
               label="16:00-18:00">
               <template slot-scope="scope">
                 <template v-if="scope.row.time4">
@@ -353,8 +356,8 @@
               </template>
             </el-table-column>
             <el-table-column
+              v-if="this.selectedEnterprise.talkTime.name === '19:00-21:00'"
               align="center"
-              width="170px"
               label="19:00-21:00">
               <template slot-scope="scope">
                 <template v-if="scope.row.time5">

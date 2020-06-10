@@ -277,6 +277,7 @@
       <!--        </el-card>-->
       <div style="display: flex;justify-content: flex-end">
         <el-pagination
+          :pager-count="5"
           background
           @current-change="currentChange"
           @size-change="sizeChange"
