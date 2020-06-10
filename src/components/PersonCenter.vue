@@ -43,7 +43,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="真实姓名" label-width="120px" prop="name" style="width: 200px">
+                    <el-form-item label="真实姓名" label-width="120px" prop="name" style="width: 300px">
                       <el-input size="mini" v-model="user.name" autocomplete="off" disabled="disabled"></el-input>
                     </el-form-item>
                   </el-col>
@@ -389,7 +389,7 @@
                     </el-col>
                     <el-col :span="5">
                       <el-form-item label="地址:" prop="address">
-                        <el-input size="mini" style="width: 200px" prefix-icon="el-icon-edit"
+                        <el-input size="mini" style="width: 190px" prefix-icon="el-icon-edit"
                                   v-model="enterprise.address" placeholder="请输入地址"></el-input>
                       </el-form-item>
                     </el-col>
