@@ -17,7 +17,7 @@
           </template>
         </el-col>
       </el-row>
-      <el-row v-if="!notice.title.match('来校招聘')" style="margin-top: 16px">
+      <el-row v-if="this.$store.state.user.roleId !== this.$store.state.enterpriseId" style="margin-top: 16px">
         <el-col :span="1" class="titleClass"><span>类 型:</span></el-col>
         <el-col :span="2">
           <el-select v-model="notice.type" placeholder="公告类型" size="mini" clearable>
