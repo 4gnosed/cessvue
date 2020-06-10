@@ -389,7 +389,7 @@
                     </el-col>
                     <el-col :span="5">
                       <el-form-item label="地址:" prop="address">
-                        <el-input size="mini" style="width: 190px" prefix-icon="el-icon-edit"
+                        <el-input size="·mini" style="width: 190px" prefix-icon="el-icon-edit"
                                   v-model="enterprise.address" placeholder="请输入地址"></el-input>
                       </el-form-item>
                     </el-col>

@@ -2,17 +2,16 @@
   <div style="height: 2200px;">
     <el-card shadow="hover" class="poster">
       <el-row style="line-height: 75px;font-weight: bold">
-        <el-col :span="6" style="font-size: 26px;text-align: left;color: white">{{enterprise.name}}</el-col>
+        <el-col :span="24" style="font-size: 26px;text-align: left;color: white">{{enterprise.name}}</el-col>
       </el-row>
       <el-row>
-        <el-col :span="6" style="text-align: left;color: white">
+        <el-col :span="24" style="text-align: left;color: white">
           {{enterprise.finance.name}}
           &nbsp;|&nbsp;
           {{enterprise.scale.name}}
           &nbsp;|&nbsp;
           {{enterprise.industry}}
         </el-col>
-        <el-col :span="8">&nbsp;</el-col>
       </el-row>
       <el-row style="line-height: 60px">
         <el-col :span="2" style="text-align: left">
