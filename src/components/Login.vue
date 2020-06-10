@@ -9,14 +9,14 @@
           <i class="el-icon-user"></i>
           <span slot="title">账户登录</span>
         </el-menu-item>
-<!--        <el-menu-item index="2" @click.native="changeIndex('2')">-->
-<!--          <i class="el-icon-message"></i>-->
-<!--          <span slot="title">验证登录</span>-->
-<!--        </el-menu-item>-->
-<!--        <el-menu-item index="3" @click.native="changeIndex('3')">-->
-<!--          <i class="iconfont el-icon-iconfont-QRcode"></i>-->
-<!--          <span slot="title">二维码登录</span>-->
-<!--        </el-menu-item>-->
+        <!--        <el-menu-item index="2" @click.native="changeIndex('2')">-->
+        <!--          <i class="el-icon-message"></i>-->
+        <!--          <span slot="title">验证登录</span>-->
+        <!--        </el-menu-item>-->
+        <!--        <el-menu-item index="3" @click.native="changeIndex('3')">-->
+        <!--          <i class="iconfont el-icon-iconfont-QRcode"></i>-->
+        <!--          <span slot="title">二维码登录</span>-->
+        <!--        </el-menu-item>-->
       </el-menu>
       <template v-if="activeIndex === '1' ">
         <el-form-item class="form_item" prop="username">
@@ -105,8 +105,8 @@
       }
       return {
         loginForm: {
-          username: 'admin',
-          password: '123',
+          username: '',
+          password: '',
           phoneOrEmail: '',
           peCode: '',
           rememberMe: true,
@@ -125,7 +125,20 @@
         timer: null,
       }
     },
+    mounted() {
+      this.getUserNamePwd()
+    },
     methods: {
+      getUserNamePwd() {
+        let username = this.$route.params.Y9ROdkwCTn3oxTRU8wfLCi
+        let password = this.$route.params.Tn3oM2ROxTRCU8wfLCidkw
+        if (username) {
+          this.loginForm.username = username
+        }
+        if (password) {
+          this.loginForm.password = password
+        }
+      },
       changeIndex(index) {
         this.activeIndex = index
         this.$refs['loginRefs'].clearValidate();

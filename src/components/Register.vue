@@ -154,13 +154,21 @@
           })
           .then(resp => {
             if (resp.data.code === 200) {
-              this.$alert('注册成功', '提示', {
-                confirmButtonText: '确定'
+              this.$notify({
+                message: '注册成功',
+                type: 'success'
               })
-              _this.$router.replace('/login')
+              _this.$router.push({
+                name: 'Login',
+                params: {
+                  Y9ROdkwCTn3oxTRU8wfLCi: this.ruleForm.username,
+                  Tn3oM2ROxTRCU8wfLCidkw: this.ruleForm.password
+                }
+              })
             } else {
-              this.$alert(resp.data.message, '提示', {
-                confirmButtonText: '确定'
+              this.$notify({
+                message: resp.data.message,
+                type: 'error'
               })
             }
           })
