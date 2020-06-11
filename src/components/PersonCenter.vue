@@ -2392,4 +2392,8 @@
     background-color: #000;
     background-color: rgba(0, 0, 0, .3)
   }
+
+  .title_font {
+    font-weight: bold;
+  }
 </style>

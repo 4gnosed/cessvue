@@ -558,7 +558,7 @@
   }
 
   .title_font {
-
+    font-weight: bold;
   }
 
   .dialog_footer {
