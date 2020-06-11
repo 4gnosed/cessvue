@@ -1645,14 +1645,21 @@
         })
       },
       showEmployed() {
-        const {href} = this.$router.resolve({
-          path: '/employed',
-          //传参
-          query: {
-            fLTYROd1T59onR3kUxCi9wCw: this.selectedResumePositions.sheetEmployedId
-          }
-        })
-        window.open(href, '_blank')
+        if (this.selectedResumePositions.sheetEmployedId) {
+          const {href} = this.$router.resolve({
+            path: '/employed',
+            //传参
+            query: {
+              fLTYROd1T59onR3kUxCi9wCw: this.selectedResumePositions.sheetEmployedId
+            }
+          })
+          window.open(href, '_blank')
+        } else {
+          this.$notify({
+            message: '企业未发布',
+            type: 'warning'
+          })
+        }
       },
       showContract() {
         const {href} = this.$router.resolve({
