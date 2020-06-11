@@ -633,21 +633,21 @@
                             <el-form-item label="离职原因:" prop="workoutReason">
                               <el-input size="mini" type="textarea" :rows="5"
                                         v-model="resume.experienceWork.workoutReason"
-                                        style="width: 1075px;" placeholder="请输入离职原因" maxlength="500"></el-input>
+                                        style="width: 1000px;" placeholder="请输入离职原因" maxlength="500"></el-input>
                             </el-form-item>
                           </el-row>
                           <el-row>
                             <el-form-item label="主要成绩:" prop="achievement">
                               <el-input size="mini" type="textarea" :rows="5"
                                         v-model="resume.experienceWork.achievement"
-                                        style="width: 1075px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
+                                        style="width: 1000px;" placeholder="请输入主要成绩" maxlength="500"></el-input>
                             </el-form-item>
                           </el-row>
                           <el-row>
                             <el-form-item label="工作描述:" prop="description">
                               <el-input size="mini" type="textarea" :rows="5"
                                         v-model="resume.experienceWork.description"
-                                        style="width: 1075px;" placeholder="请输入工作描述" maxlength="500"></el-input>
+                                        style="width: 1000px;" placeholder="请输入工作描述" maxlength="500"></el-input>
                             </el-form-item>
                           </el-row>
                         </el-form>
@@ -724,7 +724,7 @@
                               <el-form-item label="项目描述:" prop="description">
                                 <el-input size="mini" type="textarea" :rows="8"
                                           v-model="resume.experienceProject.description"
-                                          style="width: 1075px;" placeholder="请输入项目描述" maxlength="1000"></el-input>
+                                          style="width: 1000px;" placeholder="请输入项目描述" maxlength="1000"></el-input>
                               </el-form-item>
                             </el-col>
                           </el-row>
@@ -733,7 +733,7 @@
                               <el-form-item label="责任描述:" prop="responsibility">
                                 <el-input size="mini" type="textarea" :rows="8"
                                           v-model="resume.experienceProject.responsibility"
-                                          style="width: 1075px;" placeholder="请输入责任描述" maxlength="1000"></el-input>
+                                          style="width: 1000px;" placeholder="请输入责任描述" maxlength="1000"></el-input>
                               </el-form-item>
                             </el-col>
                           </el-row>
@@ -797,7 +797,7 @@
                               <el-form-item label="培训描述:" prop="description">
                                 <el-input size="mini" type="textarea" :rows="16"
                                           v-model="resume.experienceTrain.description"
-                                          style="width: 1075px;" placeholder="请输入培训描述" maxlength="1000"></el-input>
+                                          style="width: 1000px;" placeholder="请输入培训描述" maxlength="1000"></el-input>
                               </el-form-item>
                             </el-col>
                           </el-row>
@@ -895,7 +895,7 @@
                               <el-col>
                                 <el-form-item label="证书描述:" prop="description">
                                   <el-input size="mini" type="textarea" :rows="3" v-model="certificate.description"
-                                            style="width: 1075px;" placeholder="请输入证书描述" maxlength="500"></el-input>
+                                            style="width: 1000px;" placeholder="请输入证书描述" maxlength="500"></el-input>
                                 </el-form-item>
                               </el-col>
                             </el-row>
@@ -909,7 +909,7 @@
                           <el-col :span="6">
                             <el-form-item label="自我评价:" prop="selfEvaluation">
                               <el-input size="mini" type="textarea" :rows="16" v-model="resume.selfEvaluation"
-                                        style="width: 1075px;" placeholder="请输入自我评价" maxlength="1000"></el-input>
+                                        style="width: 1000px;" placeholder="请输入自我评价" maxlength="1000"></el-input>
                             </el-form-item>
                           </el-col>
                         </el-row>
@@ -921,7 +921,7 @@
                           <el-col :span="6">
                             <el-form-item label="备注:" prop="remark">
                               <el-input size="mini" type="textarea" :rows="16" v-model="resume.remark"
-                                        style="width: 1075px;" placeholder="请输入备注" maxlength="1000"></el-input>
+                                        style="width: 1000px;" placeholder="请输入备注" maxlength="1000"></el-input>
                             </el-form-item>
                           </el-col>
                         </el-row>
@@ -1260,19 +1260,19 @@
                 <el-form-item prop="oldPassword">
                   <el-input size="mini" type="oldPassword" v-model="passForm.oldPassword" prefix-icon="el-icon-lock"
                             auto-complete="off" placeholder="请输入旧密码" show-password="show-password"
-                            style="width: 450px">
+                            style="width: 300px;">
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="newPassword">
                   <el-input size="mini" type="newPassword" v-model="passForm.newPassword" prefix-icon="el-icon-lock"
                             auto-complete="off" placeholder="请输入新密码" show-password="show-password"
-                            style="width: 450px">
+                            style="width: 300px;">
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="checkPassword">
                   <el-input size="mini" type="checkPassword" v-model="passForm.checkPassword" prefix-icon="el-icon-lock"
                             auto-complete="off" placeholder="请再次输入新密码" show-password="show-password"
-                            style="width: 450px">
+                            style="width: 300px;">
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
