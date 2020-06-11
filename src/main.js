@@ -17,7 +17,8 @@ Vue.prototype.$message = Message;
 var axios = require('axios')
 Vue.prototype.$axios = axios
 // 设置反向代理，前端请求默认发送到 http://localhost:8443/api
-axios.defaults.baseURL = 'http://192.168.0.109:8443/api'
+// axios.defaults.baseURL = 'http://192.168.0.109:8443/api'
+axios.defaults.baseURL = 'http://127.0.0.1:8443/api'
 // 为解决跨域cookie传输问题，允许前端每次发送请求时就会带上 sessionId
 axios.defaults.withCredentials = true
 // 设置axios请求的token

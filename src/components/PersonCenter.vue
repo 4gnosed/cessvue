@@ -1061,17 +1061,24 @@
                   </el-steps>
                 </div>
                 <el-row style="margin-top: 200px">
-                  <el-col :span="8">&nbsp;</el-col>
-                  <el-col :span="8">
-                    <template v-if="activeState === 5">
+                  <el-col :span="6">&nbsp;</el-col>
+                  <el-col :span="10">
+                    <template v-if="activeState >= 4">
+                      <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
+                                 @click="showOffer">查看Offer
+                      </el-button>
+                    </template>
+                    <template v-if="activeState >= 5">
                       <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
                                  @click="showEmployed">查看录用通知书
                       </el-button>
                     </template>
-                    <template v-if="activeState === 4 ">
+                    <template v-if="activeState >= 4 ">
                       <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
                                  @click="showContract">查看签约
                       </el-button>
+                    </template>
+                    <template v-if="activeState === 4 ">
                       <el-button class="common_font_size" size="mini" type="primary" style="margin-top: 12px;"
                                  @click="confirmContract">申请签约
                       </el-button>
@@ -1643,6 +1650,23 @@
             this.$notify({type: 'error', message: '更新头像失败'})
           }
         })
+      },
+      showOffer() {
+        if (this.selectedResumePositions.sheetOfferId) {
+          const {href} = this.$router.resolve({
+            path: '/offer',
+            //传参
+            query: {
+              Cw9on5fYd1xTR3RLTOUCi9wk: this.selectedResumePositions.sheetOfferId
+            }
+          })
+          window.open(href, '_blank')
+        } else {
+          this.$notify({
+            message: '企业未发布',
+            type: 'warning'
+          })
+        }
       },
       showEmployed() {
         if (this.selectedResumePositions.sheetEmployedId) {

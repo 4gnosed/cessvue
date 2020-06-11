@@ -3,7 +3,7 @@
     <div style="height: 130px;background-color: #444C5F;color: white;">
       <el-row style="line-height: 75px;font-weight: bold">
         <el-col :span="3">&nbsp;</el-col>
-        <el-col :span="5" style="font-size: 26px;text-align: left;">{{enterprise.name}}</el-col>
+        <el-col :span="5" style="font-size: 26px;text-align: left;">{{this.enterprise.name}}</el-col>
         <el-col :span="8">&nbsp;</el-col>
         <el-col :span="8" style="font-size: 32px;text-align: left" @click.native="activeTab">{{positions.length}}
         </el-col>
@@ -11,11 +11,11 @@
       <el-row>
         <el-col :span="3">&nbsp;</el-col>
         <el-col :span="5" style="text-align: left;color: #f0f0f0">
-          {{enterprise.finance.name}}
+          {{this.enterprise.finance.name}}
           &nbsp;|&nbsp;
-          {{enterprise.scale.name}}
+          {{this.enterprise.scale.name}}
           &nbsp;|&nbsp;
-          {{enterprise.industry}}
+          {{this.enterprise.industry}}
         </el-col>
         <el-col :span="8">&nbsp;</el-col>
         <el-col :span="8" style="font-size: 16px;text-align: left" @click.native="activeTab">在招职位</el-col>
@@ -27,17 +27,17 @@
         <el-row>
           <span style="font-weight: bold;margin-left: 18px">公司介绍</span>
           <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px"
-               v-html="keepTextStyle(enterprise.introduction)"></div>
+               v-html="keepTextStyle(this.enterprise.introduction)"></div>
           <el-divider></el-divider>
         </el-row>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px">产品介绍</span>
-          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{enterprise.product}}</div>
+          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{this.enterprise.product}}</div>
           <el-divider></el-divider>
         </el-row>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px">地址</span>
-          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{enterprise.address}}</div>
+          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{this.enterprise.address}}</div>
           <el-divider></el-divider>
         </el-row>
         <el-row>
@@ -46,25 +46,25 @@
             <el-col :span="6">
               <div style="margin-left: 18px;margin-right: 18px">
                 <label style="color: #8D92B6">法人代表：</label>
-                {{enterprise.boss}}
+                {{this.enterprise.boss}}
               </div>
             </el-col>
             <el-col :span="6">
               <div style="margin-left: 18px;margin-right: 18px">
                 <label style="color: #8D92B6">官方网站：</label>
-                {{enterprise.website}}
+                {{this.enterprise.website}}
               </div>
             </el-col>
             <el-col :span="6">
               <div style="margin-left: 18px;margin-right: 18px">
                 <label style="color: #8D92B6">联系方式：</label>
-                {{enterprise.phone}}
+                {{this.enterprise.phone}}
               </div>
             </el-col>
             <el-col :span="6">
               <div style="margin-left: 18px;margin-right: 18px">
                 <label style="color: #8D92B6">邮箱：</label>
-                {{enterprise.email}}
+                {{this.enterprise.email}}
               </div>
             </el-col>
           </el-row>
@@ -72,13 +72,13 @@
             <el-col :span="6">
               <div style="margin-left: 18px;margin-right: 18px">
                 <label style="color: #8D92B6">成立时间：</label>
-                {{enterprise.createTime}}
+                {{this.enterprise.createTime}}
               </div>
             </el-col>
             <el-col :span="18">
               <div style="margin-left: 18px;margin-right: 18px">
                 <label style="color: #8D92B6">服务范围：</label>
-                {{enterprise.scope}}
+                {{this.enterprise.scope}}
               </div>
             </el-col>
           </el-row>
@@ -86,22 +86,22 @@
         </el-row>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px;margin-top: 10px">企业荣誉</span>
-          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{enterprise.honor}}</div>
+          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{this.enterprise.honor}}</div>
           <el-divider></el-divider>
         </el-row>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px;margin-top: 10px">企业文化</span>
-          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{enterprise.culture}}</div>
+          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{this.enterprise.culture}}</div>
           <el-divider></el-divider>
         </el-row>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px;margin-top: 10px">企业福利</span>
-          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{enterprise.welfare}}</div>
+          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{this.enterprise.welfare}}</div>
           <el-divider></el-divider>
         </el-row>
         <el-row>
           <span style="font-weight: bold;margin-left: 18px;margin-top: 10px">企业展望</span>
-          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{enterprise.expectation}}</div>
+          <div style="margin-left: 18px;margin-right: 18px;margin-top: 10px">{{this.enterprise.expectation}}</div>
         </el-row>
       </el-tab-pane>
       <el-tab-pane name="2">
@@ -109,11 +109,11 @@
         <el-row style="height: 90px;line-height:40px;background-color: #00c2b3">
           <span class="title_font">校园宣讲会</span>
           <div class="title_font">
-            {{enterprise.talkDate}}
+            {{this.enterprise.talkDate}}
             &nbsp;&nbsp;
-            {{enterprise.talkTime.name}}
+            {{this.enterprise.talkTime.name}}
             &nbsp;&nbsp;
-            {{enterprise.place.name}}
+            {{this.enterprise.place.name}}
           </div>
         </el-row>
         <div class="position_card">
@@ -136,7 +136,7 @@
                         <div class="grid-content"></div>
                       </el-col>
                       <el-col :span="6">
-                        <div class="grid-content">{{enterprise.name}}</div>
+<!--                        <div class="grid-content">{{this.enterprise.name}}</div>-->
                       </el-col>
                       <el-col :span="4">
                         <div class="grid-content">更新时间：{{position.updateTime}}</div>
@@ -168,7 +168,7 @@
                       </el-col>
                       <el-col :span="2">
                         <div class="grid-content">
-                          {{enterprise.boss}}
+                          <!--                          {{this.enterprise.boss}}-->
                         </div>
                       </el-col>
                       <el-col :span="6">
@@ -176,18 +176,18 @@
                       </el-col>
                       <el-col :span="3">
                         <div class="grid-content">
-                          {{enterprise.industry}}
+                          <!--                          {{this.enterprise.industry}}-->
                         </div>
                       </el-col>
                       <el-col :span="3">
-                        {{enterprise.nature}}
+                        <!--                        {{this.enterprise.nature}}-->
                       </el-col>
                       <el-col :span="4">
                         <div class="grid-content">
                           <div class="grid-content">
-                            <template v-for="scale in scales" v-if="scale.id === enterprise.scaleId">
-                              {{scale.name}}
-                            </template>
+                            <!--                            <template v-for="scale in scales" v-if="scale.id === this.enterprise.scaleId">-->
+                            <!--                              {{scale.name}}-->
+                            <!--                            </template>-->
                           </div>
                         </div>
                       </el-col>
@@ -197,7 +197,7 @@
                         <div class="grid-content">{{position.keyword}}</div>
                       </el-col>
                       <el-col :span="10">
-                        <div class="grid-content">{{enterprise.welfare | welEllipsis}}</div>
+                        <!--                        <div class="grid-content">{{this.enterprise.welfare | welEllipsis}}</div>-->
                       </el-col>
                     </el-row>
                   </div>
@@ -214,7 +214,8 @@
                   <div style="margin-left: 18px;margin-right: 18px">{{position.address}}</div>
                   <el-divider></el-divider>
                   <div style="text-align: center">
-                    <template v-if="roleId === enterpriseId && position.userId === userId">
+                    <template v-if="$store.state.user.roleId === $store.state.enterpriseId
+                     && position.userId === $store.state.user.id">
                       <el-button class="common_font_size" size="mini"
                                  id="alterButton"
                                  type="primary"
@@ -222,7 +223,7 @@
                         修改职位
                       </el-button>
                     </template>
-                    <template v-else>
+                    <template v-else-if="$store.state.user.roleId === $store.state.studentId">
                       <el-button class="common_font_size" size="mini"
                                  id="submitButton"
                                  type="primary"
@@ -839,12 +840,6 @@
             }
           ]
         },
-        studentId: this.$store.state.studentId,
-        enterpriseId: this.$store.state.enterpriseId,
-        user: this.$store.state.user,
-        userId: this.$store.state.user.id,
-        username: this.$store.state.user.username,
-        roleId: this.$store.state.user.roleId,
         resumeRules: {
           selfEvaluation: [
             {required: true, message: '请输入自我评价', trigger: 'blur'}]
@@ -938,14 +933,76 @@
         return text.replace(/\n/g, "<br/>")
       },
       initData() {
-        this.salaries = JSON.parse(window.sessionStorage.getItem("salaries"));
-        this.degrees = JSON.parse(window.sessionStorage.getItem("degrees"));
-        this.experiences = JSON.parse(window.sessionStorage.getItem("experiences"));
-        this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
-        this.enterprises = JSON.parse(window.sessionStorage.getItem("enterprises"));
-        this.natures = JSON.parse(window.sessionStorage.getItem("natures"));
-        this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
-        this.levels = JSON.parse(window.sessionStorage.getItem("levels"));
+        if (!window.sessionStorage.getItem("salaries")) {
+          this.$axios.get('/salary').then(resp => {
+            if (resp.data.code === 200) {
+              this.salaries = resp.data.data;
+              window.sessionStorage.setItem("salaries", JSON.stringify(this.salaries));
+            }
+          })
+        } else {
+          this.salaries = JSON.parse(window.sessionStorage.getItem("salaries"));
+        }
+        if (!window.sessionStorage.getItem("degrees")) {
+          this.$axios.get('/degree').then(resp => {
+            if (resp.data.code === 200) {
+              this.degrees = resp.data.data;
+              window.sessionStorage.setItem("degrees", JSON.stringify(this.degrees));
+            }
+          })
+        } else {
+          this.degrees = JSON.parse(window.sessionStorage.getItem("degrees"));
+        }
+        if (!window.sessionStorage.getItem("experiences")) {
+          this.$axios.get('/experience').then(resp => {
+            if (resp.data.code === 200) {
+              this.experiences = resp.data.data;
+              window.sessionStorage.setItem("experiences", JSON.stringify(this.experiences));
+            }
+          })
+        } else {
+          this.experiences = JSON.parse(window.sessionStorage.getItem("experiences"));
+        }
+        if (!window.sessionStorage.getItem("natures")) {
+          this.$axios.get('/nature').then(resp => {
+            if (resp.data.code === 200) {
+              this.natures = resp.data.data;
+              window.sessionStorage.setItem("natures", JSON.stringify(this.natures));
+            }
+          })
+        } else {
+          this.natures = JSON.parse(window.sessionStorage.getItem("natures"));
+        }
+        if (!window.sessionStorage.getItem("finances")) {
+          this.$axios.get('/finance').then(resp => {
+            if (resp.data.code === 200) {
+              this.finances = resp.data.data;
+              window.sessionStorage.setItem("finances", JSON.stringify(this.finances));
+            }
+          })
+        } else {
+          this.finances = JSON.parse(window.sessionStorage.getItem("finances"));
+        }
+        if (!window.sessionStorage.getItem("scales")) {
+          this.$axios.get('/scale').then(resp => {
+            if (resp.data.code === 200) {
+              this.scales = resp.data.data;
+              window.sessionStorage.setItem("scales", JSON.stringify(this.scales));
+            }
+          })
+        } else {
+          this.scales = JSON.parse(window.sessionStorage.getItem("scales"));
+        }
+        if (!window.sessionStorage.getItem("levels")) {
+          this.$axios.get('/level').then(resp => {
+            if (resp.data.code === 200) {
+              this.levels = resp.data.data;
+              window.sessionStorage.setItem("levels", JSON.stringify(this.levels));
+            }
+          })
+        } else {
+          this.levels = JSON.parse(window.sessionStorage.getItem("levels"));
+        }
       },
       sizeChange(currentSize) {
         this.size = currentSize;

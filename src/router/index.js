@@ -170,6 +170,14 @@ export default new Router({
           }
         },
         {
+          path: '/offer',
+          name: 'Offer',
+          component: Offer,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
           path: '/noticeInfo',
           name: 'NoticeInfo',
           component: NoticeInfo
@@ -342,6 +350,14 @@ export const createRouter = routes => new Router({
           path: '/employed',
           name: 'Employed',
           component: Employed,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/offer',
+          name: 'Offer',
+          component: Offer,
           meta: {
             requireAuth: true
           }
