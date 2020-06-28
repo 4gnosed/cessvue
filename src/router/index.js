@@ -199,10 +199,10 @@ export default new Router({
         requireAuth: true
       }
     },
-    {
-      path: '*',
-      component: () => import('../components/pages/Error404')
-    }
+    // {
+    //   path: '*',
+    //   component: () => import('../components/pages/Error404')
+    // }
   ]
 })
 
@@ -384,9 +384,9 @@ export const createRouter = routes => new Router({
         requireAuth: true
       }
     },
-    {
-      path: '*',
-      component: () => import('../components/pages/Error404')
-    }
+    // {
+    //   path: '*',
+    //   component: () => import('../components/pages/Error404')
+    // }
   ]
 })

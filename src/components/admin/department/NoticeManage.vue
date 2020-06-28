@@ -10,9 +10,8 @@
         highlight-current-row="highlight-current-row"
         :default-sort="{prop: 'id', order: 'ascending'}"
         style="width: 100%"
-        height="800px"
-        class="common_font_size"
-        :max-height="tableHeight">
+        height="500px"
+        class="common_font_size">
         <el-table-column
           type="selection"
           width="55">
@@ -115,11 +114,6 @@
     },
     mounted() {
       this.initNotices()
-    },
-    computed: {
-      tableHeight() {
-        return window.innerHeight - 320
-      }
     },
     methods: {
       refresh() {
