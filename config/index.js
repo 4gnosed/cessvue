@@ -10,22 +10,22 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     // 配置跨域支持,让后端能够访问到前端的资源
-    proxyTable: {
-      // 匹配所有以"/api"开头的请求路径
-      '/api': {
-        // target: 'http://192.168.0.109:8443',
-        target: 'http://127.0.0.1:8443',
-        changeOrigin: true,
-        //重写，去掉开头的 "/api"
-        pathRewrite: {
-          '^/api': '/'
-        }
-      }
-    },
+    // proxyTable: {
+    //   // 匹配所有以"/api"开头的请求路径
+    //   '/api': {
+    //     // target: 'http://192.168.0.109:8443',
+    //     target: 'http://120.77.32.19:8443',
+    //     changeOrigin: true,
+    //     //重写，去掉开头的 "/api"
+    //     pathRewrite: {
+    //       '^/api': '/'
+    //     }
+    //   }
+    // },
 
     // Various Dev Server settings
     // host: '192.168.0.109', // can be overwritten by process.env.HOST
-    host: '127.0.0.1', // can be overwritten by process.env.HOST
+    host: '120.77.32.19', // can be overwritten by process.env.HOST
     port: 8765, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
