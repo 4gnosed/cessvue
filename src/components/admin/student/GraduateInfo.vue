@@ -638,6 +638,9 @@
       this.initData();
     },
     methods: {
+	  genID(length){
+		return Number(Math.random().toString().substr(3,length) + Date.now()).toString(36);
+	  },
       customUpload(file) {
         let FormDatas = new FormData();
         FormDatas.append('file', file.file);
@@ -667,14 +670,20 @@
       },
       exportData() {
         this.downloadLoading = true
-        this.$axios.get("/content/student/loading").then(resp => {
+		let key = genID(10);
+		// 文件传输不能用ajax
+		window.open(this.baseUrl + "/content/student/export?key="+key, "_parent");
+		// 按钮旋转
+        this.$axios.get("/content/student/loading?key="+key).then(resp => {
           if (resp.data.code === 200) {
             this.downloadLoading = false
             this.$notify({type: 'success', message: '下载完成'})
-          }
+          }else{
+			this.downloadLoading = false
+			this.$notify({type: 'error', message: '下载失败'})
+		  }
         })
-        // 文件传输不能用ajax
-        window.open(this.baseUrl + "/content/student/export", "_parent")
+        
       },
       emptyEmp() {
         this.student = {
