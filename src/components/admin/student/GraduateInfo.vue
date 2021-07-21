@@ -670,9 +670,9 @@
       },
       exportData() {
         this.downloadLoading = true
-		let key = genID(10);
+		let key = this.genID(10);
 		// 文件传输不能用ajax
-		window.open(this.baseUrl + "/content/student/export?key="+key, "_parent");
+		window.open(this.baseUrl + "/content/student/export?key="+key, "_blank");
 		// 每个1s获取导出完成状态，未完成则按钮一直旋转，旋转至导出完成
 		var dateTime = setInterval(function() {
 			this.$axios.get("/content/student/exportStatus?key="+key).then(resp => {
