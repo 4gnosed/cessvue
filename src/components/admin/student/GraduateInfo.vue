@@ -673,16 +673,16 @@
 		let key = genID(10);
 		// 文件传输不能用ajax
 		window.open(this.baseUrl + "/content/student/export?key="+key, "_parent");
-		// 按钮旋转
-        this.$axios.get("/content/student/loading?key="+key).then(resp => {
-          if (resp.data.code === 200) {
-            this.downloadLoading = false
-            this.$notify({type: 'success', message: '下载完成'})
-          }else{
-			this.downloadLoading = false
-			this.$notify({type: 'error', message: '下载失败'})
-		  }
-        })
+		// 每个1s获取导出完成状态，未完成则按钮一直旋转，旋转至导出完成
+		var dateTime = setInterval(function() {
+			this.$axios.get("/content/student/exportStatus?key="+key).then(resp => {
+			  if (resp.data.code === 200) {
+				this.downloadLoading = false
+				clearInterval(dateTime);
+			  }
+			});
+		}, 1000);
+
         
       },
       emptyEmp() {
