@@ -4,6 +4,10 @@
 ### 在线体验
 http://120.77.32.19
 
+### 工具依赖
+vue,vue-router,vuex,echarts,element-ui,prettier,tinymce
+
+
 ### 安装node npm
 ### 安装脚手架
 npm install -g vue-cli
