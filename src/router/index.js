@@ -19,6 +19,7 @@ import Employed from "../components/enterprise/Employed";
 import TalentPool from "../components/enterprise/TalentPool";
 import Examination from "../components/enterprise/Examination";
 import NoticeInfo from "../components/admin/department/NoticeInfo";
+import seckill from "../components/seckill/seckill";
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
   // 从默认的hash模式设置为history模式，url不带#
   mode: 'history',
   routes: [
+	  {
+	    path: '/seckill',
+	    name: 'seckill',
+	    component: seckill
+	  },
     {
       path: '/login',
       name: 'Login',
