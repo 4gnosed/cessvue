@@ -47,9 +47,22 @@
       <el-divider></el-divider>
       <el-main>
         <el-table :data="tableData">
-          <el-table-column label="Date" prop="date">
+          <el-table-column label="订单号" prop="id">
           </el-table-column>
-          <el-table-column label="Name" prop="name">
+          <el-table-column label="商品号" prop="goodId">
+          </el-table-column>
+          <el-table-column label="用户" prop="userId">
+          </el-table-column>
+          <el-table-column label="购买数量" prop="quantity">
+          </el-table-column>
+          <el-table-column label="下单时间" prop="createTime">
+          </el-table-column>
+          <el-table-column label="状态" prop="status">
+            <template slot-scope="scope">
+              {{
+            		scope.row.status == 0? '失败': scope.row.status == 1? '成功': '-'
+            	}}
+            </template>
           </el-table-column>
           <el-table-column align="right">
             <template slot="header" slot-scope="scope">
@@ -242,6 +255,10 @@ export default {
       setTimeout(() => {
         this.echartsMit()
       })
+    },
+    seconds (val, oldVal) {
+      clearInterval(this.dateTime)
+      this.watchOrder()
     }
   }
 }
