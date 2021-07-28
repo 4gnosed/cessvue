@@ -41,7 +41,7 @@
         </el-form>
       </el-header>
       <el-divider></el-divider>
-      <el-alert :title="'购买链接：http://120.77.32.18/seckill?goodId='+good.goodId+'&quantity=1&userId=1，请使用jmeter等工具并发访问'"
+      <el-alert :title="'购买链接：http://120.77.32.19/cess/api/seckill/good/buy?goodId='+good.goodId+'&quantity=1&userId=1，请使用jmeter等工具并发访问'"
         type="success" effect="dark">
       </el-alert>
       <el-divider></el-divider>
