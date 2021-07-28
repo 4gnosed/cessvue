@@ -5,16 +5,27 @@
 http://120.77.32.19
 
 ### 工具依赖
-vue,vue-router,vuex,echarts,element-ui,prettier,tinymce
+vue,vue-router,vuex,echarts,element-ui,prettier,tinymce等
 
-
-### 安装node npm
-### 安装脚手架
-npm install -g vue-cli
-### 空白文件夹下初始化项目
-vue init webpack cessvue
-### 复制 package.json /src /config /static 替换初始化创建的文件
-### 安装依赖
+``` bash
+# install dependencies（可省略，直接解压node_modules.zip）
 npm install
-### 启动
+
+# serve with hot reload at localhost:8080
 npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
+```
