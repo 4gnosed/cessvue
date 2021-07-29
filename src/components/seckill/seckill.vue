@@ -12,8 +12,7 @@
                 <el-input v-model.number="good.stock" size="mini" style="width: 200px;"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm()" size="mini" style="width: 100px;">提交</el-button>
-                <el-button @click="resetForm()" size="mini" style="width: 100px;">重置</el-button>
+                <el-button type="primary" @click="otherGood()" size="mini" style="width: 100px;">换个商品</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="6" style="height: 150px;">
@@ -24,7 +23,7 @@
                 <el-form-item label="商品单价" prop="price">
                   <el-input v-model.number="good.price" size="mini" style="width: 200px;"></el-input>
                 </el-form-item>
-                <el-form-item label="是否监听数据">
+                <el-form-item label="是否监听数据" style="text-align: left;">
                   <el-switch v-model="watchV" active-color="#67C23A" @change="watchVChange"></el-switch>
                 </el-form-item>
               </el-form>
@@ -41,8 +40,10 @@
         </el-form>
       </el-header>
       <el-divider></el-divider>
-      <el-alert :title="'购买链接：http://120.77.32.19/cess/api/seckill/good/buy?goodId='+good.goodId+'&quantity=1&userId=1，请使用jmeter等工具并发访问'"
-        type="success" effect="dark">
+      <el-alert type="success" effect="dark" center>
+        <el-tooltip class="item" effect="dark" :content="'购买链接：'+buyUrl+'，请使用jmeter等工具并发访问'" placement="top">
+          <el-button size="mini" @click="buyOne()">购买一个</el-button>
+        </el-tooltip>
       </el-alert>
       <el-divider></el-divider>
       <el-main>
@@ -98,6 +99,7 @@ export default {
   name: 'seckill',
   data () {
     return {
+      buyUrl: '',
       dateTime: '',
       watchV: false,
       seconds: 1,
@@ -122,6 +124,8 @@ export default {
   mounted () {
     this.good.goodId = this.genID(10)
     this.echartsMit()
+    this.buyUrl = 'http://120.77.32.19/cess/api/seckill/good/buy?goodId=' + this.good.goodId + '&quantity=1&userId=1'
+    this.saveGood()
   },
   methods: {
     // 绘制指标图
@@ -186,16 +190,11 @@ export default {
     handleDelete (index, row) {
       console.log(index, row)
     },
-    submitForm () {
+    saveGood () {
       this.$axios
         .post('/seckill/good', this.good)
         .then(resp => {
-          if (resp.data.code === 200) {
-            this.$notify({
-              message: '成功',
-              type: 'success'
-            })
-          } else {
+          if (resp.data.code !== 200) {
             this.$notify({
               message: resp.data.message,
               type: 'error'
@@ -203,8 +202,11 @@ export default {
           }
         })
     },
-    resetForm () {
-      this.$refs['refForm'].resetFields()
+    otherGood () {
+      this.good.goodId = this.genID(10)
+      this.buyUrl = 'http://120.77.32.19/cess/api/seckill/good/buy?goodId=' + this.good.goodId +
+          '&quantity=1&userId=1'
+      this.saveGood()
     },
     watchOrder () {
       let this_ = this
@@ -245,10 +247,30 @@ export default {
           type: 'warn'
         })
       }
+    },
+    buyOne () {
+      this.$axios.get(this.buyUrl)
+        .then(resp => {
+          if (resp.data.code === 200) {
+            this.$notify({
+              message: '购买成功',
+              type: 'success'
+            })
+          } else {
+            this.$notify({
+              message: '购买失败',
+              type: 'warn'
+            })
+          }
+        }).catch(error => {
+          this.$notify({
+            message: '购买失败',
+            type: 'warn'
+          })
+        })
     }
-
   },
-  // 这里监听值的变化，如果有变化就重绘，因为我是websocket传值过来的不是写死的页面
+
   watch: {
     stockPercentage (val, oldVal) {
       this.stockPercentage = val
