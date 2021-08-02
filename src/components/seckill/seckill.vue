@@ -82,9 +82,9 @@
             </template> -->
           </el-table-column>
         </el-table>
-        <el-pagination background class="custom-paging" :current-page.sync="pages.currentPage" :page-sizes="[10, 20, 30, 40, 50]"
-          :page-size.sync="pages.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pages.total"
-          :hide-on-single-page="false">
+        <el-pagination background class="custom-paging" :current-page.sync="pages.page" :page-sizes="[10, 20, 30, 40, 50]"
+          @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-size.sync="pages.size" layout="total, sizes, prev, pager, next, jumper"
+          :total="pages.total" :hide-on-single-page="false">
         </el-pagination>
       </el-main>
     </el-container>
@@ -114,8 +114,8 @@ export default {
       labelPosition: 'left',
       pages: {
         // 分页
-        currentPage: 1, // 当前页
-        pageSize: 10, // 每页大小
+        page: 1, // 当前页
+        size: 10, // 每页大小
         total: 0 // 总页数
       },
       tableData: []
@@ -210,8 +210,9 @@ export default {
     },
     watchOrder () {
       let this_ = this
+      clearInterval(this_.dateTime)
       this.dateTime = setInterval(function () {
-        this_.$axios.get('/seckill/order?pageSize' + this_.pages.pageSize + '&currentPage=' + this_.pages.currentPage +
+        this_.$axios.get('/seckill/order?size=' + this_.pages.size + '&page=' + this_.pages.page +
               '&goodId=' + this_.good.goodId)
           .then(resp => {
             if (resp.data.code === 200) {
@@ -268,7 +269,30 @@ export default {
             type: 'warn'
           })
         })
+    },
+    // 分页
+    handleSizeChange (val) {
+      this.pages.size = val
+      this.justSearch()
+    },
+    handleCurrentChange (val) {
+      this.pages.page = val
+      this.justSearch()
+    },
+    justSearch () {
+      let this_ = this
+      this_.$axios.get('/seckill/order?size=' + this_.pages.size + '&page=' + this_.pages.page +
+            '&goodId=' + this_.good.goodId)
+        .then(resp => {
+          if (resp.data.code === 200) {
+            if (resp.data.data !== null) {
+              this_.tableData = resp.data.data.dataList
+              this_.pages.total = resp.data.data.total
+            }
+          }
+        })
     }
+
   },
 
   watch: {
